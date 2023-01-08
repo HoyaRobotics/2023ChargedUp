@@ -14,11 +14,12 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.lib.SwerveModuleConstants;
-//import frc.robot.Constants.ModuleConstants;
+import frc.robot.Constants.ModuleConstants;
 
 public class SwerveModule extends SubsystemBase {  
   public int moduleNumber;
@@ -31,21 +32,21 @@ public class SwerveModule extends SubsystemBase {
   SimpleMotorFeedforward feedforward;
 
   //Creates the Swerve modules Motors and Encoders
-  //Relies on the moduleConstants class found in Constants.java
+  //Relies on the moduleConstants class found in SwerveModuleConstants.java
   public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants) {
     this.moduleNumber = moduleNumber;
-    //angleOffset = moduleConstants.angleOffset;
+    angleOffset = moduleConstants.angleOffset;
 
     /* Angle Encoder Configuration */
-    //angleEncoder = new CANCoder(ModuleConstants.cancoderID, "carnivore")
+    angleEncoder = new CANCoder(moduleConstants.cancoderID, "carnivore");
     configAngleEncoder();
 
     /* Angle Motor Configuration */
-    //angleMotor = new TalonFX(ModuleConstants.angleMotorID, "carnivore");
+    angleMotor = new TalonFX(moduleConstants.angleMotorID, "carnivore");
     configAngleMotor();
 
     /* Drive Motor Configuration */
-    //driveMotor = new TalonFX(ModuleConstants.driveMotorID, "carnivore");
+    driveMotor = new TalonFX(moduleConstants.driveMotorID, "carnivore");
     configDriveMotor();
 
     lastAngle = getState().angle.getDegrees();
@@ -82,7 +83,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public Rotation2d getCanCoder() {
-    
+
     return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
   }
 
@@ -91,8 +92,9 @@ public class SwerveModule extends SubsystemBase {
     return new SwerveModuleState();
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+  /*public SwerveModulePosition getPosition() {
+
+    return new SwerveModulePosition(distance, angle);
+  }*/
+
 }

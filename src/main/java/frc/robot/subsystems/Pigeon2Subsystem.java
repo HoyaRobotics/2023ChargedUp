@@ -19,15 +19,22 @@ public class Pigeon2Subsystem extends SubsystemBase {
     pigeon2.configMountPose(AxisDirection.PositiveY, AxisDirection.PositiveZ);
   }
 
-
+  /**
+   * zeroGyroscope
+   * Sets the angle to 0 in degrees
+   */
   public void zeroGyroscope() {
     pigeon2.setYaw(0);
   }
 
-
+  /**
+   * getGyroRotation - this is the Yaw value (rotate around...)
+   * @return Rotation2d
+   */
   public Rotation2d getGyroRotation() {
     return Rotation2d.fromDegrees(pigeon2.getYaw());
   }
+  
 
 
   @Override

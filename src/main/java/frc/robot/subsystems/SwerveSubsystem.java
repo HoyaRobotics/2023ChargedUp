@@ -4,9 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.io.IOException;
-import java.util.HashMap;
-
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
@@ -18,14 +15,15 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.lib.SwerveModuleConstants;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.AutoConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
 
@@ -36,27 +34,38 @@ public class SwerveSubsystem extends SubsystemBase {
   /** Creates a new SwerveSubsystem. */
   public SwerveSubsystem() {
     swerveModules = new SwerveModule[] {
-      new SwerveModule(0, new SwerveModuleConstants(SwerveConstants.FRONT_LEFT_DRIVE_MOTOR, 
+      new SwerveModule(0, new SwerveModuleConstants(
+      SwerveConstants.FRONT_LEFT_DRIVE_MOTOR, 
       SwerveConstants.FRONT_LEFT_STEER_MOTOR, 
       SwerveConstants.FRONT_LEFT_STEER_ENCODER, 
       SwerveConstants.FRONT_LEFT_STEER_OFFSET)),
 
-      new SwerveModule(1, new SwerveModuleConstants(SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR, 
+      new SwerveModule(1, new SwerveModuleConstants(
+      SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR, 
       SwerveConstants.FRONT_RIGHT_STEER_MOTOR, 
       SwerveConstants.FRONT_RIGHT_STEER_ENCODER, 
       SwerveConstants.FRONT_RIGHT_STEER_OFFSET)),
 
-      new SwerveModule(2, new SwerveModuleConstants(SwerveConstants.BACK_LEFT_DRIVE_MOTOR, 
+      new SwerveModule(2, new SwerveModuleConstants(
+      SwerveConstants.BACK_LEFT_DRIVE_MOTOR, 
       SwerveConstants.BACK_LEFT_STEER_MOTOR, 
       SwerveConstants.BACK_LEFT_STEER_ENCODER, 
       SwerveConstants.BACK_LEFT_STEER_OFFSET)),
 
-      new SwerveModule(3, new SwerveModuleConstants(SwerveConstants.BACK_RIGHT_DRIVE_MOTOR, 
+      new SwerveModule(3, new SwerveModuleConstants(
+      SwerveConstants.BACK_RIGHT_DRIVE_MOTOR, 
       SwerveConstants.BACK_RIGHT_STEER_MOTOR, 
       SwerveConstants.BACK_RIGHT_STEER_ENCODER, 
       SwerveConstants.BACK_RIGHT_STEER_OFFSET))
     };
   }
+
+
+  public void drive(ChassisSpeeds chassisSpeeds) {
+      SwerveModuleState[] states = SwerveConstants.KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+      setModuleStates(states);
+    }
+
 
   public void setModuleStates(SwerveModuleState[] states){
     SwerveDriveKinematics.desaturateWheelSpeeds(states, SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND);
@@ -66,11 +75,7 @@ public class SwerveSubsystem extends SubsystemBase {
     swerveModules[3].setDesiredState(states[3], false); 
   }
 
-  public void drive(ChassisSpeeds chassisSpeeds) {
-    SwerveModuleState[] states = SwerveConstants.KINEMATICS.toSwerveModuleStates(chassisSpeeds);
-    setModuleStates(states);
-  }
-
+  
   //Calls methods in SwerveModule.java to stop motor movement for each module
   public void stop(){
     swerveModules[0].stop();
@@ -79,6 +84,7 @@ public class SwerveSubsystem extends SubsystemBase {
     swerveModules[3].stop();
   }
 
+
   public void lock(){
     swerveModules[0].setDesiredStateAbs(new SwerveModuleState(0.0, Rotation2d.fromDegrees(45)), false);
     swerveModules[1].setDesiredStateAbs(new SwerveModuleState(0.0, Rotation2d.fromDegrees(-45)), false);
@@ -86,11 +92,13 @@ public class SwerveSubsystem extends SubsystemBase {
     swerveModules[3].setDesiredStateAbs(new SwerveModuleState(0.0, Rotation2d.fromDegrees(45)), false);
   }
 
+
   public SwerveModulePosition[] getPositions() {
     return new SwerveModulePosition[] {
       swerveModules[0].getPosition(), swerveModules[1].getPosition(), swerveModules[2].getPosition(), swerveModules[3].getPosition()
     };
   }
+
 
   public SwerveModuleState[] getStates() {
     return new SwerveModuleState[] {
@@ -111,6 +119,7 @@ public class SwerveSubsystem extends SubsystemBase {
     return currentHeading;
   }
 
+  //periodic() runs once per command scheduler loop
   @Override
   public void periodic() {
     SmartDashboard.putString("Module States", getStates().toString());

@@ -19,6 +19,17 @@ public class Pigeon2Subsystem extends SubsystemBase {
     pigeon2.configMountPose(AxisDirection.PositiveY, AxisDirection.PositiveZ);
   }
 
+
+  public void zeroGyroscope() {
+    pigeon2.setYaw(0);
+  }
+
+
+  public Rotation2d getGyroRotation() {
+    return Rotation2d.fromDegrees(pigeon2.getYaw());
+  }
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

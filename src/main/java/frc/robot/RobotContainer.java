@@ -83,7 +83,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     Trigger balanceButton = driverController.a();
-    balanceButton.onTrue(new BalanceOnChargeStation(pigeon2, swerveSubsystem, poseEstimator));
+    balanceButton.toggleOnTrue(new BalanceOnChargeStation(pigeon2, swerveSubsystem, poseEstimator));
 
   }
 

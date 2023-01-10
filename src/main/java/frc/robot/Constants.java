@@ -124,4 +124,11 @@ public static final class AutoConstants {
     public static final double kPThetaController = 3.0;
 }
 
+public static final class BalanceConstants {
+  public static final double pitchMaxLimit = 0.5;
+  public static final double pitchMinLimit = -0.5;
+  public static final double rollMaxLimit = 0.5;
+  public static final double rollMinLimit = -0.5;
+}
+
 }

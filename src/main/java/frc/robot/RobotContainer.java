@@ -30,6 +30,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.BalanceOnChargeStation;
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.PIDBalanceOnChargeStation;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
@@ -83,7 +84,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     Trigger balanceButton = driverController.a();
-    balanceButton.toggleOnTrue(new BalanceOnChargeStation(pigeon2, swerveSubsystem, poseEstimator));
+    balanceButton.whileTrue(new PIDBalanceOnChargeStation(pigeon2, swerveSubsystem, poseEstimator));
 
   }
 

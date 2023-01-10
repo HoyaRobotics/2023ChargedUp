@@ -16,14 +16,13 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.CTREModuleState;
 import frc.lib.Conversions;
 import frc.lib.SwerveModuleConstants;
 import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 
-public class SwerveModule extends SubsystemBase {  
+public class SwerveModule {  
   public int moduleNumber;
   private double angleOffset;
   private TalonFX angleMotor;

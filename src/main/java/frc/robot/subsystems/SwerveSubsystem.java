@@ -60,12 +60,18 @@ public class SwerveSubsystem extends SubsystemBase {
     };
   }
 
+  //periodic() runs once per command scheduler loop
+  @Override
+  public void periodic() {
+    SmartDashboard.putString("Module States", getStates().toString());
+    SmartDashboard.putNumber("Chassis Heading", getCurrentChassisHeading().getDegrees());
+    SmartDashboard.putNumber("Chassis Speed", getCurrentChassisSpeeds());
+  }
 
   public void drive(ChassisSpeeds chassisSpeeds) {
       SwerveModuleState[] states = SwerveConstants.KINEMATICS.toSwerveModuleStates(chassisSpeeds);
       setModuleStates(states);
     }
-
 
   public void setModuleStates(SwerveModuleState[] states){
     SwerveDriveKinematics.desaturateWheelSpeeds(states, SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND);
@@ -74,7 +80,6 @@ public class SwerveSubsystem extends SubsystemBase {
     swerveModules[2].setDesiredState(states[2], false); 
     swerveModules[3].setDesiredState(states[3], false); 
   }
-
   
   //Calls methods in SwerveModule.java to stop motor movement for each module
   public void stop(){
@@ -84,7 +89,6 @@ public class SwerveSubsystem extends SubsystemBase {
     swerveModules[3].stop();
   }
 
-
   public void lock(){
     swerveModules[0].setDesiredStateAbs(new SwerveModuleState(0.0, Rotation2d.fromDegrees(45)), false);
     swerveModules[1].setDesiredStateAbs(new SwerveModuleState(0.0, Rotation2d.fromDegrees(-45)), false);
@@ -92,13 +96,11 @@ public class SwerveSubsystem extends SubsystemBase {
     swerveModules[3].setDesiredStateAbs(new SwerveModuleState(0.0, Rotation2d.fromDegrees(45)), false);
   }
 
-
   public SwerveModulePosition[] getPositions() {
     return new SwerveModulePosition[] {
       swerveModules[0].getPosition(), swerveModules[1].getPosition(), swerveModules[2].getPosition(), swerveModules[3].getPosition()
     };
   }
-
 
   public SwerveModuleState[] getStates() {
     return new SwerveModuleState[] {
@@ -118,15 +120,4 @@ public class SwerveSubsystem extends SubsystemBase {
     Rotation2d currentHeading = robotHeading.plus(PoseEstimator.getCurrentPose().getRotation());
     return currentHeading;
   }
-
-  //periodic() runs once per command scheduler loop
-  @Override
-  public void periodic() {
-    SmartDashboard.putString("Module States", getStates().toString());
-    SmartDashboard.putNumber("Chassis Heading", getCurrentChassisHeading().getDegrees());
-    SmartDashboard.putNumber("Chassis Speed", getCurrentChassisSpeeds());
-
-  }
-
-  
 }

@@ -25,6 +25,11 @@ public class CANdleSubsystem extends SubsystemBase {
     candle.configBrightnessScalar(1);
     setDefult();
   }
+  
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
 
   public void setDefult() {
     if(DriverStation.getAlliance() == Alliance.Blue) {
@@ -32,11 +37,5 @@ public class CANdleSubsystem extends SubsystemBase {
     }else{
       candle.setLEDs(255, 0, 0, 0, 0, 8);
     }
-  }
-
-  
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

@@ -40,21 +40,16 @@ public class PoseEstimator extends SubsystemBase {
 
   }
 
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
 
   public Rotation2d getPoseRotation() {
     return poseEstimator.getEstimatedPosition().getRotation();
   }
 
-
   public static Pose2d getCurrentPose(){
   return poseEstimator.getEstimatedPosition();
   }
-
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-  
 }
-//Samuel was here

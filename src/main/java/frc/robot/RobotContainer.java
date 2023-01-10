@@ -25,8 +25,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.BalanceOnChargeStation;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Pigeon2Subsystem;
@@ -80,6 +82,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
+    Trigger balanceButton = driverController.a();
+    balanceButton.toggleOnTrue(new BalanceOnChargeStation(pigeon2, swerveSubsystem, poseEstimator));
 
   }
 

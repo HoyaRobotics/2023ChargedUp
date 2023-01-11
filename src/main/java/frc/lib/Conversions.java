@@ -7,6 +7,12 @@ package frc.lib;
 /** Add your docs here. */
 public class Conversions {
     
+    /**
+     * 
+     * @param counts
+     * @param gearRatio
+     * @return
+     */
     public static double falconToDegrees(double counts, double gearRatio) {
         return counts * (360.0 / (gearRatio * 2048.0));
     }

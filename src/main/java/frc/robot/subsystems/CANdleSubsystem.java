@@ -30,6 +30,12 @@ public class CANdleSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+  
+
+  public void setLED(int r, int g, int b, int start, int end) {
+    int count = end - start + 1;
+    candle.setLEDs(r, g, b, 0, start, count);
+  }
 
   public void setDefult() {
     if(DriverStation.getAlliance() == Alliance.Blue) {

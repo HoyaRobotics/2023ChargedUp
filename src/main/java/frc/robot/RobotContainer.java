@@ -31,6 +31,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.BalanceOnChargeStation;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.PIDBalanceOnChargeStation;
+import frc.robot.commands.ToggleFieldRelative;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
@@ -48,8 +49,8 @@ public class RobotContainer {
   public static boolean fieldRelative = true;
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  private final Pigeon2Subsystem pigeon2 = new Pigeon2Subsystem();
-  private final PoseEstimator poseEstimator = new PoseEstimator(swerveSubsystem, pigeon2);
+  private final Pigeon2Subsystem pigeon2Subsystem = new Pigeon2Subsystem();
+  private final PoseEstimator poseEstimator = new PoseEstimator(swerveSubsystem, pigeon2Subsystem);
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -82,9 +83,11 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    Trigger toggleFieldRelative = driverController.x();
+    toggleFieldRelative.onTrue(new ToggleFieldRelative());
 
     Trigger balanceButton = driverController.a();
-    balanceButton.whileTrue(new PIDBalanceOnChargeStation(pigeon2, swerveSubsystem, poseEstimator));
+    balanceButton.whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
 
   }
 

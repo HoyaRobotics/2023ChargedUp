@@ -63,7 +63,10 @@ public class SwerveSubsystem extends SubsystemBase {
   //periodic() runs once per command scheduler loop
   @Override
   public void periodic() {
-    SmartDashboard.putString("Module States", getStates().toString());
+    SmartDashboard.putString("FLPosition", getPosition(0).toString());
+    SmartDashboard.putString("FRPosition", getPosition(1).toString());
+    SmartDashboard.putString("BLPosition", getPosition(2).toString());
+    SmartDashboard.putString("BRPosition", getPosition(3).toString());
     SmartDashboard.putNumber("Chassis Heading", getCurrentChassisHeading().getDegrees());
     SmartDashboard.putNumber("Chassis Speed", getCurrentChassisSpeeds());
   }
@@ -100,6 +103,10 @@ public class SwerveSubsystem extends SubsystemBase {
     return new SwerveModulePosition[] {
       swerveModules[0].getPosition(), swerveModules[1].getPosition(), swerveModules[2].getPosition(), swerveModules[3].getPosition()
     };
+  }
+
+  public SwerveModulePosition getPosition(int swerveModule) {
+    return swerveModules[swerveModule].getPosition();
   }
 
   public SwerveModuleState[] getStates() {

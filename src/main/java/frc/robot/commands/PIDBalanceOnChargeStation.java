@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
@@ -33,14 +34,21 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   @Override
   public void initialize() {
     pidController.setSetpoint(0);
-    pidController.setTolerance(1);
+    pidController.setTolerance(5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    swerveSubsystem.drive(new ChassisSpeeds(pidController.calculate(pigeon2Subsystem.getPigeonPitch()), 0, 0));
-  }
+    pidController.calculate(pigeon2Subsystem.getPigeonPitch());
+    if(pidController.atSetpoint()){
+      swerveSubsystem.stop();
+      SmartDashboard.putBoolean("LEVEL?", true);
+    } else {
+      swerveSubsystem.drive(new ChassisSpeeds(pidController.calculate(pigeon2Subsystem.getPigeonPitch()), 0, 0));
+      SmartDashboard.putBoolean("LEVEL?", false);
+    }
+      }
 
   // Called once the command ends or is interrupted.
   @Override

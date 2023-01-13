@@ -14,6 +14,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class PIDBalanceOnChargeStation extends CommandBase {
   private final PIDController pidController;
+  private final PIDController yaw;
 
   private final Pigeon2Subsystem pigeon2Subsystem;
   private final SwerveSubsystem swerveSubsystem;
@@ -25,6 +26,7 @@ public class PIDBalanceOnChargeStation extends CommandBase {
     this.poseEstimator = poseEstimator;
 
     pidController = new PIDController(0.01, 0, 0);
+    yaw = new PIDController(0.01, 0, 0);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveSubsystem);
@@ -34,20 +36,27 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   @Override
   public void initialize() {
     pidController.setSetpoint(0);
-    pidController.setTolerance(5);
+    pidController.setTolerance(1);
+    yaw.setSetpoint(0);
+    yaw.setTolerance(2.1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     pidController.calculate(pigeon2Subsystem.getPigeonPitch());
-    if(pidController.atSetpoint()){
+    yaw.calculate(pigeon2Subsystem.getPigeonYaw());
+    if(pidController.atSetpoint() && yaw.atSetpoint()){
       swerveSubsystem.stop();
       SmartDashboard.putBoolean("LEVEL?", true);
-    } else {
+      SmartDashboard.putBoolean("ALIGNED?", true);
+    } else if (yaw.atSetpoint()) {
       swerveSubsystem.drive(new ChassisSpeeds(pidController.calculate(pigeon2Subsystem.getPigeonPitch()), 0, 0));
       SmartDashboard.putBoolean("LEVEL?", false);
-    }
+    } else {
+      swerveSubsystem.drive(new ChassisSpeeds(0, 0, yaw.calculate(pigeon2Subsystem.getPigeonYaw())));
+      SmartDashboard.putBoolean("ALIGNED?", false);
+    } 
       }
 
   // Called once the command ends or is interrupted.

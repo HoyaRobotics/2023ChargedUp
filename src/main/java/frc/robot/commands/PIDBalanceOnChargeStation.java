@@ -25,7 +25,7 @@ public class PIDBalanceOnChargeStation extends CommandBase {
     this.swerveSubsystem = swerveSubsystem;
     this.poseEstimator = poseEstimator;
 
-    pidController = new PIDController(0.01, 0, 0);
+    pidController = new PIDController(-0.01, 0, 0);
     yaw = new PIDController(0.01, 0, 0);
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,7 +38,7 @@ public class PIDBalanceOnChargeStation extends CommandBase {
     pidController.setSetpoint(0);
     pidController.setTolerance(1);
     yaw.setSetpoint(0);
-    yaw.setTolerance(2.1);
+    yaw.setTolerance(1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

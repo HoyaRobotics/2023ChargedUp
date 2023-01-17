@@ -27,12 +27,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.BalanceOnChargeStation;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.PIDBalanceOnChargeStation;
 import frc.robot.commands.ToggleFieldRelative;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.Autos.AutoTest_01;
 import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -51,7 +49,10 @@ public class RobotContainer {
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final Pigeon2Subsystem pigeon2Subsystem = new Pigeon2Subsystem();
   private final PoseEstimator poseEstimator = new PoseEstimator(swerveSubsystem, pigeon2Subsystem);
-  private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+
+  private final AutoTest_01 autoTest_01 = new AutoTest_01();
+
+  private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverController =
@@ -59,6 +60,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    //Use commands in auto file
+    m_chooser.setDefaultOption("TemporaryAuto", autoTest_01);
 
     swerveSubsystem.setDefaultCommand(new DriveWithJoysticks(
       swerveSubsystem,
@@ -103,6 +107,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(exampleSubsystem);
+    return m_chooser.getSelected();
   }
 }

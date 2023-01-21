@@ -32,6 +32,7 @@ public class PoseEstimator extends SubsystemBase {
   private final Pigeon2Subsystem pigeon2Subsystem;
   
   static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  static NetworkTableEntry latency = table.getEntry("tl");
   static NetworkTableEntry valueOfPoses = table.getEntry("botpose");
 
   // Kalman Filter Configuration. These can be "tuned-to-taste" based on how much you trust your various sensors. 
@@ -66,7 +67,7 @@ public class PoseEstimator extends SubsystemBase {
     // latest pipeline result
     double[] temp = {0.0,0.0,0.0,0.0,0.0,0.0};//Defult getEntry
     double[] result = valueOfPoses.getDoubleArray(temp);
-    double timestamp = Timer.getFPGATimestamp();
+    double timestamp = Timer.getFPGATimestamp() - ((latency.getDouble(0.0) + 11.0) / 1000.0);
     if(result.length == 6) {
       SmartDashboard.putBoolean("Camera Has Target", true);
       Translation3d translation3d = new Translation3d(result[0]+Units.feetToMeters(27.0), result[1]+Units.feetToMeters(13.5), result[2]);

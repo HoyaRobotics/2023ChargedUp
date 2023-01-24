@@ -25,8 +25,8 @@ public class PIDBalanceOnChargeStation extends CommandBase {
     this.swerveSubsystem = swerveSubsystem;
     this.poseEstimator = poseEstimator;
 
-    pidController = new PIDController(-0.01, 0, 0);
-    yaw = new PIDController(0.01, 0, 0);
+    pidController = new PIDController(-0.0125, 0, 0);
+    yaw = new PIDController(0.02, 0, 0);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveSubsystem);
@@ -36,9 +36,9 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   @Override
   public void initialize() {
     pidController.setSetpoint(0);
-    pidController.setTolerance(1);
+    pidController.setTolerance(3.5);
     yaw.setSetpoint(0);
-    yaw.setTolerance(1);
+    yaw.setTolerance(2);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -51,7 +51,7 @@ public class PIDBalanceOnChargeStation extends CommandBase {
       SmartDashboard.putBoolean("LEVEL?", true);
       SmartDashboard.putBoolean("ALIGNED?", true);
     } else if (yaw.atSetpoint()) {
-      swerveSubsystem.drive(new ChassisSpeeds(pidController.calculate(pigeon2Subsystem.getPigeonPitch()), 0, 0));
+      swerveSubsystem.drive(new ChassisSpeeds(-pidController.calculate(pigeon2Subsystem.getPigeonPitch()), 0, 0));
       SmartDashboard.putBoolean("LEVEL?", false);
     } else {
       swerveSubsystem.drive(new ChassisSpeeds(0, 0, yaw.calculate(pigeon2Subsystem.getPigeonYaw())));

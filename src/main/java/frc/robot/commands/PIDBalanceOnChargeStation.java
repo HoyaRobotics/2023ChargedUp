@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
@@ -13,6 +14,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class PIDBalanceOnChargeStation extends CommandBase {
   private final PIDController pidController;
+  private final PIDController yaw;
 
   private final Pigeon2Subsystem pigeon2Subsystem;
   private final SwerveSubsystem swerveSubsystem;
@@ -24,6 +26,8 @@ public class PIDBalanceOnChargeStation extends CommandBase {
     this.poseEstimator = poseEstimator;
 
     pidController = new PIDController(0.03, 0, 0);
+    pidController = new PIDController(-0.0125, 0, 0);
+    yaw = new PIDController(0.02, 0, 0);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveSubsystem);
@@ -33,14 +37,28 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   @Override
   public void initialize() {
     pidController.setSetpoint(0);
-    pidController.setTolerance(2.25);
+    pidController.setTolerance(3.5);
+    yaw.setSetpoint(0);
+    yaw.setTolerance(2);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    swerveSubsystem.drive(new ChassisSpeeds(pidController.calculate(pigeon2Subsystem.getPigeonPitch()), 0, 0));
-  }
+    pidController.calculate(pigeon2Subsystem.getPigeonPitch());
+    yaw.calculate(pigeon2Subsystem.getPigeonYaw());
+    if(pidController.atSetpoint() && yaw.atSetpoint()){
+      swerveSubsystem.stop();
+      SmartDashboard.putBoolean("LEVEL?", true);
+      SmartDashboard.putBoolean("ALIGNED?", true);
+    } else if (yaw.atSetpoint()) {
+      swerveSubsystem.drive(new ChassisSpeeds(-pidController.calculate(pigeon2Subsystem.getPigeonPitch()), 0, 0));
+      SmartDashboard.putBoolean("LEVEL?", false);
+    } else {
+      swerveSubsystem.drive(new ChassisSpeeds(0, 0, yaw.calculate(pigeon2Subsystem.getPigeonYaw())));
+      SmartDashboard.putBoolean("ALIGNED?", false);
+    } 
+      }
 
   // Called once the command ends or is interrupted.
   @Override

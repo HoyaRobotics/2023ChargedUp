@@ -4,13 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.photonvision.PhotonCamera;
-import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
-
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -18,13 +11,15 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,17 +31,9 @@ public class PoseEstimator extends SubsystemBase {
   private final SwerveSubsystem swerveSubsystem;
   private final Pigeon2Subsystem pigeon2Subsystem;
   
-  private final PhotonCamera photonCamera = new PhotonCamera("OV5647");;
-
-  // Physical location of the camera on the robot, relative to the center of the robot.
-  private final Transform3d cameraToRobot = new Transform3d(
-    new Translation3d(Units.inchesToMeters(-12.0), 0.0, Units.inchesToMeters(-5.25)),
-    new Rotation3d());
-
-  // Ordered list of target poses by ID (WPILib is adding some functionality for this)
-  private final List<Pose3d> targetPoses = Collections.unmodifiableList(List.of(
-    new Pose3d(Units.feetToMeters(54.0), Units.feetToMeters(13.5), Units.inchesToMeters(6.0), new Rotation3d(0.0, 0.0, Units.degreesToRadians(180.0))),
-    new Pose3d(Units.feetToMeters(0.0), Units.feetToMeters(13.5), Units.inchesToMeters(6.0), new Rotation3d(0.0, 0.0, 0.0))));
+  static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  static NetworkTableEntry latency = table.getEntry("tl");
+  static NetworkTableEntry valueOfPoses = table.getEntry("botpose");
 
   // Kalman Filter Configuration. These can be "tuned-to-taste" based on how much you trust your various sensors. 
   // Smaller numbers will cause the filter to "trust" the estimate from that particular component more than the others. 
@@ -70,7 +57,6 @@ public class PoseEstimator extends SubsystemBase {
       visionMeasurementStdDevs);
 
     SmartDashboard.putData("Field", field2d);
-
   }
 
   @Override
@@ -79,21 +65,19 @@ public class PoseEstimator extends SubsystemBase {
     
     // Update pose estimator with visible targets
     // latest pipeline result
-    PhotonPipelineResult res = photonCamera.getLatestResult();
-    SmartDashboard.putBoolean("Camera Has Target", res.hasTargets());
-    if(res.hasTargets()) {
-      // if there are targets record the image capture time
-      double imageCaptureTime = Timer.getFPGATimestamp() - (res.getLatencyMillis() / 1000.0);
-      PhotonTrackedTarget bestTarget = res.getBestTarget();
-      int fiducialId = bestTarget.getFiducialId();
-      if(fiducialId >= 0 && fiducialId < targetPoses.size() && bestTarget.getPoseAmbiguity() < 0.2) {
-        Pose3d targetPose = targetPoses.get(fiducialId);
-        Transform3d camToTargetTrans = bestTarget.getBestCameraToTarget();
-        Pose3d camPose = targetPose.transformBy(camToTargetTrans.inverse());
-        Pose3d robotPose = camPose.transformBy(cameraToRobot);
-        poseEstimator.addVisionMeasurement(robotPose.toPose2d(), imageCaptureTime);
-        //SmartDashboard.putString("Pose3d", robotPose.toString());
-      }
+    double[] temp = {0.0,0.0,0.0,0.0,0.0,0.0};//Defult getEntry
+    double[] result = valueOfPoses.getDoubleArray(temp);
+    double timestamp = Timer.getFPGATimestamp() - ((latency.getDouble(0.0) + 11.0) / 1000.0);
+    if(result.length == 6) {
+      SmartDashboard.putBoolean("Camera Has Target", true);
+      Translation3d translation3d = new Translation3d(result[0]+Units.feetToMeters(27.0), result[1]+Units.feetToMeters(13.5), result[2]);
+      SmartDashboard.putString("translation", translation3d.toString());
+      Rotation3d rotation3d = new Rotation3d(Units.degreesToRadians(result[3]), Units.degreesToRadians(result[4]), Units.degreesToRadians(result[5]));
+      SmartDashboard.putString("rotation", rotation3d.toString());
+      Pose3d pose3d = new Pose3d(translation3d, rotation3d);
+      poseEstimator.addVisionMeasurement(pose3d.toPose2d(), timestamp);
+    }else{
+      SmartDashboard.putBoolean("Camera Has Target", false);
     }
 
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), pigeon2Subsystem.getGyroRotation(), swerveSubsystem.getPositions());

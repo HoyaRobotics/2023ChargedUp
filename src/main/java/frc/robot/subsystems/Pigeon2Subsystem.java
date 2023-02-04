@@ -47,6 +47,11 @@ public class Pigeon2Subsystem extends SubsystemBase {
   public double getPigeonRoll(){
     return pigeon2.getRoll();
   }
+
+
+  public double getPigeonYaw(){
+    return pigeon2.getYaw();
+  }
   
 
   public int evaluatePitch(){

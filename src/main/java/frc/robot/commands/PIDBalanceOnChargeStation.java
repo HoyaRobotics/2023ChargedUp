@@ -26,7 +26,7 @@ public class PIDBalanceOnChargeStation extends CommandBase {
     this.poseEstimator = poseEstimator;
 
     pidController = new PIDController(0.03, 0, 0);
-    pidController = new PIDController(-0.0125, 0, 0);
+   // pidController = new PIDController(-0.0125, 0, 0);
     yaw = new PIDController(0.02, 0, 0);
 
     // Use addRequirements() here to declare subsystem dependencies.

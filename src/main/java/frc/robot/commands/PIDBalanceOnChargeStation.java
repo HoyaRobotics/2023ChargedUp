@@ -18,12 +18,12 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   private final SwerveSubsystem swerveSubsystem;
   private final PoseEstimator poseEstimator;
   /** Creates a new PIDBalanceOnChargeStation. */
-  public PIDBalanceOnChargeStation(Pigeon2Subsystem pigeon2Subsystem, SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator) {
+  public  PIDBalanceOnChargeStation(Pigeon2Subsystem pigeon2Subsystem, SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator) {
     this.pigeon2Subsystem = pigeon2Subsystem;
     this.swerveSubsystem = swerveSubsystem;
     this.poseEstimator = poseEstimator;
 
-    pidController = new PIDController(0.01, 0, 0);
+    pidController = new PIDController(0.03, 0, 0);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveSubsystem);
@@ -33,7 +33,7 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   @Override
   public void initialize() {
     pidController.setSetpoint(0);
-    pidController.setTolerance(1);
+    pidController.setTolerance(2.25);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

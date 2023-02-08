@@ -119,6 +119,13 @@ public static final class SwerveConstants {
     public static final int BACK_RIGHT_STEER_MOTOR = 13; // Back right steer motor ID
     public static final int BACK_RIGHT_STEER_ENCODER = 15; // Back right steer encoder ID
     public static final double BACK_RIGHT_STEER_OFFSET = -21.88+180; // Back right steer offset
+
+
+    //INTAKE CONSTANTS
+
+    public static final int FRONT_INTAKE_ROLLER = 22;
+    public static final int BACK_INTAKE_ROLLER = 23;
+    public static final int INTAKE_RETRACTION = 24;
 }
 
 public static final class AutoConstants {

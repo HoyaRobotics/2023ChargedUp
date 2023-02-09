@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.*;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,5 +31,19 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void intakeSpeed(double frontVoltage, double backVoltage) {
+    frontRoller.setVoltage(frontVoltage);
+    backRoller.setVoltage(backVoltage);
+  }
+
+  public void intakeStop() {
+    frontRoller.stopMotor();
+    backRoller.stopMotor();
+  }
+
+  public double getIntakeRetractorPosition() {
+    return retractor.getSelectedSensorPosition();
   }
 }

@@ -6,11 +6,14 @@ import frc.robot.subsystems.Intake;
 
 public class RunIntake extends CommandBase {
     public final Intake intake;
-    public final double voltage;
+    public final double frontVoltage;
+    public final double backVoltage;
 
-    public RunIntake(Intake intake, double voltage) {
+    public RunIntake(Intake intake, double frontVoltage, double backVoltage) {
         this.intake = intake;
-        this.voltage = voltage;
+        this.frontVoltage = frontVoltage;
+        this.backVoltage = backVoltage;
+
         addRequirements(intake);
     }
 

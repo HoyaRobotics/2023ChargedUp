@@ -38,9 +38,17 @@ public class Intake extends SubsystemBase {
     backRoller.setVoltage(backVoltage);
   }
 
+  public void intakeRotationSpeed(double voltage) {
+    //retractor.set(voltage);
+  }
+
   public void intakeStop() {
     frontRoller.stopMotor();
     backRoller.stopMotor();
+  }
+
+  public void retractorStop() {
+    //retractor.stopMotor();
   }
 
   public double getIntakeRetractorPosition() {

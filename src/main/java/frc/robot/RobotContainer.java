@@ -8,7 +8,6 @@ package frc.robot;
 import java.util.HashMap;
 import java.util.List;
 
-import com.ctre.phoenix.sensors.Pigeon2;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -17,18 +16,17 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.PIDBalanceOnChargeStation;
+import frc.robot.commands.SetPose;
 import frc.robot.commands.ToggleFieldRelative;
 import frc.robot.commands.Autos.AutoTest_01;
 import frc.robot.subsystems.Pigeon2Subsystem;
@@ -55,8 +53,7 @@ public class RobotContainer {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final XboxController driverController = new XboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -89,12 +86,9 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    Trigger toggleFieldRelative = driverController.x();
-    toggleFieldRelative.onTrue(new ToggleFieldRelative());
-
-    Trigger balanceButton = driverController.a();
-    balanceButton.whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
-
+    new JoystickButton(driverController, XboxController.Button.kBack.value).onTrue(new SetPose(poseEstimator, new Pose2d(0.0, 0.0, new Rotation2d(0.0))));
+    new JoystickButton(driverController, XboxController.Button.kX.value).onTrue(new ToggleFieldRelative());
+    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
   }
 
   /**

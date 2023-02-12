@@ -54,40 +54,38 @@ public class SwerveModule {
   }
 
 
-  public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
-    desiredState = CTREModuleState.optimize(desiredState, getState().angle);
+  public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
+    desiredState = CTREModuleState.optimize(desiredState, getState().angle); //Custom optimize command, since default WPILib optimize assumes continuous controller which CTRE is not
 
     if(isOpenLoop){
-      double percentOutput = desiredState.speedMetersPerSecond / Constants.SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND;
-      driveMotor.set(ControlMode.PercentOutput, percentOutput);
+        double percentOutput = desiredState.speedMetersPerSecond / Constants.SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND;
+        driveMotor.set(ControlMode.PercentOutput, percentOutput);
     }
     else {
-      double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond, Constants.ModuleConstants.wheelCircumference, Constants.ModuleConstants.driveGearRatio);
-      driveMotor.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward, feedforward.calculate(desiredState.speedMetersPerSecond));
+        double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond, Constants.ModuleConstants.wheelCircumference, Constants.ModuleConstants.driveGearRatio);
+        driveMotor.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward, feedforward.calculate(desiredState.speedMetersPerSecond));
     }
 
     double angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND * 0.01)) ? lastAngle : desiredState.angle.getDegrees(); //Prevent rotating module if speed is less then 1%. Prevents Jittering.
     angleMotor.set(ControlMode.Position, Conversions.degreesToFalcon(angle, Constants.ModuleConstants.angleGearRatio)); 
     lastAngle = angle;
-  }
+}
 
-
-  public void setDesiredStateAbs(SwerveModuleState desiredState, boolean isOpenLoop) {
+public void setDesiredStateAbs(SwerveModuleState desiredState, boolean isOpenLoop) {
     desiredState = CTREModuleState.optimize(desiredState, getState().angle);
-        
+    
     if(isOpenLoop){
-      double percentOutput = desiredState.speedMetersPerSecond / Constants.SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND;
-      driveMotor.set(ControlMode.PercentOutput, percentOutput);
+        double percentOutput = desiredState.speedMetersPerSecond / Constants.SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND;
+        driveMotor.set(ControlMode.PercentOutput, percentOutput);
     }
     else {
-      double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond, Constants.ModuleConstants.wheelCircumference, Constants.ModuleConstants.driveGearRatio);
-      driveMotor.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward, feedforward.calculate(desiredState.speedMetersPerSecond));
+        double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond, Constants.ModuleConstants.wheelCircumference, Constants.ModuleConstants.driveGearRatio);
+        driveMotor.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward, feedforward.calculate(desiredState.speedMetersPerSecond));
     }
 
     angleMotor.set(ControlMode.Position, Conversions.degreesToFalcon(desiredState.angle.getDegrees(), Constants.ModuleConstants.angleGearRatio)); 
     lastAngle = desiredState.angle.getDegrees();
-  }
-
+}
 
   public void stop() {
     driveMotor.set(ControlMode.PercentOutput, 0);

@@ -75,7 +75,7 @@ public class PoseEstimator extends SubsystemBase {
       Rotation3d rotation3d = new Rotation3d(Units.degreesToRadians(result[3]), Units.degreesToRadians(result[4]), Units.degreesToRadians(result[5]));
       SmartDashboard.putString("rotation", rotation3d.toString());
       Pose3d pose3d = new Pose3d(translation3d, rotation3d);
-      poseEstimator.addVisionMeasurement(pose3d.toPose2d(), timestamp);
+      //poseEstimator.addVisionMeasurement(pose3d.toPose2d(), timestamp);
     }else{
       SmartDashboard.putBoolean("Camera Has Target", false);
     }

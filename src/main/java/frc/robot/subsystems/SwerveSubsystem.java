@@ -4,9 +4,10 @@
 
 package frc.robot.subsystems;
 
+import java.io.IOException;
+
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.FollowPathWithEvents;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -15,15 +16,13 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 
 import frc.lib.SwerveModuleConstants;
-import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.SwerveConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
 
@@ -113,6 +112,28 @@ public class SwerveSubsystem extends SubsystemBase {
     return new SwerveModuleState[] {
       swerveModules[0].getState(), swerveModules[1].getState(), swerveModules[2].getState(), swerveModules[3].getState()
     };
+  }
+
+  protected static PathPlannerTrajectory loadPathPlannerTrajectory(String trajectoryName, double maxVel, double maxAccel) throws IOException {
+    return PathPlanner.loadPath(trajectoryName, maxVel, maxAccel);
+  }
+
+  public Command createCommandForTrajectory(PathPlannerTrajectory trajectory) {
+    xController = new PIDController(AutoConstants.kPXController, 0, 0);
+    yController = new PIDController(AutoConstants.kPYController, 0, 0);
+    thetaController = new PIDController(AutoConstants.kPThetaController, 0, 0); //Kp value, Ki=0, Kd=0
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+    PPSwerveControllerCommand swerveControllerCommand = new PPSwerveControllerCommand(
+      trajectory,
+      () -> PoseEstimator.getCurrentPose(),
+      SwerveConstants.KINEMATICS,
+      xController,
+      yController,
+      thetaController,
+      this::setModuleStates,
+      this);
+    return swerveControllerCommand.andThen(() -> stop());
   }
 
   public double getCurrentChassisSpeeds() {

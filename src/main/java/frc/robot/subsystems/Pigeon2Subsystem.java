@@ -19,6 +19,7 @@ public class Pigeon2Subsystem extends SubsystemBase {
 
   /** Creates a new Pigeon2Subsystem. */
   public Pigeon2Subsystem() {
+    pigeon2.configFactoryDefault();
     pigeon2.configMountPose(AxisDirection.PositiveY, AxisDirection.PositiveZ);
   }
 
@@ -85,5 +86,6 @@ public class Pigeon2Subsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("PITCH VALUE", getPigeonPitch());
     SmartDashboard.putNumber("ROLL VALUE", getPigeonRoll());
+    SmartDashboard.putNumber("Yaw", getPigeonYaw());
   }
 }

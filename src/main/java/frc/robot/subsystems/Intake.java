@@ -7,11 +7,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.*;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.Conversions;
 import frc.robot.Constants;
+import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
   CANSparkMax frontRoller;
@@ -25,6 +26,11 @@ public class Intake extends SubsystemBase {
     this.backRoller = new CANSparkMax(Constants.SwerveConstants.BACK_INTAKE_ROLLER, MotorType.kBrushless);
 
     this.retractor = new TalonFX(Constants.SwerveConstants.INTAKE_RETRACTION, "canivore");
+    retractor.configFactoryDefault();
+    retractor.config_kP(0, 0.0);
+    retractor.config_kI(0, 0.0);
+    retractor.config_kD(0, 0.0);
+    retractor.config_kF(0, 0.0);
     
   }
 
@@ -48,10 +54,14 @@ public class Intake extends SubsystemBase {
   }
 
   public void retractorStop() {
-    //retractor.stopMotor();
+    retractor.set(ControlMode.PercentOutput, 0.0);
   }
 
   public double getIntakeRetractorPosition() {
     return retractor.getSelectedSensorPosition();
+  }
+
+  public void setIntakeTargetAngle(double angle) {
+    retractor.set(ControlMode.Position, Conversions.degreesToFalcon(angle, IntakeConstants.rotationRatio));
   }
 }

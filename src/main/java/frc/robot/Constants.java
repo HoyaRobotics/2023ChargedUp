@@ -141,4 +141,8 @@ public static final class BalanceConstants {
   public static final double rollMinLimit = -0.5;
 }
 
+public static final class IntakeConstants {
+  public static final double rotationRatio = (32.0/14.0) * (56.0/16.0) * (50/8);
+}
+
 }

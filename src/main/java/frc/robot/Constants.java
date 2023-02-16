@@ -119,13 +119,6 @@ public static final class SwerveConstants {
     public static final int BACK_RIGHT_STEER_MOTOR = 11; // Back right steer motor ID
     public static final int BACK_RIGHT_STEER_ENCODER = 12; // Back right steer encoder ID
     public static final double BACK_RIGHT_STEER_OFFSET = 94.66-90; // Back right steer offset
-
-
-    //INTAKE CONSTANTS
-
-    public static final int FRONT_INTAKE_ROLLER = 22;
-    public static final int BACK_INTAKE_ROLLER = 23;
-    public static final int INTAKE_RETRACTION = 24;
 }
 
 public static final class AutoConstants {
@@ -142,7 +135,22 @@ public static final class BalanceConstants {
 }
 
 public static final class IntakeConstants {
+  public static final int FRONT_INTAKE_ROLLER = 22;
+  public static final int BACK_INTAKE_ROLLER = 23;
+  public static final int INTAKE_RETRACTION = 24;
   public static final double rotationRatio = (32.0/14.0) * (56.0/16.0) * (50/8);
+}
+
+public static final class StorageConstants {
+  public static final int BOTTOM_STORAGE_CONVEYOR = 25;
+  public static final int LEFT_STORAGE_CONVEYOR = 26;
+  public static final int RIGHT_STORAGE_CONVEYOR = 27;
+}
+
+public static final class ArmConstants {
+  public static final int LEFT_ARM_MOTOR = 28;
+  public static final int RIGHT_ARM_MOTOR = 29;
+  public static final int EXTENSION_MOTOR = 30;
 }
 
 }

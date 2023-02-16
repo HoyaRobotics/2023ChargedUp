@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -9,28 +9,27 @@ public class RunIntake extends CommandBase {
 
     public RunIntake(Intake intake) {
         this.intake = intake;
-
         addRequirements(intake);
     }
 
     @Override
     public void initialize() {
         SmartDashboard.putBoolean("RunIntake", true);
+        intake.setIntakeTargetAngle(130);
+        intake.intakeSpeed(10, 10);
     }
 
     @Override
-    public void execute() {
-        intake.intakeSpeed(1, 1);
-    }
+    public void execute() {}
 
     @Override
     public void end(boolean interrupted) {
-        intake.intakeStop();
-        SmartDashboard.putBoolean("RunIntake", false);
+        //intake.intakeStop();
+        //SmartDashboard.putBoolean("RunIntake", false);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 }

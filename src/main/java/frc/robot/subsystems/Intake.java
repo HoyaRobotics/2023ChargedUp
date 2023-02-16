@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.*;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,11 +23,25 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Intake. */
   public Intake() {
-    this.frontRoller = new CANSparkMax(Constants.SwerveConstants.FRONT_INTAKE_ROLLER, MotorType.kBrushless);
-    this.backRoller = new CANSparkMax(Constants.SwerveConstants.BACK_INTAKE_ROLLER, MotorType.kBrushless);
+    this.frontRoller = new CANSparkMax(Constants.IntakeConstants.FRONT_INTAKE_ROLLER, MotorType.kBrushless);
+    frontRoller.restoreFactoryDefaults();
+    frontRoller.setIdleMode(IdleMode.kCoast);
+    frontRoller.setSmartCurrentLimit(20);
+    frontRoller.setInverted(false);
+    frontRoller.enableVoltageCompensation(10);
+    this.backRoller = new CANSparkMax(Constants.IntakeConstants.BACK_INTAKE_ROLLER, MotorType.kBrushless);
+    backRoller.restoreFactoryDefaults();
+    backRoller.setIdleMode(IdleMode.kCoast);
+    backRoller.setSmartCurrentLimit(20);
+    backRoller.setInverted(true);
+    backRoller.enableVoltageCompensation(10);
 
-    this.retractor = new TalonFX(Constants.SwerveConstants.INTAKE_RETRACTION, "canivore");
+    this.retractor = new TalonFX(Constants.IntakeConstants.INTAKE_RETRACTION, "canivore");
     retractor.configFactoryDefault();
+    retractor.setNeutralMode(NeutralMode.Brake);
+    retractor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 30, 0.5));
+    retractor.configVoltageCompSaturation(10);
+    retractor.enableVoltageCompensation(true);
     retractor.config_kP(0, 0.0);
     retractor.config_kI(0, 0.0);
     retractor.config_kD(0, 0.0);

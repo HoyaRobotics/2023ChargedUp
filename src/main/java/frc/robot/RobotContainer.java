@@ -26,10 +26,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.PIDBalanceOnChargeStation;
-import frc.robot.commands.RunIntake;
+import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.SetPose;
 import frc.robot.commands.ToggleFieldRelative;
 import frc.robot.commands.Autos.AutoTest_01;
+import frc.robot.commands.IntakeCommands.StopIntake;
 import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -92,7 +93,8 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kBack.value).onTrue(new SetPose(poseEstimator, new Pose2d(0.0, 0.0, new Rotation2d(0.0))));
     new JoystickButton(driverController, XboxController.Button.kX.value).onTrue(new ToggleFieldRelative());
     new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
-    new JoystickButton(driverController, XboxController.Button.kY.value).onTrue(new RunIntake(intake));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new RunIntake(intake));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onFalse(new StopIntake(intake));
   }
 
   /**
@@ -108,6 +110,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     HashMap<String, Command> eventMap = new HashMap<>();
+    eventMap.put("RunIntake", new RunIntake(intake));
+    eventMap.put("StopIntake", new StopIntake(intake));
 
 
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(

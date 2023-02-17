@@ -60,7 +60,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void intakeRotationSpeed(double voltage) {
-    //retractor.set(voltage);
+    //retractor.set(ControlMode.PercentOutput, voltage);
   }
 
   public void intakeStop() {

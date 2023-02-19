@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.Conversions;
 import frc.robot.Constants;
@@ -42,16 +43,23 @@ public class Intake extends SubsystemBase {
     retractor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 30, 0.5));
     retractor.configVoltageCompSaturation(10);
     retractor.enableVoltageCompensation(true);
+    retractor.configNominalOutputForward(0.0);
+    retractor.configNominalOutputReverse(0.0);
+    retractor.configPeakOutputForward(0.0);
+    retractor.configPeakOutputReverse(0.0);
     retractor.config_kP(0, 0.0);
     retractor.config_kI(0, 0.0);
     retractor.config_kD(0, 0.0);
     retractor.config_kF(0, 0.0);
+    retractor.configMotionAcceleration(0.0);
+    retractor.configMotionCruiseVelocity(0.0);
     
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("IntakeEncoder", getIntakeEncoder());
   }
 
   public void intakeSpeed(double frontVoltage, double backVoltage) {
@@ -76,7 +84,20 @@ public class Intake extends SubsystemBase {
     return retractor.getSelectedSensorPosition();
   }
 
-  public void setIntakeTargetAngle(double angle) {
+  public void setIntakeAnglePID(double angle) {
     retractor.set(ControlMode.Position, Conversions.degreesToFalcon(angle, IntakeConstants.rotationRatio));
+  }
+
+  public void setIntakeAngleMotionMagic(double angle) {
+    retractor.set(ControlMode.MotionMagic, Conversions.degreesToFalcon(angle, IntakeConstants.rotationRatio));
+  }
+
+  public void setIntakeEncoder(double angle) {
+    retractor.setSelectedSensorPosition(angle);
+  }
+
+  public double getIntakeEncoder() {
+    double encoderPosition = Conversions.falconToDegrees(retractor.getSelectedSensorPosition(), IntakeConstants.rotationRatio);
+    return encoderPosition;
   }
 }

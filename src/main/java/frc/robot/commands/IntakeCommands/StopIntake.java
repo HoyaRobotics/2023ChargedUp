@@ -16,7 +16,7 @@ public class StopIntake extends CommandBase {
   @Override
   public void initialize() {
     SmartDashboard.putBoolean("RunIntake", false);
-    intake.setIntakeTargetAngle(0);
+    intake.setIntakeAnglePID(0);
     intake.intakeSpeed(0, 0);
   }
 

@@ -4,13 +4,22 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
 public class ControlArmManually extends CommandBase {
+  private final Arm arm;
+  private final DoubleSupplier joystickYArm;
+  private final DoubleSupplier joystickYExtension;
   /** Creates a new ControlArmManually. */
-  public ControlArmManually(Arm arm) {
+  public ControlArmManually(Arm arm, DoubleSupplier joystickYArm, DoubleSupplier joystickYExtension) {
+    this.arm = arm;
+    this.joystickYArm = joystickYArm;
+    this.joystickYExtension = joystickYExtension;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
@@ -19,11 +28,17 @@ public class ControlArmManually extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    arm.setArmSpeed(joystickYArm.getAsDouble());
+    arm.setExtensionSpeed(joystickYExtension.getAsDouble());
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    arm.stopArm();
+    arm.stopExtension();
+  }
 
   // Returns true when the command should end.
   @Override

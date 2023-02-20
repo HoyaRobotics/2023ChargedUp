@@ -12,9 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.Conversions;
 import frc.robot.Constants;
-import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
   CANSparkMax frontRoller;
@@ -37,7 +35,7 @@ public class Intake extends SubsystemBase {
     backRoller.setInverted(true);
     backRoller.enableVoltageCompensation(10);
 
-    this.retractor = new TalonFX(Constants.IntakeConstants.INTAKE_RETRACTION, "canivore");
+    this.retractor = new TalonFX(Constants.IntakeConstants.INTAKE_RETRACTION);
     retractor.configFactoryDefault();
     retractor.setNeutralMode(NeutralMode.Brake);
     retractor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 30, 0.5));
@@ -53,7 +51,9 @@ public class Intake extends SubsystemBase {
     retractor.config_kF(0, 0.0);
     retractor.configMotionAcceleration(0.0);
     retractor.configMotionCruiseVelocity(0.0);
-    
+    setIntakeEncoder(0.0);
+    intakeStop();
+    //setIntakeAnglePID(0.0);
   }
 
   @Override
@@ -85,11 +85,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void setIntakeAnglePID(double angle) {
-    retractor.set(ControlMode.Position, Conversions.degreesToFalcon(angle, IntakeConstants.rotationRatio));
+    retractor.set(ControlMode.Position, angle);
   }
 
   public void setIntakeAngleMotionMagic(double angle) {
-    retractor.set(ControlMode.MotionMagic, Conversions.degreesToFalcon(angle, IntakeConstants.rotationRatio));
+    retractor.set(ControlMode.MotionMagic, angle);
   }
 
   public void setIntakeEncoder(double angle) {
@@ -97,7 +97,6 @@ public class Intake extends SubsystemBase {
   }
 
   public double getIntakeEncoder() {
-    double encoderPosition = Conversions.falconToDegrees(retractor.getSelectedSensorPosition(), IntakeConstants.rotationRatio);
-    return encoderPosition;
+    return retractor.getSelectedSensorPosition();
   }
 }

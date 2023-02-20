@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -81,11 +82,15 @@ public class Arm extends SubsystemBase {
 
     setArmEncoder();
     setExtensionEncoder(0.0);
+    //setArmAnglePID(getLeftArmAngle());
+    //setExtensionPID(10);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("ArmAngleAbsolute", getArmEncoderAngle());
+    SmartDashboard.putNumber("ArmAngleRatio", getArmEncoder());
   }
 
   public void setArmAngleSmartMotion(double angle) {
@@ -103,6 +108,12 @@ public class Arm extends SubsystemBase {
     double motorPosition = encoderPosition/gearRatio;
     leftArmMotor.getEncoder().setPosition(motorPosition);
     rightArmMotor.getEncoder().setPosition(motorPosition);
+  }
+
+  public double getArmEncoder() {
+    double encoderPosition = armEncoder.getAbsolutePosition();
+    double motorPosition = encoderPosition/gearRatio;
+    return motorPosition;
   }
 
   public double getLeftArmAngle() {
@@ -131,5 +142,23 @@ public class Arm extends SubsystemBase {
 
   public double getExtensionPosition() {
     return extensionMotor.getEncoder().getPosition();
+  }
+
+  public void setArmSpeed(double speed) {
+    rightArmMotor.set(speed);
+    leftArmMotor.set(speed);
+  }
+
+  public void stopArm() {
+    rightArmMotor.stopMotor();
+    leftArmMotor.stopMotor();
+  }
+
+  public void setExtensionSpeed(double speed) {
+    extensionMotor.set(speed);
+  }
+
+  public void stopExtension() {
+    extensionMotor.stopMotor();
   }
 }

@@ -153,4 +153,10 @@ public static final class ArmConstants {
   public static final int EXTENSION_MOTOR = 30;
 }
 
+public static final class GrabberConstants {
+  public static final int PNUMATICS_HUB = 4;
+  public static final int GRIPPER_CLOSE = 0;
+  public static final int GRIPPER_OPEN = 1;
+}
+
 }

@@ -26,7 +26,7 @@ public class Intake extends SubsystemBase {
     frontRoller.restoreFactoryDefaults();
     frontRoller.setIdleMode(IdleMode.kCoast);
     frontRoller.setSmartCurrentLimit(20);
-    frontRoller.setInverted(false);
+    frontRoller.setInverted(true);
     frontRoller.enableVoltageCompensation(10);
     this.backRoller = new CANSparkMax(Constants.IntakeConstants.BACK_INTAKE_ROLLER, MotorType.kBrushless);
     backRoller.restoreFactoryDefaults();
@@ -41,11 +41,11 @@ public class Intake extends SubsystemBase {
     retractor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 30, 0.5));
     retractor.configVoltageCompSaturation(10);
     retractor.enableVoltageCompensation(true);
-    retractor.configNominalOutputForward(0.0);
-    retractor.configNominalOutputReverse(0.0);
-    retractor.configPeakOutputForward(0.0);
-    retractor.configPeakOutputReverse(0.0);
-    retractor.config_kP(0, 0.0);
+    //retractor.configNominalOutputForward(0.0);
+    //retractor.configNominalOutputReverse(0.0);
+    //retractor.configPeakOutputForward(0.0);
+    //retractor.configPeakOutputReverse(0.0);
+    retractor.config_kP(0, 0.02);
     retractor.config_kI(0, 0.0);
     retractor.config_kD(0, 0.0);
     retractor.config_kF(0, 0.0);
@@ -62,9 +62,9 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("IntakeEncoder", getIntakeEncoder());
   }
 
-  public void intakeSpeed(double frontVoltage, double backVoltage) {
-    frontRoller.setVoltage(frontVoltage);
-    backRoller.setVoltage(backVoltage);
+  public void intakeSpeed(double frontSpeed, double backSpeed) {
+    frontRoller.set(frontSpeed);
+    backRoller.set(backSpeed);
   }
 
   public void intakeRotationSpeed(double voltage) {

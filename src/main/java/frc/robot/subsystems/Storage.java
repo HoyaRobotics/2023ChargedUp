@@ -6,8 +6,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -17,27 +17,28 @@ import frc.robot.Constants;
 
 public class Storage extends SubsystemBase {
   /** Creates a new Storage. */
-  TalonSRX bottomBelt = new TalonSRX(Constants.StorageConstants.BOTTOM_STORAGE_CONVEYOR);
+  VictorSPX bottomBelt = new VictorSPX(Constants.StorageConstants.BOTTOM_STORAGE_CONVEYOR);
   CANSparkMax leftBelt = new CANSparkMax(Constants.StorageConstants.LEFT_STORAGE_CONVEYOR, MotorType.kBrushless);
   CANSparkMax rightBelt = new CANSparkMax(Constants.StorageConstants.RIGHT_STORAGE_CONVEYOR, MotorType.kBrushless);
 
   public Storage() {
     bottomBelt.configFactoryDefault();
-    bottomBelt.setNeutralMode(NeutralMode.Brake);
-    bottomBelt.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 40, 0.5));
+    bottomBelt.setNeutralMode(NeutralMode.Coast);
     bottomBelt.setInverted(false);
     bottomBelt.configVoltageCompSaturation(10);
     bottomBelt.enableVoltageCompensation(true);
     leftBelt.restoreFactoryDefaults();
-    leftBelt.setIdleMode(IdleMode.kBrake);
+    leftBelt.setIdleMode(IdleMode.kCoast);
     leftBelt.setSmartCurrentLimit(20);
     leftBelt.setInverted(false);
     leftBelt.enableVoltageCompensation(10);
+    leftBelt.setOpenLoopRampRate(0.2);
     rightBelt.restoreFactoryDefaults();
-    rightBelt.setIdleMode(IdleMode.kBrake);
+    rightBelt.setIdleMode(IdleMode.kCoast);
     rightBelt.setSmartCurrentLimit(20);
     rightBelt.setInverted(true);
     rightBelt.enableVoltageCompensation(10);
+    rightBelt.setOpenLoopRampRate(0.2);
   }
 
   @Override
@@ -46,7 +47,8 @@ public class Storage extends SubsystemBase {
   }
 
   public void setSpeed(double bottom, double left, double right) {
-    bottomBelt.set(ControlMode.PercentOutput, bottom);
+    //bottomBelt.set(ControlMode.PercentOutput, bottom);
+    bottomBelt.set(VictorSPXControlMode.PercentOutput, bottom);
     leftBelt.set(left);
     rightBelt.set(right);
   }

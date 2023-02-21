@@ -2,24 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ArmCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Storage;
+import frc.robot.subsystems.Arm;
 
-public class RunConveyor extends CommandBase {
-  private final Storage storage;
-  /** Creates a new RunConveyor. */
-  public RunConveyor(Storage storage) {
-    this.storage = storage;
-    addRequirements(storage);
+public class MoveExtensionToPosition extends CommandBase {
+  private final Arm arm;
+  private double extension;
+  /** Creates a new MoveExtensionToPosition. */
+  public MoveExtensionToPosition(Arm arm, double extension) {
+    this.arm = arm;
+    this.extension = extension;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    storage.setSpeed(0.7, 0.5, 0.5);
+    arm.setExtensionPID(extension);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,6 +35,10 @@ public class RunConveyor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    if(arm.isExtensionInPosition(extension)) {
+      return true;
+    }else{
+      return false;
+    }
   }
 }

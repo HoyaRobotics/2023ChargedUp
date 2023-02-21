@@ -26,14 +26,21 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.PIDBalanceOnChargeStation;
+import frc.robot.commands.RunConveyor;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.SetPose;
+import frc.robot.commands.StopConveyor;
 import frc.robot.commands.ToggleFieldRelative;
+import frc.robot.commands.ArmCommands.GripAndHoldObject;
+import frc.robot.commands.ArmCommands.PlaceOn3rd;
 import frc.robot.commands.Autos.AutoTest_01;
 import frc.robot.commands.IntakeCommands.StopIntake;
 import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
+import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Intake;
 
 //Initial GitHub test
@@ -51,6 +58,9 @@ public class RobotContainer {
   private final Pigeon2Subsystem pigeon2Subsystem = new Pigeon2Subsystem();
   private final PoseEstimator poseEstimator = new PoseEstimator(swerveSubsystem, pigeon2Subsystem);
   private final Intake intake = new Intake();
+  private final Storage storage = new Storage();
+  private final Arm arm = new Arm();
+  private final Grabber grabber = new Grabber();
 
   private final AutoTest_01 autoTest_01 = new AutoTest_01();
 
@@ -93,8 +103,10 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kBack.value).onTrue(new SetPose(poseEstimator, new Pose2d(0.0, 0.0, new Rotation2d(0.0))));
     new JoystickButton(driverController, XboxController.Button.kX.value).onTrue(new ToggleFieldRelative());
     new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new RunIntake(intake));
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onFalse(new StopIntake(intake));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new RunIntake(intake).alongWith(new RunConveyor(storage)));
+    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onFalse(new StopIntake(intake).alongWith(new StopConveyor(storage)));
+    new JoystickButton(driverController, XboxController.Button.kB.value).onTrue(new GripAndHoldObject(arm, grabber));
+    new JoystickButton(driverController, XboxController.Button.kY.value).onTrue(new PlaceOn3rd(arm, grabber));
   }
 
   /**

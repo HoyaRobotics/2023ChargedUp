@@ -21,7 +21,7 @@ public class PlaceOn3rd extends SequentialCommandGroup {
       new MoveArmToPosition(arm, -21),
       new MoveExtensionToPosition(arm, 1.0),
       new WaitCommand(0.2),
-      new Release(),
+      new Release(grabber),
       new WaitCommand(0.2),
       new MoveExtensionToPosition(arm, 110),
       new MoveArmToPosition(arm, 0),

@@ -59,7 +59,7 @@ public class Arm extends SubsystemBase {
     
     extensionMotor.restoreFactoryDefaults();
     extensionMotor.setIdleMode(IdleMode.kCoast);
-    extensionMotor.setSmartCurrentLimit(20);
+    extensionMotor.setSmartCurrentLimit(30);
     extensionMotor.setInverted(false);
     extensionMotor.enableVoltageCompensation(10);
     extensionPID = extensionMotor.getPIDController();

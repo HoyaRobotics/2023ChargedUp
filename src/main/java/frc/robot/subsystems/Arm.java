@@ -43,9 +43,6 @@ public class Arm extends SubsystemBase {
     leftArmPID.setIZone(0.0);
     leftArmPID.setFF(0.0);
     leftArmPID.setOutputRange(-1, 1);
-    leftArmPID.setSmartMotionMaxVelocity(0.0, 0);
-    leftArmPID.setSmartMotionMaxAccel(0.0, 0);
-    leftArmPID.setSmartMotionAllowedClosedLoopError(0.0, 0);
 
     rightArmMotor.restoreFactoryDefaults();
     rightArmMotor.setIdleMode(IdleMode.kCoast);
@@ -59,9 +56,6 @@ public class Arm extends SubsystemBase {
     rightArmPID.setIZone(0.0);
     rightArmPID.setFF(0.0);
     rightArmPID.setOutputRange(-1, 1);
-    rightArmPID.setSmartMotionMaxVelocity(0.0, 0);
-    rightArmPID.setSmartMotionMaxAccel(0.0, 0);
-    rightArmPID.setSmartMotionAllowedClosedLoopError(0.0, 0);
     
     extensionMotor.restoreFactoryDefaults();
     extensionMotor.setIdleMode(IdleMode.kCoast);
@@ -75,9 +69,6 @@ public class Arm extends SubsystemBase {
     extensionPID.setIZone(0.0);
     extensionPID.setFF(0.0);
     extensionPID.setOutputRange(-1, 1);
-    extensionPID.setSmartMotionMaxVelocity(8000, 0);
-    extensionPID.setSmartMotionMaxAccel(100, 0);
-    extensionPID.setSmartMotionAllowedClosedLoopError(0.0, 0);
 
     setArmEncoder();
     setExtensionEncoder(0.0);
@@ -92,11 +83,6 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("ArmAngleRatio", getArmEncoder());
     SmartDashboard.putNumber("ArmAngle", getArmAngle());
     SmartDashboard.putNumber("ArmExtension", getExtensionPosition());
-  }
-
-  public void setArmAngleSmartMotion(double angle) {
-    leftArmPID.setReference(angle, CANSparkMax.ControlType.kSmartMotion, 0);
-    rightArmPID.setReference(angle, CANSparkMax.ControlType.kSmartMotion, 0);
   }
 
   public void setArmAnglePID(double angle) {
@@ -133,10 +119,6 @@ public class Arm extends SubsystemBase {
 
   public double getArmAngle() {
     return leftArmMotor.getEncoder().getPosition();
-  }
-
-  public void setExtensionSmartMotion(double extension) {
-    extensionPID.setReference(extension, CANSparkMax.ControlType.kSmartMotion, 0);
   }
 
   public void setExtensionPID(double extension) {

@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
 
 public class Intake extends SubsystemBase {
   CANSparkMax frontRoller;
@@ -53,13 +54,14 @@ public class Intake extends SubsystemBase {
     retractor.configMotionCruiseVelocity(0.0);
     setIntakeEncoder(0.0);
     intakeStop();
-    //setIntakeAnglePID(0.0);
+    setIntakeAnglePID(0.0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("IntakeEncoder", getIntakeEncoder());
+    SmartDashboard.putBoolean("IntakeDown", isIntakeDown());
   }
 
   public void intakeSpeed(double frontSpeed, double backSpeed) {
@@ -97,11 +99,15 @@ public class Intake extends SubsystemBase {
   }
 
   public double getIntakeEncoder() {
-    /*
-    if (retractor.getSelectedSensorPosition() == 0) {
-      Constants.IntakeConstants.INTAKE_LOWERED = true;
-    }
-    */
     return retractor.getSelectedSensorPosition();
+  }
+
+  public boolean isIntakeDown() {
+    if (retractor.getSelectedSensorPosition() >= -20000) {
+      GlobalVariables.INTAKE_LOWERED = false;
+    }else{
+      GlobalVariables.INTAKE_LOWERED = true;
+    }
+    return GlobalVariables.INTAKE_LOWERED;
   }
 }

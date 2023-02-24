@@ -33,6 +33,7 @@ import frc.robot.commands.StopConveyor;
 import frc.robot.commands.ToggleFieldRelative;
 import frc.robot.commands.ArmCommands.GripAndHoldObject;
 import frc.robot.commands.ArmCommands.PlaceOn3rd;
+import frc.robot.commands.ArmCommands.Release;
 import frc.robot.commands.Autos.AutoTest_01;
 import frc.robot.commands.IntakeCommands.StopIntake;
 import frc.robot.subsystems.Pigeon2Subsystem;
@@ -51,8 +52,6 @@ import frc.robot.subsystems.Intake;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  public static double maxSpeed = Constants.DRIVE_SPEED;
-  public static boolean fieldRelative = true;
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final Pigeon2Subsystem pigeon2Subsystem = new Pigeon2Subsystem();
@@ -68,6 +67,7 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverController = new XboxController(OperatorConstants.kDriverControllerPort);
+  private final XboxController operatorController = new XboxController(OperatorConstants.kOperatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -80,8 +80,8 @@ public class RobotContainer {
       () -> -driverController.getLeftX(),
       () -> -driverController.getLeftY(),
       () -> -driverController.getRightX(),
-      () -> fieldRelative,
-      () -> maxSpeed));
+      () -> GlobalVariables.fieldRelative,
+      () -> GlobalVariables.maxSpeed));
 
     // Configure the trigger bindings
     configureBindings();
@@ -105,8 +105,9 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
     new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new RunIntake(intake).alongWith(new RunConveyor(storage)));
     new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onFalse(new StopIntake(intake).alongWith(new StopConveyor(storage)));
-    new JoystickButton(driverController, XboxController.Button.kB.value).onTrue(new GripAndHoldObject(arm, grabber));
-    new JoystickButton(driverController, XboxController.Button.kY.value).onTrue(new PlaceOn3rd(arm, grabber));
+    new JoystickButton(operatorController, XboxController.Button.kX.value).onTrue(new GripAndHoldObject(arm, grabber));
+    new JoystickButton(operatorController, XboxController.Button.kA.value).onTrue(new PlaceOn3rd(arm, grabber));
+    new JoystickButton(operatorController, XboxController.Button.kB.value).onTrue(new Release(grabber));
   }
 
   /**

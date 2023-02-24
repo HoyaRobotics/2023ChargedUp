@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
+import frc.robot.GlobalVariables;
 
 public class ToggleFieldRelative extends CommandBase {
   /** Creates a new ToggleFieldRelative. */
@@ -16,7 +16,7 @@ public class ToggleFieldRelative extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.fieldRelative = !RobotContainer.fieldRelative;
+    GlobalVariables.fieldRelative = !GlobalVariables.fieldRelative;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

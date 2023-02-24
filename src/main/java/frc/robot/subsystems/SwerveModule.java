@@ -16,6 +16,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Timer;
 import frc.lib.CTREModuleState;
 import frc.lib.Conversions;
 import frc.lib.SwerveModuleConstants;
@@ -119,6 +120,7 @@ public void setDesiredStateAbs(SwerveModuleState desiredState, boolean isOpenLoo
 
     angleMotor.setInverted(Constants.ModuleConstants.angleMotorInvert);
     angleMotor.setNeutralMode(Constants.ModuleConstants.angleNeutralMode);
+    Timer.delay(0.5);
     resetToAbsolute();
   }
 

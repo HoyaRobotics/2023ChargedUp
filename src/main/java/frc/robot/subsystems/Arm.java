@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -62,8 +63,12 @@ public class Arm extends SubsystemBase {
     extensionMotor.setSmartCurrentLimit(30);
     extensionMotor.setInverted(false);
     extensionMotor.enableVoltageCompensation(10);
+    extensionMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    extensionMotor.setSoftLimit(SoftLimitDirection.kReverse, 7.0f);
+    extensionMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    extensionMotor.setSoftLimit(SoftLimitDirection.kForward, 110.0f);
     extensionPID = extensionMotor.getPIDController();
-    extensionPID.setP(0.09);
+    extensionPID.setP(0.06);
     extensionPID.setI(0.0);
     extensionPID.setD(0.0);
     extensionPID.setIZone(0.0);
@@ -165,5 +170,9 @@ public class Arm extends SubsystemBase {
 
   public void stopExtension() {
     extensionMotor.stopMotor();
+  }
+
+  public void setExtensionPIDValue(double pGain) {
+    extensionPID.setP(pGain);
   }
 }

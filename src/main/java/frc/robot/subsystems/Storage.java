@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
 
 public class Storage extends SubsystemBase {
   /** Creates a new Storage. */
@@ -49,8 +50,10 @@ public class Storage extends SubsystemBase {
   public void setSpeed(double bottom, double left, double right) {
     //bottomBelt.set(ControlMode.PercentOutput, bottom);
     bottomBelt.set(VictorSPXControlMode.PercentOutput, bottom);
-    leftBelt.set(left);
-    rightBelt.set(right);
+    if(GlobalVariables.INTAKE_LOWERED == true) {
+      leftBelt.set(left);
+      rightBelt.set(right);
+    }
   }
 
   public void stopConveyors() {

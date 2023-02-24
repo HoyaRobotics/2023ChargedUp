@@ -139,6 +139,7 @@ public static final class IntakeConstants {
   public static final int BACK_INTAKE_ROLLER = 23;
   public static final int INTAKE_RETRACTION = 24;
   public static final double rotationRatio = (32.0/14.0) * (56.0/16.0) * (50/8);
+  public static boolean INTAKE_LOWERED = false;
 }
 
 public static final class StorageConstants {

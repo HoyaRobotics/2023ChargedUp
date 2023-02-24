@@ -97,6 +97,11 @@ public class Intake extends SubsystemBase {
   }
 
   public double getIntakeEncoder() {
+    /*
+    if (retractor.getSelectedSensorPosition() == 0) {
+      Constants.IntakeConstants.INTAKE_LOWERED = true;
+    }
+    */
     return retractor.getSelectedSensorPosition();
   }
 }

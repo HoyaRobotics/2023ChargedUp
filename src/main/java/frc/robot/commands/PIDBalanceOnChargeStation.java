@@ -25,9 +25,9 @@ public class PIDBalanceOnChargeStation extends CommandBase {
     this.swerveSubsystem = swerveSubsystem;
     this.poseEstimator = poseEstimator;
 
-    pidController = new PIDController(0.03, 0, 0);
+    pidController = new PIDController(0.01, 0, 0);
    // pidController = new PIDController(-0.0125, 0, 0);
-    yaw = new PIDController(0.02, 0, 0);
+    yaw = new PIDController(0.08, 0, 0);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveSubsystem);
@@ -39,25 +39,28 @@ public class PIDBalanceOnChargeStation extends CommandBase {
     pidController.setSetpoint(0);
     pidController.setTolerance(3.5);
     yaw.setSetpoint(0);
-    yaw.setTolerance(2);
+    yaw.setTolerance(3);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    pidController.calculate(pigeon2Subsystem.getPigeonPitch());
-    yaw.calculate(pigeon2Subsystem.getPigeonYaw());
-    if(pidController.atSetpoint() && yaw.atSetpoint()){
-      swerveSubsystem.stop();
-      SmartDashboard.putBoolean("LEVEL?", true);
+    if(yaw.atSetpoint() == false) {
+      swerveSubsystem.drive(new ChassisSpeeds(0, 0, yaw.calculate(poseEstimator.getPoseTheta())));
+    }else{
+      swerveSubsystem.drive(new ChassisSpeeds(pidController.calculate(pigeon2Subsystem.getPigeonPitch()), 0, yaw.calculate(poseEstimator.getPoseTheta())));
+    }
+    
+    if (yaw.atSetpoint()) {
       SmartDashboard.putBoolean("ALIGNED?", true);
-    } else if (yaw.atSetpoint()) {
-      swerveSubsystem.drive(new ChassisSpeeds(-pidController.calculate(pigeon2Subsystem.getPigeonPitch()), 0, 0));
-      SmartDashboard.putBoolean("LEVEL?", false);
     } else {
-      swerveSubsystem.drive(new ChassisSpeeds(0, 0, yaw.calculate(pigeon2Subsystem.getPigeonYaw())));
       SmartDashboard.putBoolean("ALIGNED?", false);
-    } 
+    }
+    if (pidController.atSetpoint()) {
+      SmartDashboard.putBoolean("LEVEL?", true);
+    } else {
+      SmartDashboard.putBoolean("LEVEL?", false);
+    }
       }
 
   // Called once the command ends or is interrupted.

@@ -18,13 +18,13 @@ public class RunConveyor extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    storage.setSpeed(0.7, 0.5, 0.5);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    storage.setSpeed(0.7, 0.5, 0.5);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -33,6 +33,6 @@ public class RunConveyor extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

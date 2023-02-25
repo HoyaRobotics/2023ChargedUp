@@ -15,8 +15,8 @@ public class RunIntake extends CommandBase {
     @Override
     public void initialize() {
         SmartDashboard.putBoolean("RunIntake", true);
-        intake.setIntakeAnglePID(-34000);
-        intake.intakeSpeed(1, 1);
+        intake.setIntakeAnglePID(-30000);
+        intake.intakeSpeed(0.8, 0.8);
     }
 
     @Override

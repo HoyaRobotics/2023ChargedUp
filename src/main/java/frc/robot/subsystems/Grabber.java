@@ -17,7 +17,6 @@ public class Grabber extends SubsystemBase {
   /** Creates a new Grabber. */
   public Grabber() {
     phCompressor.enableDigital();
-    phCompressor.disable();
     //openGrabber();
   }
 

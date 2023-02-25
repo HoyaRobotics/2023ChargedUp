@@ -9,4 +9,5 @@ public class GlobalVariables {
     public static boolean INTAKE_LOWERED = false;
     public static double maxSpeed = Constants.DRIVE_SPEED;
     public static boolean fieldRelative = true;
+    public static int[] currentPosition = {1, 1};
 }

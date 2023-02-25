@@ -33,7 +33,7 @@ import frc.robot.commands.StopConveyor;
 import frc.robot.commands.ToggleFieldRelative;
 import frc.robot.commands.ArmCommands.GripAndHoldObject;
 import frc.robot.commands.ArmCommands.PlaceOn3rd;
-import frc.robot.commands.ArmCommands.Release;
+import frc.robot.commands.ArmCommands.ReleaseAndRetract;
 import frc.robot.commands.Autos.AutoTest_01;
 import frc.robot.commands.IntakeCommands.StopIntake;
 import frc.robot.subsystems.Pigeon2Subsystem;
@@ -107,7 +107,7 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onFalse(new StopIntake(intake).alongWith(new StopConveyor(storage)));
     new JoystickButton(operatorController, XboxController.Button.kX.value).onTrue(new GripAndHoldObject(arm, grabber));
     new JoystickButton(operatorController, XboxController.Button.kA.value).onTrue(new PlaceOn3rd(arm, grabber));
-    new JoystickButton(operatorController, XboxController.Button.kB.value).onTrue(new Release(grabber));
+    new JoystickButton(operatorController, XboxController.Button.kB.value).onTrue(new ReleaseAndRetract(grabber, arm));
   }
 
   /**

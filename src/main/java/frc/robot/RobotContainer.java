@@ -108,6 +108,7 @@ public class RobotContainer {
     new JoystickButton(operatorController, XboxController.Button.kX.value).onTrue(new GripAndHoldObject(arm, grabber));
     new JoystickButton(operatorController, XboxController.Button.kA.value).onTrue(new PlaceOn3rd(arm, grabber));
     new JoystickButton(operatorController, XboxController.Button.kB.value).onTrue(new ReleaseAndRetract(grabber, arm));
+    new JoystickButton(operatorController, 1);
   }
 
   /**

@@ -17,11 +17,11 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Place Cone"
+          "PlaceCone"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
-        "waitTime": 0
+        "waitTime": 3.0
       }
     },
     {
@@ -76,9 +76,15 @@
   ],
   "markers": [
     {
-      "position": 0.7999999999999549,
+      "position": 0.7127272727272813,
       "names": [
-        "Intake Deploy"
+        "RunIntake"
+      ]
+    },
+    {
+      "position": 1.5127272727272696,
+      "names": [
+        "StopIntake"
       ]
     }
   ]

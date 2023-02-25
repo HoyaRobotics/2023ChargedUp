@@ -123,8 +123,10 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     HashMap<String, Command> eventMap = new HashMap<>();
-    eventMap.put("RunIntake", new RunIntake(intake));
-    eventMap.put("StopIntake", new StopIntake(intake));
+    eventMap.put("PlaceCone", new PlaceOn3rd(arm, grabber));
+    eventMap.put("RunIntake", new RunIntake(intake).alongWith(new RunConveyor(storage)));
+    eventMap.put("StopIntake", new StopIntake(intake).alongWith(new StopConveyor(storage)));
+    eventMap.put("Level/Lock", new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
 
 
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(

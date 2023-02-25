@@ -86,7 +86,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    m_chooser.setDefaultOption("New Path", "New Path");
+    m_chooser.setDefaultOption("Auto_Test_01", "Auto_Test_01");
     SmartDashboard.putData(m_chooser);
   }
 

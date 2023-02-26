@@ -17,7 +17,7 @@ public class Grabber extends SubsystemBase {
   /** Creates a new Grabber. */
   public Grabber() {
     phCompressor.enableDigital();
-    //openGrabber();
+    openGrabber();
   }
 
   @Override
@@ -26,11 +26,11 @@ public class Grabber extends SubsystemBase {
   }
 
   public void openGrabber() {
-    grabberDoubleSolenoid.set(Value.kForward);
+    grabberDoubleSolenoid.set(Value.kReverse);
   }
 
   public void closeGrabber() {
-    grabberDoubleSolenoid.set(Value.kReverse);
+    grabberDoubleSolenoid.set(Value.kForward);
   }
 }
 ;

@@ -4,26 +4,28 @@
 
 package frc.robot.commands.ArmCommands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Grabber;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class GripAndHoldObject extends SequentialCommandGroup {
-  /** Creates a new GripAndHoldObject. */
-  public GripAndHoldObject(Arm arm, Grabber grabber) {
+public class PlaceOnPosition extends SequentialCommandGroup {
+  /** Creates a new PlaceOn3rd. */
+  public PlaceOnPosition(Arm arm, Grabber grabber, int level) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new Grip(grabber),
       new WaitCommand(0.5),
-      new InstantCommand(() -> arm.setExtensionPIDValue(0.06), arm),
+      //new InstantCommand(() -> arm.setExtensionPIDValue(0.06), arm),
       new MoveExtensionToPosition(arm, 110),
-      new MoveArmToPosition(arm, -2)
+      new MoveArmToPosition(arm, Constants.ARM_POSITIONS.get(level)),
+      //new InstantCommand(() -> arm.setExtensionPIDValue(0.02), arm),
+      new MoveExtensionToPosition(arm, Constants.EXTENSION_POSITIONS.get(level))
     );
   }
 }

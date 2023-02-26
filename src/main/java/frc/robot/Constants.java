@@ -4,8 +4,13 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
+import java.util.Collections;
+import java.util.List;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.pathplanner.lib.PathPoint;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -81,9 +86,9 @@ public static final double PERCISION_SPEED = 0.25;
     public static final double wheelCircumference = wheelDiameter * Math.PI;
     public static final double driveGearRatio = (((50.0/14.0)*(17.0/27.0)*(45.0/15.0)) / 1.0); //6.75:1
     public static final double angleGearRatio = (((32.0/15.0)*(60.0/10.0)) / 1.0); //12.8:1
-}
+  }
 
-public static final class SwerveConstants {
+  public static final class SwerveConstants {
     //public static final double TRACKWIDTH_METERS = Units.inchesToMeters(15.5); //replace
     public static final double TRACKWIDTH_METERS = Units.inchesToMeters(17.5);
     //public static final double WHEELBASE_METERS = Units.inchesToMeters(17.5); //replace
@@ -120,44 +125,69 @@ public static final class SwerveConstants {
     public static final int BACK_RIGHT_STEER_MOTOR = 11; // Back right steer motor ID
     public static final int BACK_RIGHT_STEER_ENCODER = 12; // Back right steer encoder ID
     public static final double BACK_RIGHT_STEER_OFFSET = 94.66-90; // Back right steer offset
-}
+  }
 
-public static final class AutoConstants {
+  public static final class AutoConstants {
     public static final double kPXController = 3.0; //1.5
     public static final double kPYController = 3.0; //1.5
     public static final double kPThetaController = 3.0;
-}
+  }
 
-public static final class BalanceConstants {
-  public static final double pitchMaxLimit = 0.5;
-  public static final double pitchMinLimit = -0.5;
-  public static final double rollMaxLimit = 0.5;
-  public static final double rollMinLimit = -0.5;
-}
+  public static final class BalanceConstants {
+    public static final double pitchMaxLimit = 0.5;
+    public static final double pitchMinLimit = -0.5;
+    public static final double rollMaxLimit = 0.5;
+    public static final double rollMinLimit = -0.5;
+  }
 
-public static final class IntakeConstants {
-  public static final int FRONT_INTAKE_ROLLER = 22;
-  public static final int BACK_INTAKE_ROLLER = 23;
-  public static final int INTAKE_RETRACTION = 24;
-  public static final double rotationRatio = (32.0/14.0) * (56.0/16.0) * (50/8);
-}
+  public static final class IntakeConstants {
+    public static final int FRONT_INTAKE_ROLLER = 22;
+    public static final int BACK_INTAKE_ROLLER = 23;
+    public static final int INTAKE_RETRACTION = 24;
+    public static final double rotationRatio = (32.0/14.0) * (56.0/16.0) * (50/8);
+  }
 
-public static final class StorageConstants {
-  public static final int BOTTOM_STORAGE_CONVEYOR = 25;
-  public static final int LEFT_STORAGE_CONVEYOR = 26;
-  public static final int RIGHT_STORAGE_CONVEYOR = 27;
-}
+  public static final class StorageConstants {
+    public static final int BOTTOM_STORAGE_CONVEYOR = 25;
+    public static final int LEFT_STORAGE_CONVEYOR = 26;
+    public static final int RIGHT_STORAGE_CONVEYOR = 27;
+  }
 
-public static final class ArmConstants {
-  public static final int LEFT_ARM_MOTOR = 28;
-  public static final int RIGHT_ARM_MOTOR = 29;
-  public static final int EXTENSION_MOTOR = 30;
-}
+  public static final class ArmConstants {
+    public static final int LEFT_ARM_MOTOR = 28;
+    public static final int RIGHT_ARM_MOTOR = 29;
+    public static final int EXTENSION_MOTOR = 30;
+  }
 
-public static final class GrabberConstants {
-  public static final int PNUMATICS_HUB = 4;
-  public static final int GRIPPER_CLOSE = 0;
-  public static final int GRIPPER_OPEN = 1;
-}
+  public static final class GrabberConstants {
+    public static final int PNUMATICS_HUB = 4;
+    public static final int GRIPPER_CLOSE = 0;
+    public static final int GRIPPER_OPEN = 1;
+  }
 
+  public static final List<Double> ARM_POSITIONS = Collections.unmodifiableList(List.of(
+    -16.0,
+    -22.0,
+    -27.0
+  ));
+
+  public static final List<Double> EXTENSION_POSITIONS = Collections.unmodifiableList(List.of(
+    40.0,
+    20.0,
+    7.0
+  ));
+
+  public static final List<PathPoint> PEG_POINTS = Collections.unmodifiableList(List.of(
+    new PathPoint(new Translation2d(1.89, 0.5), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+    new PathPoint(new Translation2d(1.89, 1.07), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+    new PathPoint(new Translation2d(1.89, 1.62), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+    new PathPoint(new Translation2d(1.89, 2.19), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+    new PathPoint(new Translation2d(1.89, 2.75), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+    new PathPoint(new Translation2d(1.89, 3.31), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+    new PathPoint(new Translation2d(1.89, 3.86), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+    new PathPoint(new Translation2d(1.89, 4.43), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+    new PathPoint(new Translation2d(1.89, 4.98), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
+  ));
+
+  public static enum GAME_OBJECT {Cone, Cube};
 }

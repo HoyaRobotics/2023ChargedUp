@@ -20,8 +20,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveWithJoysticks;
@@ -31,8 +33,7 @@ import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.SetPose;
 import frc.robot.commands.StopConveyor;
 import frc.robot.commands.ToggleFieldRelative;
-import frc.robot.commands.ArmCommands.GripAndHoldObject;
-import frc.robot.commands.ArmCommands.PlaceOn3rd;
+import frc.robot.commands.ArmCommands.Grip;import frc.robot.commands.ArmCommands.PlaceOnPosition;
 import frc.robot.commands.ArmCommands.ReleaseAndRetract;
 import frc.robot.commands.Autos.AutoTest_01;
 import frc.robot.commands.IntakeCommands.StopIntake;
@@ -105,9 +106,16 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
     new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new RunIntake(intake).alongWith(new RunConveyor(storage)));
     new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onFalse(new StopIntake(intake).alongWith(new StopConveyor(storage)));
-    new JoystickButton(operatorController, XboxController.Button.kX.value).onTrue(new GripAndHoldObject(arm, grabber));
-    new JoystickButton(operatorController, XboxController.Button.kA.value).onTrue(new PlaceOn3rd(arm, grabber));
+
+    new JoystickButton(operatorController, XboxController.Button.kX.value).onTrue(new Grip(grabber));
+    new JoystickButton(operatorController, XboxController.Button.kA.value).onTrue(new PlaceOnPosition(arm, grabber, 3));
     new JoystickButton(operatorController, XboxController.Button.kB.value).onTrue(new ReleaseAndRetract(grabber, arm));
+    
+    //new POVButton(operatorController, 0).onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition++, null));
+    //new POVButton(operatorController, 180).onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition--, null));
+    //new POVButton(operatorController, 90).onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition++, null));
+    //new POVButton(operatorController, 270).onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition--, null));
+    
   }
 
   /**
@@ -123,7 +131,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     HashMap<String, Command> eventMap = new HashMap<>();
-    eventMap.put("PlaceCone", new PlaceOn3rd(arm, grabber));
+    eventMap.put("PlaceConeOn3", new PlaceOnPosition(arm, grabber, 3));
     eventMap.put("RunIntake", new RunIntake(intake).alongWith(new RunConveyor(storage)));
     eventMap.put("StopIntake", new StopIntake(intake).alongWith(new StopConveyor(storage)));
     eventMap.put("Level/Lock", new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));

@@ -9,19 +9,16 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class PoseBalanceOnChargeStation extends CommandBase {
   private final PIDController x, y, yaw;
 
-  private final Pigeon2Subsystem pigeon2Subsystem;
   private final SwerveSubsystem swerveSubsystem;
   private final PoseEstimator poseEstimator;
   /** Creates a new PIDBalanceOnChargeStation. */
-  public  PoseBalanceOnChargeStation(Pigeon2Subsystem pigeon2Subsystem, SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator) {
-    this.pigeon2Subsystem = pigeon2Subsystem;
+  public  PoseBalanceOnChargeStation(SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator) {
     this.swerveSubsystem = swerveSubsystem;
     this.poseEstimator = poseEstimator;
 

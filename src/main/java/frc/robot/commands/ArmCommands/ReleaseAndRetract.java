@@ -4,7 +4,6 @@
 
 package frc.robot.commands.ArmCommands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Arm;
@@ -20,13 +19,13 @@ public class ReleaseAndRetract extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new Release(grabber),
-      new WaitCommand(0.2),
-      new InstantCommand(() -> arm.setExtensionPIDValue(0.06), arm),
+      new WaitCommand(0.5),
+      //new InstantCommand(() -> arm.setExtensionPIDValue(0.06), arm),
       new MoveExtensionToPosition(arm, 110),
       new MoveArmToPosition(arm, 0.0),
-      new InstantCommand(() -> arm.setExtensionPIDValue(0.02), arm),
-      new MoveExtensionToPosition(arm, 25.5),
-      new InstantCommand(() -> arm.setExtensionPIDValue(0.06), arm)
+      //new InstantCommand(() -> arm.setExtensionPIDValue(0.02), arm),
+      new MoveExtensionToPosition(arm, 25.5)
+      //new InstantCommand(() -> arm.setExtensionPIDValue(0.06), arm)
     );
   }
 }

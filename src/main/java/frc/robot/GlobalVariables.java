@@ -4,11 +4,15 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 /** Add your docs here. */
 public class GlobalVariables {
     public static boolean INTAKE_LOWERED = false;
     public static double maxSpeed = Constants.DRIVE_SPEED;
     public static boolean fieldRelative = true;
-    public static int upDownPosition = 1;
+    public static int upDownPosition = 2;
     public static int leftRightPosition = 1;
+
+    public static PathPlannerTrajectory trajectory;
 }

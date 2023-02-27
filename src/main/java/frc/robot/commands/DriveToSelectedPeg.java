@@ -23,7 +23,7 @@ public class DriveToSelectedPeg extends CommandBase {
   private boolean PathCreated = false;
   private Pose2d currentPose;
   private Pose2d endPose;
-  
+
   /** Creates a new DriveToClosestPeg. */
   public DriveToSelectedPeg(SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator) {
     this.swerveSubsystem = swerveSubsystem;
@@ -40,7 +40,6 @@ public class DriveToSelectedPeg extends CommandBase {
   public void execute() {
     currentPose = poseEstimator.getPose();
     if(currentPose.getX() <= 2.5 && currentPose.getY() <= 5) {
-      // find closest position
       endPose = Constants.PEG_POSE.get(GlobalVariables.leftRightPosition);
       GlobalVariables.trajectory = PathPlanner.generatePath(
         new PathConstraints(2, 2),

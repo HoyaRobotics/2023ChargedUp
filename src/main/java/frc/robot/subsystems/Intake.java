@@ -38,7 +38,7 @@ public class Intake extends SubsystemBase {
 
     this.retractor = new TalonFX(Constants.IntakeConstants.INTAKE_RETRACTION);
     retractor.configFactoryDefault();
-    retractor.setNeutralMode(NeutralMode.Brake);
+    retractor.setNeutralMode(NeutralMode.Coast);
     retractor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 30, 0.5));
     retractor.configVoltageCompSaturation(10);
     retractor.enableVoltageCompensation(true);

@@ -16,18 +16,18 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.PIDBalanceOnChargeStation;
+import frc.robot.commands.ReverseConveyor;
 import frc.robot.commands.RunConveyor;
+import frc.robot.commands.IntakeCommands.ReverseIntake;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.SetPose;
 import frc.robot.commands.StopConveyor;
@@ -67,8 +67,8 @@ public class RobotContainer {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final XboxController driverController = new XboxController(OperatorConstants.kDriverControllerPort);
-  private final XboxController operatorController = new XboxController(OperatorConstants.kOperatorControllerPort);
+  public static final CommandXboxController driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  public static final CommandXboxController operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -103,15 +103,16 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    new JoystickButton(driverController, XboxController.Button.kBack.value).onTrue(new SetPose(poseEstimator, new Pose2d(0.0, 0.0, new Rotation2d(0.0))));
-    new JoystickButton(driverController, XboxController.Button.kX.value).onTrue(new ToggleFieldRelative());
-    new JoystickButton(driverController, XboxController.Button.kA.value).whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new RunIntake(intake).alongWith(new RunConveyor(storage)));
-    new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onFalse(new StopIntake(intake).alongWith(new StopConveyor(storage)));
+    driverController.back().onTrue(new SetPose(poseEstimator, new Pose2d(0, 0, new Rotation2d(0))));
+    driverController.x().onTrue(new ToggleFieldRelative());
+    driverController.a().whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
+    driverController.rightBumper().onTrue(new RunIntake(intake).alongWith(new RunConveyor(storage)));
+    driverController.rightTrigger(0.5).onTrue(new ReverseIntake(intake).alongWith(new ReverseConveyor(storage)));
+    driverController.rightBumper().or(driverController.rightTrigger(0.5).onFalse(new StopIntake(intake).alongWith(new StopConveyor(storage))));
 
-    new JoystickButton(operatorController, XboxController.Button.kX.value).onTrue(new GripAndHold(grabber, arm));
-    new JoystickButton(operatorController, XboxController.Button.kA.value).onTrue(new PlaceOnPosition(arm, grabber, 3));
-    new JoystickButton(operatorController, XboxController.Button.kB.value).onTrue(new ReleaseAndRetract(grabber, arm));
+    operatorController.x().onTrue(new GripAndHold(grabber, arm));
+    operatorController.a().onTrue(new PlaceOnPosition(arm, grabber, 2));
+    operatorController.b().onTrue(new ReleaseAndRetract(grabber, arm));
     
     //new POVButton(operatorController, 0).onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition++, null));
     //new POVButton(operatorController, 180).onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition--, null));

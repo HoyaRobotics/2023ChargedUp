@@ -68,7 +68,7 @@ public class Arm extends SubsystemBase {
     extensionMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     extensionMotor.setSoftLimit(SoftLimitDirection.kForward, 110.0f);
     extensionPID = extensionMotor.getPIDController();
-    extensionPID.setP(0.06);
+    extensionPID.setP(0.08);
     extensionPID.setI(0.0);
     extensionPID.setD(0.0);
     extensionPID.setIZone(0.0);

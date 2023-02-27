@@ -22,7 +22,7 @@ public class ReleaseAndRetract extends SequentialCommandGroup {
       new WaitCommand(0.5),
       new MoveExtensionToPosition(arm, 110),
       new MoveArmToPosition(arm, 0.0),
-      new MoveExtensionToPosition(arm, 25.5)
+      new MoveExtensionToPosition(arm, 26)
     );
   }
 }

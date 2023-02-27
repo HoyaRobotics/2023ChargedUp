@@ -21,10 +21,8 @@ public class PlaceOnPosition extends SequentialCommandGroup {
     addCommands(
       new Grip(grabber),
       new WaitCommand(0.5),
-      //new InstantCommand(() -> arm.setExtensionPIDValue(0.06), arm),
       new MoveExtensionToPosition(arm, 110),
       new MoveArmToPosition(arm, Constants.ARM_POSITIONS.get(level)),
-      //new InstantCommand(() -> arm.setExtensionPIDValue(0.02), arm),
       new MoveExtensionToPosition(arm, Constants.EXTENSION_POSITIONS.get(level))
     );
   }

@@ -12,17 +12,16 @@ import frc.robot.subsystems.Grabber;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ReleaseAndRetract extends SequentialCommandGroup {
-  /** Creates a new ReleaseAndRetract. */
-  public ReleaseAndRetract(Grabber grabber, Arm arm) {
+public class GripAndHold extends SequentialCommandGroup {
+  /** Creates a new GripAndHold. */
+  public GripAndHold(Grabber grabber, Arm arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new Release(grabber),
+      new Grip(grabber),
       new WaitCommand(0.5),
       new MoveExtensionToPosition(arm, 110),
-      new MoveArmToPosition(arm, 0.0),
-      new MoveExtensionToPosition(arm, 25.5)
+      new MoveArmToPosition(arm, -2)
     );
   }
 }

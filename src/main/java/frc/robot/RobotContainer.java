@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveWithJoysticks;
@@ -33,7 +32,8 @@ import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.SetPose;
 import frc.robot.commands.StopConveyor;
 import frc.robot.commands.ToggleFieldRelative;
-import frc.robot.commands.ArmCommands.Grip;import frc.robot.commands.ArmCommands.PlaceOnPosition;
+import frc.robot.commands.ArmCommands.GripAndHold;
+import frc.robot.commands.ArmCommands.PlaceOnPosition;
 import frc.robot.commands.ArmCommands.ReleaseAndRetract;
 import frc.robot.commands.Autos.AutoTest_01;
 import frc.robot.commands.IntakeCommands.StopIntake;
@@ -84,6 +84,8 @@ public class RobotContainer {
       () -> GlobalVariables.fieldRelative,
       () -> GlobalVariables.maxSpeed));
 
+    storage.setDefaultCommand(new InstantCommand(() -> storage.setSpeed(0.1, 0, 0), storage));
+
     // Configure the trigger bindings
     configureBindings();
 
@@ -107,7 +109,7 @@ public class RobotContainer {
     new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onTrue(new RunIntake(intake).alongWith(new RunConveyor(storage)));
     new JoystickButton(driverController, XboxController.Button.kRightBumper.value).onFalse(new StopIntake(intake).alongWith(new StopConveyor(storage)));
 
-    new JoystickButton(operatorController, XboxController.Button.kX.value).onTrue(new Grip(grabber));
+    new JoystickButton(operatorController, XboxController.Button.kX.value).onTrue(new GripAndHold(grabber, arm));
     new JoystickButton(operatorController, XboxController.Button.kA.value).onTrue(new PlaceOnPosition(arm, grabber, 3));
     new JoystickButton(operatorController, XboxController.Button.kB.value).onTrue(new ReleaseAndRetract(grabber, arm));
     

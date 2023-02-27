@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveWithJoysticks;
@@ -113,10 +114,10 @@ public class RobotContainer {
     new JoystickButton(operatorController, XboxController.Button.kA.value).onTrue(new PlaceOnPosition(arm, grabber, 3));
     new JoystickButton(operatorController, XboxController.Button.kB.value).onTrue(new ReleaseAndRetract(grabber, arm));
     
-    //new POVButton(operatorController, 0).onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition++, null));
-    //new POVButton(operatorController, 180).onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition--, null));
-    //new POVButton(operatorController, 90).onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition++, null));
-    //new POVButton(operatorController, 270).onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition--, null));
+    new POVButton(operatorController, 0).onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition++, null));
+    new POVButton(operatorController, 180).onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition--, null));
+    new POVButton(operatorController, 90).onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition++, null));
+    new POVButton(operatorController, 270).onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition--, null));
     
   }
 

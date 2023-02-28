@@ -43,7 +43,7 @@ public class DriveToSelectedPeg extends CommandBase {
     if(currentPose.getX() <= 2.5 && currentPose.getY() <= 5) {
       endPose = Constants.PEG_POSE.get(GlobalVariables.leftRightPosition);
       gameObject = Constants.GAME_OPJECT_STRING.get(GlobalVariables.leftRightPosition);
-      if (gameObject.equals("Cone") && GlobalVariables.isCone == true) {
+      if ((gameObject.equals("Cone") && GlobalVariables.isCone == false) || (gameObject.equals("Cube") && GlobalVariables.isCone == true)) {
         return;
       }
       GlobalVariables.trajectory = PathPlanner.generatePath(

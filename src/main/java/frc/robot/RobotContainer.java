@@ -125,6 +125,7 @@ public class RobotContainer {
     operatorController.x().onTrue(new GripAndHold(grabber, arm));
     operatorController.a().onTrue(new PlaceOnPosition(arm, grabber, 2));
     operatorController.b().onTrue(new ReleaseAndRetract(grabber, arm, 2));
+    operatorController.y().onTrue(new InstantCommand(() -> GlobalVariables.isCone = !GlobalVariables.isCone));
     
     operatorController.povUp().onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition++));
     operatorController.povDown().onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition--));

@@ -23,6 +23,7 @@ public class DriveToSelectedPeg extends CommandBase {
   private boolean PathCreated = false;
   private Pose2d currentPose;
   private Pose2d endPose;
+  private String gameObject;
 
   /** Creates a new DriveToClosestPeg. */
   public DriveToSelectedPeg(SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator) {
@@ -41,6 +42,10 @@ public class DriveToSelectedPeg extends CommandBase {
     currentPose = poseEstimator.getPose();
     if(currentPose.getX() <= 2.5 && currentPose.getY() <= 5) {
       endPose = Constants.PEG_POSE.get(GlobalVariables.leftRightPosition);
+      gameObject = Constants.GAME_OPJECT_STRING.get(GlobalVariables.leftRightPosition);
+      if (gameObject.equals("Cone") && GlobalVariables.isCone == true) {
+        return;
+      }
       GlobalVariables.trajectory = PathPlanner.generatePath(
         new PathConstraints(2, 2),
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),

@@ -23,7 +23,7 @@ public class ReverseConveyor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    storage.setSpeed(-0.4, -0.3, -0.3);
+    storage.setSpeed(-0.7, -0.3, -0.3);
   }
 
   // Called once the command ends or is interrupted.

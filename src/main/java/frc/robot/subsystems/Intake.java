@@ -29,12 +29,16 @@ public class Intake extends SubsystemBase {
     frontRoller.setSmartCurrentLimit(20);
     frontRoller.setInverted(true);
     frontRoller.enableVoltageCompensation(10);
+    frontRoller.setOpenLoopRampRate(0.1);
+    frontRoller.setClosedLoopRampRate(0.1);
     this.backRoller = new CANSparkMax(Constants.IntakeConstants.BACK_INTAKE_ROLLER, MotorType.kBrushless);
     backRoller.restoreFactoryDefaults();
     backRoller.setIdleMode(IdleMode.kCoast);
     backRoller.setSmartCurrentLimit(20);
     backRoller.setInverted(true);
     backRoller.enableVoltageCompensation(10);
+    backRoller.setOpenLoopRampRate(0.1);
+    backRoller.setClosedLoopRampRate(0.1);
 
     this.retractor = new TalonFX(Constants.IntakeConstants.INTAKE_RETRACTION);
     retractor.configFactoryDefault();
@@ -42,6 +46,8 @@ public class Intake extends SubsystemBase {
     retractor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 20, 30, 0.5));
     retractor.configVoltageCompSaturation(10);
     retractor.enableVoltageCompensation(true);
+    retractor.configOpenloopRamp(0.1);
+    retractor.configClosedloopRamp(0.1);
     //retractor.configNominalOutputForward(0.0);
     //retractor.configNominalOutputReverse(0.0);
     //retractor.configPeakOutputForward(0.0);

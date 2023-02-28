@@ -13,6 +13,7 @@ public class GlobalVariables {
     public static boolean fieldRelative = true;
     public static int upDownPosition = 2;
     public static int leftRightPosition = 1;
+    public static boolean isCone = false;
 
     public static PathPlannerTrajectory trajectory;
 }

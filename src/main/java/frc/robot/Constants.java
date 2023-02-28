@@ -8,12 +8,13 @@ import java.util.Collections;
 import java.util.List;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.pathplanner.lib.PathPoint;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -160,7 +161,8 @@ public static final double PERCISION_SPEED = 0.25;
   }
 
   public static final class GrabberConstants {
-    public static final int PNUMATICS_HUB = 4;
+    public static final int PNUMATICS_MODULE_ID = 4;
+    public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.CTREPCM;
     public static final int GRIPPER_CLOSE = 0;
     public static final int GRIPPER_OPEN = 1;
   }
@@ -168,7 +170,7 @@ public static final double PERCISION_SPEED = 0.25;
   public static final List<Double> ARM_POSITIONS = Collections.unmodifiableList(List.of(
     -16.0,
     -22.0,
-    -27.0
+    -25.0 //Original -27.0
   ));
 
   public static final List<Double> EXTENSION_POSITIONS = Collections.unmodifiableList(List.of(
@@ -177,16 +179,16 @@ public static final double PERCISION_SPEED = 0.25;
     7.0
   ));
 
-  public static final List<PathPoint> PEG_POINTS = Collections.unmodifiableList(List.of(
-    new PathPoint(new Translation2d(1.89, 0.5), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
-    new PathPoint(new Translation2d(1.89, 1.07), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
-    new PathPoint(new Translation2d(1.89, 1.62), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
-    new PathPoint(new Translation2d(1.89, 2.19), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
-    new PathPoint(new Translation2d(1.89, 2.75), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
-    new PathPoint(new Translation2d(1.89, 3.31), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
-    new PathPoint(new Translation2d(1.89, 3.86), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
-    new PathPoint(new Translation2d(1.89, 4.43), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
-    new PathPoint(new Translation2d(1.89, 4.98), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
+  public static final List<Pose2d> PEG_POSE = Collections.unmodifiableList(List.of(
+    new Pose2d(new Translation2d(1.89, 0.5), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 1.07), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 1.62), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 2.19), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 2.75), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 3.31), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 3.86), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 4.43), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 4.98), Rotation2d.fromDegrees(0))
   ));
 
   public static enum GAME_OBJECT {Cone, Cube};

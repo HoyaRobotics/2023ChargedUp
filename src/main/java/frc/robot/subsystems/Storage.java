@@ -28,6 +28,7 @@ public class Storage extends SubsystemBase {
     bottomBelt.setInverted(false);
     bottomBelt.configVoltageCompSaturation(10);
     bottomBelt.enableVoltageCompensation(true);
+    bottomBelt.configOpenloopRamp(0.1);
     leftBelt.restoreFactoryDefaults();
     leftBelt.setIdleMode(IdleMode.kCoast);
     leftBelt.setSmartCurrentLimit(20);

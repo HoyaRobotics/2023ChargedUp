@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class RunIntake extends CommandBase {
+public class ReverseIntake extends CommandBase {
     public final Intake intake;
 
-    public RunIntake(Intake intake) {
+    public ReverseIntake(Intake intake) {
         this.intake = intake;
         addRequirements(intake);
     }
@@ -15,8 +15,8 @@ public class RunIntake extends CommandBase {
     @Override
     public void initialize() {
         SmartDashboard.putBoolean("RunIntake", true);
-        intake.setIntakeAnglePID(-31000);
-        intake.intakeSpeed(0.7, 0.7);//0.8 top 0.8 bottom
+        intake.setIntakeAnglePID(-30000);
+        intake.intakeSpeed(-0.8, -0.8);
     }
 
     @Override

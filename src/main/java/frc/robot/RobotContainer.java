@@ -36,6 +36,7 @@ import frc.robot.commands.ToggleFieldRelative;
 import frc.robot.commands.ArmCommands.GripAndHold;
 import frc.robot.commands.ArmCommands.PlaceOnPosition;
 import frc.robot.commands.ArmCommands.ReleaseAndRetract;
+import frc.robot.commands.AutoDriveCommands.DriveToClosestPeg;
 import frc.robot.commands.Autos.AutoTest_01;
 import frc.robot.commands.IntakeCommands.StopIntake;
 import frc.robot.subsystems.Pigeon2Subsystem;
@@ -110,14 +111,25 @@ public class RobotContainer {
     driverController.rightBumper().onFalse(new StopIntake(intake).andThen(new WaitCommand(1).andThen(new StopConveyor(storage))));
     driverController.rightTrigger(0.5).onFalse(new StopIntake(intake).alongWith(new StopConveyor(storage)));
 
+    driverController.b().onTrue(new DriveToClosestPeg(swerveSubsystem, poseEstimator, () -> -driverController.getLeftX(),
+    () -> -driverController.getLeftY(),
+    () -> -driverController.getRightX(),
+    () -> GlobalVariables.fieldRelative,
+    () -> GlobalVariables.maxSpeed))
+    .onFalse(new InstantCommand(() -> {
+      if(swerveSubsystem.getCurrentCommand() != null) {
+        swerveSubsystem.getCurrentCommand().cancel();
+      }
+    }));
+
     operatorController.x().onTrue(new GripAndHold(grabber, arm));
     operatorController.a().onTrue(new PlaceOnPosition(arm, grabber, 2));
-    operatorController.b().onTrue(new ReleaseAndRetract(grabber, arm));
+    operatorController.b().onTrue(new ReleaseAndRetract(grabber, arm, 2));
     
-    //new POVButton(operatorController, 0).onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition++, null));
-    //new POVButton(operatorController, 180).onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition--, null));
-    //new POVButton(operatorController, 90).onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition++, null));
-    //new POVButton(operatorController, 270).onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition--, null));
+    operatorController.povUp().onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition++));
+    operatorController.povDown().onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition--));
+    operatorController.povRight().onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition++));
+    operatorController.povLeft().onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition--));
     
   }
 

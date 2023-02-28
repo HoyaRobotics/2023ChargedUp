@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -160,7 +161,8 @@ public static final double PERCISION_SPEED = 0.25;
   }
 
   public static final class GrabberConstants {
-    public static final int PNUMATICS_HUB = 4;
+    public static final int PNUMATICS_MODULE_ID = 4;
+    public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.CTREPCM;
     public static final int GRIPPER_CLOSE = 0;
     public static final int GRIPPER_OPEN = 1;
   }

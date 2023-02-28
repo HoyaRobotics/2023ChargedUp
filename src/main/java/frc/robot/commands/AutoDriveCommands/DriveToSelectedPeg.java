@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
+import frc.robot.Constants.GAME_OBJECT;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -23,7 +24,7 @@ public class DriveToSelectedPeg extends CommandBase {
   private boolean PathCreated = false;
   private Pose2d currentPose;
   private Pose2d endPose;
-  private String gameObject;
+  private GAME_OBJECT gameObject;
 
   /** Creates a new DriveToClosestPeg. */
   public DriveToSelectedPeg(SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator) {
@@ -42,7 +43,7 @@ public class DriveToSelectedPeg extends CommandBase {
     currentPose = poseEstimator.getPose();
     if(currentPose.getX() <= 2.5 && currentPose.getY() <= 5) {
       endPose = Constants.PEG_POSE.get(GlobalVariables.leftRightPosition);
-      gameObject = Constants.GAME_OPJECT_STRING.get(GlobalVariables.leftRightPosition);
+      gameObject = Constants.GAME_OBJECT_STRING.get(GlobalVariables.leftRightPosition);
       if ((gameObject.equals("Cone") && GlobalVariables.isCone == false) || (gameObject.equals("Cube") && GlobalVariables.isCone == true)) {
         return;
       }

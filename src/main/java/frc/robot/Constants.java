@@ -7,7 +7,6 @@ package frc.robot;
 import java.util.Collections;
 import java.util.List;
 
-import com.ctre.phoenix.GadgeteerUartClient.GadgeteerConnection;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -192,7 +191,7 @@ public static final double PERCISION_SPEED = 0.25;
     new Pose2d(new Translation2d(1.89, 4.98), Rotation2d.fromDegrees(0))
   ));
 
-  public static final List<GAME_OBJECT> CONE_V_CUBE = Collections.unmodifiableList(List.of(
+  public static final List<GAME_OBJECT> GAME_OBJECT_STRING = Collections.unmodifiableList(List.of(
     GAME_OBJECT.Cone,
     GAME_OBJECT.Cube,
     GAME_OBJECT.Cone,

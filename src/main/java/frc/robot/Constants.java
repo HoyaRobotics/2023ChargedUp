@@ -191,15 +191,17 @@ public static final double PERCISION_SPEED = 0.25;
     new Pose2d(new Translation2d(1.89, 4.98), Rotation2d.fromDegrees(0))
   ));
 
-  public static final List<String> GAME_OPJECT_STRING  = Collections.unmodifiableList(List.of(
-    "Cone",
-    "Cube",
-    "Cone",
-    "Cone",
-    "Cube",
-    "Cone",
-    "Cone",
-    "Cube",
-    "Cone"
+  public static final List<GAME_OBJECT> GAME_OBJECT_STRING = Collections.unmodifiableList(List.of(
+    GAME_OBJECT.Cone,
+    GAME_OBJECT.Cube,
+    GAME_OBJECT.Cone,
+    GAME_OBJECT.Cone,
+    GAME_OBJECT.Cube,
+    GAME_OBJECT.Cone,
+    GAME_OBJECT.Cone,
+    GAME_OBJECT.Cube,
+    GAME_OBJECT.Cone
   ));
+
+  public static enum GAME_OBJECT {Cone, Cube};
 }

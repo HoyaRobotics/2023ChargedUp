@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
@@ -26,8 +25,10 @@ public class PIDBalanceOnChargeStation extends CommandBase {
     this.poseEstimator = poseEstimator;
 
     pidController = new PIDController(0.01, 0, 0);
-   // pidController = new PIDController(-0.0125, 0, 0);
     yaw = new PIDController(0.08, 0, 0);
+
+    pidController.reset();
+    yaw.reset();
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveSubsystem);
@@ -37,7 +38,7 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   @Override
   public void initialize() {
     pidController.setSetpoint(0);
-    pidController.setTolerance(8.0);
+    pidController.setTolerance(10.0);
     yaw.setSetpoint(0);
     yaw.setTolerance(3);
   }
@@ -55,7 +56,7 @@ public class PIDBalanceOnChargeStation extends CommandBase {
       }
     }
     
-    if (yaw.atSetpoint()) {
+    /*if (yaw.atSetpoint()) {
       SmartDashboard.putBoolean("ALIGNED?", true);
     } else {
       SmartDashboard.putBoolean("ALIGNED?", false);
@@ -64,13 +65,13 @@ public class PIDBalanceOnChargeStation extends CommandBase {
       SmartDashboard.putBoolean("LEVEL?", true);
     } else {
       SmartDashboard.putBoolean("LEVEL?", false);
-    }
-      }
+    }*/
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    swerveSubsystem.lock();
+    //swerveSubsystem.lock();
   }
 
   // Returns true when the command should end.

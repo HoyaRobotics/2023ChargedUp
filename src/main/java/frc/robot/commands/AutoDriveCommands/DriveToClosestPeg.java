@@ -65,18 +65,21 @@ public class DriveToClosestPeg extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    currentPose = poseEstimator.getPose();
-    if(currentPose.getX() <= 2.5 && currentPose.getY() <= 5) {
+    this.currentPose = this.poseEstimator.getPose();
+    if(this.currentPose.getX() <= 2.5 && this.currentPose.getY() <= 5) {
       // find closest position
+      String loopStatus = "inLoop: ";
       for(int i = 0; i < 9; i++) {
+        loopStatus+= Integer.toString(i);
         double yPosition = Constants.PEG_POSE.get(i).getY();
-        double tempDistance = Math.abs(currentPose.getY() - yPosition);
-        if(tempDistance < distance) {
-          distance = tempDistance;
-          position = i;
+        double tempDistance = Math.abs(this.currentPose.getY() - yPosition);
+        if(tempDistance < this.distance) {
+          this.distance = tempDistance;
+          this.position = i;
         }
       }
-      endPose = Constants.PEG_POSE.get(position);
+      System.out.println(loopStatus);
+      this.endPose = Constants.PEG_POSE.get(position);
       GlobalVariables.trajectory = PathPlanner.generatePath(
         new PathConstraints(2, 2),
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),

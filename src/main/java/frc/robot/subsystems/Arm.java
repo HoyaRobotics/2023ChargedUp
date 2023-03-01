@@ -90,7 +90,7 @@ public class Arm extends SubsystemBase {
     setArmEncoder();
     setExtensionEncoder(0.0);
     setArmAnglePID(0.5);
-    setExtensionPID(26.5); //was 26
+    setExtensionPID(26); //was 26
   }
 
   @Override

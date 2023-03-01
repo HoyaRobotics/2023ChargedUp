@@ -18,9 +18,11 @@ public class GripAndHold extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new MoveArmToPosition(arm, 0.5),
+      new MoveExtensionToPosition(arm, 26),
       new Grip(grabber),
-      new WaitCommand(0.5),
-      new MoveExtensionToPosition(arm, 100),
+      new WaitCommand(0.3),
+      new MoveExtensionToPosition(arm, 80),
       new MoveArmToPosition(arm, -2)
     );
   }

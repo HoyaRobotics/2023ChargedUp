@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -35,8 +36,11 @@ import frc.robot.commands.SetPose;
 import frc.robot.commands.ToggleFieldRelative;
 import frc.robot.commands.ArmCommands.DropConeAgain;
 import frc.robot.commands.ArmCommands.GripAndHold;
+import frc.robot.commands.ArmCommands.MoveArmToPosition;
 import frc.robot.commands.ArmCommands.PlaceOnPosition;
+import frc.robot.commands.ArmCommands.Release;
 import frc.robot.commands.ArmCommands.ReleaseAndRetract;
+import frc.robot.commands.ArmCommands.RetractArm;
 import frc.robot.commands.AutoDriveCommands.DriveToClosestPeg;
 import frc.robot.commands.Autos.AutoTest_01;
 import frc.robot.commands.IntakeCommands.StopIntake;
@@ -90,7 +94,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    m_chooser.setDefaultOption("Auto_Test_01", "Auto_Test_01");
+    m_chooser.setDefaultOption("Score3rdLevel", "Score3rdLevel");
     SmartDashboard.putData(m_chooser);
   }
 
@@ -107,6 +111,7 @@ public class RobotContainer {
     driverController.back().onTrue(new SetPose(poseEstimator, new Pose2d(0, 0, new Rotation2d(0))));
     driverController.x().onTrue(new ToggleFieldRelative());
     driverController.a().whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
+    
     driverController.rightBumper().onTrue(new RunIntake(intake).alongWith(new RunConveyor(storage)));
     driverController.rightTrigger(0.5).onTrue(new ReverseIntake(intake).alongWith(new ReverseConveyor(storage)));
     driverController.rightBumper().onFalse(new StopIntake(intake).andThen(new WaitCommand(1).andThen(new StopConveyor(storage))));
@@ -151,7 +156,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     HashMap<String, Command> eventMap = new HashMap<>();
-    eventMap.put("PlaceConeOn3", new PlaceOnPosition(arm, grabber, 3));
+    eventMap.put("PlaceConeOn3", new GripAndHold(grabber, arm).andThen(new PlaceOnPosition(arm, grabber, 2)).andThen(new WaitCommand(1)).andThen(new MoveArmToPosition(arm, Constants.ARM_POSITIONS.get(2)+5)).andThen(new Release(grabber)).andThen(new WaitCommand(0.3)));
+    eventMap.put("RetractArm", new RetractArm(grabber, arm));
     eventMap.put("RunIntake", new RunIntake(intake).alongWith(new RunConveyor(storage)));
     eventMap.put("StopIntake", new StopIntake(intake).alongWith(new StopConveyor(storage)));
     eventMap.put("Level/Lock", new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
@@ -169,10 +175,7 @@ public class RobotContainer {
     );
     // An example command will be run in autonomous
     List<PathPlannerTrajectory> trajectories;
-      trajectories = PathPlanner.loadPathGroup(
-        m_chooser.getSelected(),
-        new PathConstraints(2, 2),
-        new PathConstraints(2, 2));
+      trajectories = PathPlanner.loadPathGroup(m_chooser.getSelected(), 2, 2);
       return autoBuilder.fullAuto(trajectories);
     }
   }

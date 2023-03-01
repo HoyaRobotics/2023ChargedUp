@@ -54,6 +54,9 @@ public class Storage extends SubsystemBase {
     if(GlobalVariables.INTAKE_LOWERED == true) {
       leftBelt.set(left);
       rightBelt.set(right);
+    }else{
+      leftBelt.stopMotor();
+      rightBelt.stopMotor();
     }
   }
 

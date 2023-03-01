@@ -68,7 +68,7 @@ public class Arm extends SubsystemBase {
     extensionMotor.setInverted(false);
     extensionMotor.enableVoltageCompensation(10);
     extensionMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    extensionMotor.setSoftLimit(SoftLimitDirection.kReverse, 6.8f);
+    extensionMotor.setSoftLimit(SoftLimitDirection.kReverse, 3.0f);
     extensionMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     extensionMotor.setSoftLimit(SoftLimitDirection.kForward, 110.0f);
     extensionMotor.setOpenLoopRampRate(0.1);

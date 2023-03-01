@@ -176,7 +176,7 @@ public static final double PERCISION_SPEED = 0.25;
   public static final List<Double> EXTENSION_POSITIONS = Collections.unmodifiableList(List.of(
     40.0,
     20.0,
-    7.0
+    3.0
   ));
 
   public static final List<Pose2d> PEG_POSE = Collections.unmodifiableList(List.of(

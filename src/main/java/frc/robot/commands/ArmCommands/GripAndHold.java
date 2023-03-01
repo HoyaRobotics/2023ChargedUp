@@ -20,7 +20,7 @@ public class GripAndHold extends SequentialCommandGroup {
     addCommands(
       new Grip(grabber),
       new WaitCommand(0.5),
-      new MoveExtensionToPosition(arm, 110),
+      new MoveExtensionToPosition(arm, 100),
       new MoveArmToPosition(arm, -2)
     );
   }

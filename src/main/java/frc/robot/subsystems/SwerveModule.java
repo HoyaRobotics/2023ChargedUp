@@ -51,7 +51,8 @@ public class SwerveModule {
     driveMotor = new TalonFX(moduleConstants.driveMotorID, "canivore");
     configDriveMotor();
 
-    lastAngle = getState().angle.getDegrees();
+    lastAngle = getPosition().angle.getDegrees();
+    stop();
   }
 
 

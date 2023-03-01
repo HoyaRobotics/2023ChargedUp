@@ -35,10 +35,12 @@ public class Arm extends SubsystemBase {
     leftArmMotor.setSmartCurrentLimit(30);
     leftArmMotor.setInverted(false);
     leftArmMotor.enableVoltageCompensation(10);
-    leftArmMotor.setOpenLoopRampRate(0.1);
-    leftArmMotor.setClosedLoopRampRate(0.1);
-    //leftArmMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
-    //leftArmMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+    leftArmMotor.setOpenLoopRampRate(0.2);
+    leftArmMotor.setClosedLoopRampRate(0.2);
+    leftArmMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    leftArmMotor.setSoftLimit(SoftLimitDirection.kForward, 2);
+    leftArmMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    leftArmMotor.setSoftLimit(SoftLimitDirection.kReverse, -30);
     leftArmPID = leftArmMotor.getPIDController();
     leftArmPID.setP(0.03);
     leftArmPID.setI(0.0);
@@ -52,8 +54,12 @@ public class Arm extends SubsystemBase {
     rightArmMotor.setSmartCurrentLimit(30);
     rightArmMotor.setInverted(true);
     rightArmMotor.enableVoltageCompensation(10);
-    rightArmMotor.setOpenLoopRampRate(0.1);
-    rightArmMotor.setClosedLoopRampRate(0.1);
+    rightArmMotor.setOpenLoopRampRate(0.2);
+    rightArmMotor.setClosedLoopRampRate(0.2);
+    rightArmMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    rightArmMotor.setSoftLimit(SoftLimitDirection.kForward, 2);
+    rightArmMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    rightArmMotor.setSoftLimit(SoftLimitDirection.kReverse, -30);
     rightArmPID = rightArmMotor.getPIDController();
     rightArmPID.setP(0.03);
     rightArmPID.setI(0.0);
@@ -71,8 +77,8 @@ public class Arm extends SubsystemBase {
     extensionMotor.setSoftLimit(SoftLimitDirection.kReverse, 3.0f);
     extensionMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     extensionMotor.setSoftLimit(SoftLimitDirection.kForward, 110.0f);
-    extensionMotor.setOpenLoopRampRate(0.1);
-    extensionMotor.setClosedLoopRampRate(0.1);
+    extensionMotor.setOpenLoopRampRate(0.2);
+    extensionMotor.setClosedLoopRampRate(0.2);
     extensionPID = extensionMotor.getPIDController();
     extensionPID.setP(0.08);
     extensionPID.setI(0.0);
@@ -83,8 +89,8 @@ public class Arm extends SubsystemBase {
 
     setArmEncoder();
     setExtensionEncoder(0.0);
-    setArmAnglePID(0.0);
-    setExtensionPID(26);
+    setArmAnglePID(0.5);
+    setExtensionPID(26.5); //was 26
   }
 
   @Override

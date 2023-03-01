@@ -27,9 +27,13 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.PIDBalanceOnChargeStation;
 import frc.robot.commands.IntakeCommands.ReverseIntake;
+import frc.robot.commands.IntakeCommands.RunConveyor;
 import frc.robot.commands.IntakeCommands.RunIntake;
+import frc.robot.commands.IntakeCommands.StopConveyor;
+import frc.robot.commands.IntakeCommands.ReverseConveyor;
 import frc.robot.commands.SetPose;
 import frc.robot.commands.ToggleFieldRelative;
+import frc.robot.commands.ArmCommands.DropConeAgain;
 import frc.robot.commands.ArmCommands.GripAndHold;
 import frc.robot.commands.ArmCommands.PlaceOnPosition;
 import frc.robot.commands.ArmCommands.ReleaseAndRetract;
@@ -122,7 +126,10 @@ public class RobotContainer {
     operatorController.x().onTrue(new GripAndHold(grabber, arm));
     operatorController.a().onTrue(new PlaceOnPosition(arm, grabber, 2));
     operatorController.b().onTrue(new ReleaseAndRetract(grabber, arm, 2));
-    operatorController.y().onTrue(new InstantCommand(() -> GlobalVariables.isCone = !GlobalVariables.isCone));
+    operatorController.y().onTrue(new DropConeAgain(arm, grabber));
+    //operatorController.y().onTrue(new InstantCommand(() -> GlobalVariables.isCone = !GlobalVariables.isCone));
+    operatorController.rightTrigger(0.5).onTrue(new RunConveyor(storage)).onFalse(new StopConveyor(storage));
+    operatorController.leftTrigger(0.5).onTrue(new ReverseConveyor(storage)).onFalse(new StopConveyor(storage));
     
     operatorController.povUp().onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition++));
     operatorController.povDown().onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition--));

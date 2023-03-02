@@ -22,9 +22,9 @@ public class ReleaseAndRetract extends SequentialCommandGroup {
       new MoveArmToPosition(arm, Constants.ARM_POSITIONS.get(level)+5), //was +2
       new Release(grabber),
       new WaitCommand(0.5),
-      new MoveExtensionToPosition(arm, 80),
+      new MoveExtensionToPosition(arm, 100),
       new MoveArmToPosition(arm, 0.5),
-      new MoveExtensionToPosition(arm, 26)
+      new MoveExtensionToPosition(arm, 25.5)
     );
   }
 }

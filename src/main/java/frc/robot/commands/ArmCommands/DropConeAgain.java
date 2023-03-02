@@ -18,11 +18,12 @@ public class DropConeAgain extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new MoveExtensionToPosition(arm, 80),
+      new MoveExtensionToPosition(arm, 100),
       new MoveArmToPosition(arm, 0.5),
+      new MoveExtensionToPosition(arm, 80),
       new Release(grabber),
       new WaitCommand(0.2),
-      new MoveExtensionToPosition(arm, 26)
+      new MoveExtensionToPosition(arm, 25.5)
     );
   }
 }

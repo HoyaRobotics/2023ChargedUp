@@ -8,7 +8,6 @@ package frc.robot;
 import java.util.HashMap;
 import java.util.List;
 
-import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.PIDConstants;
@@ -20,7 +19,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -117,7 +115,7 @@ public class RobotContainer {
     driverController.rightBumper().onFalse(new StopIntake(intake).andThen(new WaitCommand(1).andThen(new StopConveyor(storage))));
     driverController.rightTrigger(0.5).onFalse(new StopIntake(intake).alongWith(new StopConveyor(storage)));
 
-    driverController.b().onTrue(new DriveToClosestPeg(swerveSubsystem, poseEstimator, () -> -driverController.getLeftX(),
+    driverController.b().onTrue(  new DriveToClosestPeg(swerveSubsystem, poseEstimator, () -> -driverController.getLeftX(),
     () -> -driverController.getLeftY(),
     () -> -driverController.getRightX(),
     () -> GlobalVariables.fieldRelative,
@@ -129,8 +127,8 @@ public class RobotContainer {
     }));
 
     operatorController.x().onTrue(new GripAndHold(grabber, arm));
-    operatorController.a().onTrue(new PlaceOnPosition(arm, grabber, 2));
-    operatorController.b().onTrue(new ReleaseAndRetract(grabber, arm, 2));
+    operatorController.a().onTrue(new PlaceOnPosition(arm, grabber, (GlobalVariables.upDownPosition%3+1)-1));
+    operatorController.b().onTrue(new ReleaseAndRetract(grabber, arm, (GlobalVariables.upDownPosition%3+1)-1));
     operatorController.y().onTrue(new DropConeAgain(arm, grabber));
     //operatorController.y().onTrue(new InstantCommand(() -> GlobalVariables.isCone = !GlobalVariables.isCone));
     operatorController.rightTrigger(0.5).onTrue(new RunConveyor(storage)).onFalse(new StopConveyor(storage));

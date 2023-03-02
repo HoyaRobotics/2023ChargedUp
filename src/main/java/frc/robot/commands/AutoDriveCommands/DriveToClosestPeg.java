@@ -31,7 +31,7 @@ public class DriveToClosestPeg extends CommandBase {
   private Pose2d currentPose;
   private Pose2d endPose;
   private int position;
-  private double distance = 100;
+  private double distance;
 
   private final DoubleSupplier translationX;
   private final DoubleSupplier translationY;
@@ -44,6 +44,7 @@ public class DriveToClosestPeg extends CommandBase {
   public DriveToClosestPeg(SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator, DoubleSupplier translationX, 
   DoubleSupplier translationY, DoubleSupplier rotation, BooleanSupplier relative, 
   DoubleSupplier maxSpeed) {
+    this.distance = 100;
     this.swerveSubsystem = swerveSubsystem;
     this.poseEstimator = poseEstimator;
     this.translationX = translationX;
@@ -68,20 +69,23 @@ public class DriveToClosestPeg extends CommandBase {
     this.currentPose = this.poseEstimator.getPose();
     if(this.currentPose.getX() <= 2.5 && this.currentPose.getY() <= 5) {
       // find closest position
-      String loopStatus = "inLoop: ";
+      String loopStatus = "\n\ninLoop: ";
       for(int i = 0; i < 9; i++) {
         loopStatus+= Integer.toString(i);
         double yPosition = Constants.PEG_POSE.get(i).getY();
         double tempDistance = Math.abs(this.currentPose.getY() - yPosition);
+        System.out.println("\n" + Integer.toString(i) + " i is tempdistance: " + tempDistance);
         if(tempDistance < this.distance) {
           this.distance = tempDistance;
           this.position = i;
         }
       }
+      System.out.println(distance);
+      System.out.println(position);
       System.out.println(loopStatus);
       this.endPose = Constants.PEG_POSE.get(position);
       GlobalVariables.trajectory = PathPlanner.generatePath(
-        new PathConstraints(2, 2),
+        new PathConstraints(2, 1),
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
         new PathPoint(new Translation2d(endPose.getX()+0.25, endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
         new PathPoint(new Translation2d(endPose.getX(), endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)));
@@ -107,7 +111,9 @@ public class DriveToClosestPeg extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    this.distance = 100;
+  }
 
   // Returns true when the command should end.
   @Override

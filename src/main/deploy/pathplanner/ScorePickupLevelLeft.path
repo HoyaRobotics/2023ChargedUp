@@ -1,0 +1,124 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 1.89,
+        "y": 4.98
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.8900000000000006,
+        "y": 4.98
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "PlaceOn3"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.821016935589957,
+        "y": 4.5916502334197995
+      },
+      "prevControl": {
+        "x": 6.132346061498867,
+        "y": 4.588816196900906
+      },
+      "nextControl": {
+        "x": 6.132346061498867,
+        "y": 4.588816196900906
+      },
+      "holonomicAngle": 0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 5.6,
+        "y": 2.7
+      },
+      "prevControl": {
+        "x": 6.233359060167202,
+        "y": 2.7
+      },
+      "nextControl": {
+        "x": 4.966640939832797,
+        "y": 2.7
+      },
+      "holonomicAngle": 0.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 3.8951821099053046,
+        "y": 2.7
+      },
+      "prevControl": {
+        "x": 4.2750977776037,
+        "y": 2.7
+      },
+      "nextControl": null,
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "Level/Lock"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "markers": [
+    {
+      "position": 0.7,
+      "names": [
+        "RunIntake",
+        "RunConveyor"
+      ]
+    },
+    {
+      "position": 1.4727272727272727,
+      "names": [
+        "StopIntake",
+        "StopConveyor"
+      ]
+    },
+    {
+      "position": 0.08727272727270982,
+      "names": [
+        "RetractArm"
+      ]
+    }
+  ]
+}

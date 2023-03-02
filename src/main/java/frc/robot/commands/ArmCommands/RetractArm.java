@@ -5,6 +5,7 @@
 package frc.robot.commands.ArmCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Grabber;
 
@@ -19,8 +20,8 @@ public class RetractArm extends SequentialCommandGroup {
     addCommands(
       new Release(grabber),
       new MoveExtensionToPosition(arm, 100),
-      new MoveArmToPosition(arm, 0.5),
-      new MoveExtensionToPosition(arm, 25.5)
+      new MoveArmToPosition(arm, Constants.pickupArmPosition),
+      new MoveExtensionToPosition(arm, Constants.pickupExtensionPosition)
     );
   }
 }

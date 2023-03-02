@@ -204,4 +204,7 @@ public static final double PERCISION_SPEED = 0.25;
   ));
 
   public static enum GAME_OBJECT {Cone, Cube};
+
+  public static final double pickupExtensionPosition = 25.5;
+  public static final double pickupArmPosition = 0.5;
 }

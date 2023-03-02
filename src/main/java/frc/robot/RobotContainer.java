@@ -92,7 +92,16 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    m_chooser.setDefaultOption("Score3rdLevel", "Score3rdLevel");
+    m_chooser.setDefaultOption("Nothing", "Nothing");
+    m_chooser.addOption("Score", "Score");
+    m_chooser.addOption("Level Right", "LevelRight");
+    m_chooser.addOption("Score Level Left", "ScoreLevelLeft");
+    m_chooser.addOption("Score Level Middle", "ScoreLevelMiddle");
+    m_chooser.addOption("Score Level Right", "ScoreLevelRight");
+    m_chooser.addOption("Score Pickup Level Left", "ScorePickupLevelLeft");
+    m_chooser.addOption("Score Pickup Level Right", "ScorePickupLevelRight");
+    m_chooser.addOption("Two Left", "TwoLeft");
+    m_chooser.addOption("Two Right", "TwoRight");
     SmartDashboard.putData(m_chooser);
   }
 
@@ -154,10 +163,12 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     HashMap<String, Command> eventMap = new HashMap<>();
-    eventMap.put("PlaceConeOn3", new GripAndHold(grabber, arm).andThen(new PlaceOnPosition(arm, grabber, 2)).andThen(new WaitCommand(1)).andThen(new MoveArmToPosition(arm, Constants.ARM_POSITIONS.get(2)+5)).andThen(new Release(grabber)).andThen(new WaitCommand(0.3)));
+    eventMap.put("PlaceOn3", new GripAndHold(grabber, arm).andThen(new PlaceOnPosition(arm, grabber, 2)).andThen(new WaitCommand(1)).andThen(new MoveArmToPosition(arm, Constants.ARM_POSITIONS.get(2)+5)).andThen(new Release(grabber)).andThen(new WaitCommand(0.3)));
     eventMap.put("RetractArm", new RetractArm(grabber, arm));
-    eventMap.put("RunIntake", new RunIntake(intake).alongWith(new RunConveyor(storage)));
-    eventMap.put("StopIntake", new StopIntake(intake).alongWith(new StopConveyor(storage)));
+    eventMap.put("RunIntake", new RunIntake(intake));
+    eventMap.put("RunConveyor", new RunConveyor(storage));
+    eventMap.put("StopIntake", new StopIntake(intake));
+    eventMap.put("StopConveyor", new StopConveyor(storage));
     eventMap.put("Level/Lock", new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
 
 
@@ -173,7 +184,11 @@ public class RobotContainer {
     );
     // An example command will be run in autonomous
     List<PathPlannerTrajectory> trajectories;
+    if(m_chooser.getSelected() == "Nothing") {
+      return null;
+    }else{
       trajectories = PathPlanner.loadPathGroup(m_chooser.getSelected(), 2, 2);
       return autoBuilder.fullAuto(trajectories);
+    }
     }
   }

@@ -6,6 +6,7 @@ package frc.robot.commands.ArmCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Grabber;
 
@@ -18,8 +19,8 @@ public class GripAndHold extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new MoveArmToPosition(arm, 0.5),
-      new MoveExtensionToPosition(arm, 25.5),
+      new MoveArmToPosition(arm, Constants.pickupArmPosition),
+      new MoveExtensionToPosition(arm, Constants.pickupExtensionPosition),
       new Grip(grabber),
       new WaitCommand(0.35),
       new MoveExtensionToPosition(arm, 75),

@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.0,
-        "y": 3.0
+        "x": 1.966303407547149,
+        "y": 3.31
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0,
-        "y": 3.0
+        "x": 1.978072524613539,
+        "y": 3.087410116407375
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -16,30 +16,32 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
+        "names": [
+          "PlaceOn3"
+        ],
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
     },
     {
       "anchorPoint": {
-        "x": 3.0,
-        "y": 5.0
+        "x": 2.18,
+        "y": 2.7
       },
       "prevControl": {
-        "x": 3.0,
-        "y": 4.0
+        "x": 1.9398069088780978,
+        "y": 2.7
       },
       "nextControl": {
-        "x": 3.0,
-        "y": 4.0
+        "x": 2.813359060167207,
+        "y": 2.7
       },
-      "holonomicAngle": 0,
-      "isReversal": true,
+      "holonomicAngle": 0.0,
+      "isReversal": false,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
@@ -49,12 +51,12 @@
     },
     {
       "anchorPoint": {
-        "x": 5.0,
-        "y": 3.0
+        "x": 3.8951821099053046,
+        "y": 2.7
       },
       "prevControl": {
-        "x": 4.0,
-        "y": 3.0
+        "x": 3.4932251132148027,
+        "y": 2.7
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -63,12 +65,21 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
+        "names": [
+          "Level/Lock"
+        ],
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.16727272727275294,
+      "names": [
+        "RetractArm"
+      ]
+    }
+  ]
 }

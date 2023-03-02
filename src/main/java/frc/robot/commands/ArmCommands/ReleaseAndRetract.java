@@ -23,8 +23,8 @@ public class ReleaseAndRetract extends SequentialCommandGroup {
       new Release(grabber),
       new WaitCommand(0.5),
       new MoveExtensionToPosition(arm, 100),
-      new MoveArmToPosition(arm, 0.5),
-      new MoveExtensionToPosition(arm, 25.5)
+      new MoveArmToPosition(arm, Constants.pickupArmPosition),
+      new MoveExtensionToPosition(arm, Constants.pickupExtensionPosition)
     );
   }
 }

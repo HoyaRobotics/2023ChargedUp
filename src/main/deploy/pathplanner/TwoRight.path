@@ -3,12 +3,12 @@
     {
       "anchorPoint": {
         "x": 1.89,
-        "y": 4.98
+        "y": 0.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8900000000000006,
-        "y": 4.98
+        "x": 2.8899999999999997,
+        "y": 0.5
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "PlaceConeOn3"
+          "PlaceOn3"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -26,19 +26,19 @@
     },
     {
       "anchorPoint": {
-        "x": 5.419607020598289,
-        "y": 4.48164194657745
+        "x": 6.812456940646142,
+        "y": 0.9204147352015687
       },
       "prevControl": {
-        "x": 4.8189240086347205,
-        "y": 4.8184735420710405
+        "x": 5.812456940646142,
+        "y": 0.9204147352015687
       },
       "nextControl": {
-        "x": 6.369645610849093,
-        "y": 3.948910026810643
+        "x": 5.812456940646142,
+        "y": 0.9204147352015687
       },
       "holonomicAngle": 0,
-      "isReversal": false,
+      "isReversal": true,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
@@ -51,37 +51,12 @@
     },
     {
       "anchorPoint": {
-        "x": 5.6,
-        "y": 2.7
+        "x": 1.89,
+        "y": 1.07
       },
       "prevControl": {
-        "x": 6.233359060167202,
-        "y": 2.7
-      },
-      "nextControl": {
-        "x": 4.966640939832797,
-        "y": 2.7
-      },
-      "holonomicAngle": 0.0,
-      "isReversal": false,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": true,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 3.8951821099053046,
-        "y": 2.7
-      },
-      "prevControl": {
-        "x": 4.2750977776037,
-        "y": 2.7
+        "x": 2.9901244586720264,
+        "y": 1.0699999999999998
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -91,7 +66,8 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Level/Lock"
+          "PlaceOn3",
+          "RetractArm"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -104,9 +80,28 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 0.05,
+      "position": 0.08727272727274299,
       "names": [
         "RetractArm"
+      ]
+    },
+    {
+      "position": 0.6545454545454555,
+      "names": [
+        "RunIntake",
+        "RunConveyor"
+      ]
+    },
+    {
+      "position": 1.1636363636363594,
+      "names": [
+        "StopIntake"
+      ]
+    },
+    {
+      "position": 1.643636363636421,
+      "names": [
+        "StopConveyor"
       ]
     }
   ]

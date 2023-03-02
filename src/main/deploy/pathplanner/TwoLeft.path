@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.9097798879358443,
-        "y": 4.921661467254559
+        "x": 1.89,
+        "y": 4.98
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9097798879358434,
-        "y": 4.921661467254559
+        "x": 2.8899999999999997,
+        "y": 4.98
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -17,25 +17,25 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "PlaceCone"
+          "PlaceOn3"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
-        "waitTime": 3.0
+        "waitTime": 0
       }
     },
     {
       "anchorPoint": {
-        "x": 6.831441355190402,
-        "y": 4.5905055912675925
+        "x": 6.8305828735762475,
+        "y": 4.605999140399236
       },
       "prevControl": {
-        "x": 5.301272824767873,
-        "y": 4.601924759405074
+        "x": 5.8305828735762475,
+        "y": 4.605999140399236
       },
       "nextControl": {
-        "x": 5.301272824767873,
-        "y": 4.601924759405074
+        "x": 5.8305828735762475,
+        "y": 4.605999140399236
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -51,24 +51,25 @@
     },
     {
       "anchorPoint": {
-        "x": 3.9081343119951195,
-        "y": 2.6606661760332067
+        "x": 1.89,
+        "y": 4.43
       },
       "prevControl": {
-        "x": 7.779232310601373,
-        "y": 2.0782886010216464
+        "x": 4.644137731434483,
+        "y": 4.605470602444619
       },
       "nextControl": null,
-      "holonomicAngle": 0.0,
+      "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Level/Lock"
+          "PlaceOn3",
+          "RetractArm"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -76,15 +77,28 @@
   ],
   "markers": [
     {
-      "position": 0.7127272727272813,
+      "position": 0.6690909090908854,
       "names": [
-        "RunIntake"
+        "RunIntake",
+        "RunConveyor"
       ]
     },
     {
-      "position": 1.5127272727272696,
+      "position": 1.1345454545454805,
       "names": [
         "StopIntake"
+      ]
+    },
+    {
+      "position": 1.7890909090909628,
+      "names": [
+        "StopConveyor"
+      ]
+    },
+    {
+      "position": 0.05818181818182316,
+      "names": [
+        "RetractArm"
       ]
     }
   ]

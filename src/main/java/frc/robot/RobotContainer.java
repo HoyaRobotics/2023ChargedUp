@@ -40,7 +40,6 @@ import frc.robot.commands.ArmCommands.Release;
 import frc.robot.commands.ArmCommands.ReleaseAndRetract;
 import frc.robot.commands.ArmCommands.RetractArm;
 import frc.robot.commands.AutoDriveCommands.DriveToClosestPeg;
-import frc.robot.commands.Autos.AutoTest_01;
 import frc.robot.commands.IntakeCommands.StopIntake;
 import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
@@ -66,8 +65,6 @@ public class RobotContainer {
   private final Storage storage = new Storage();
   private final Arm arm = new Arm();
   private final Grabber grabber = new Grabber();
-
-  private final AutoTest_01 autoTest_01 = new AutoTest_01();
 
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 

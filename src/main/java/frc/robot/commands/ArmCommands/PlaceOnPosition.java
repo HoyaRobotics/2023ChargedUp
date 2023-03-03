@@ -4,6 +4,8 @@
 
 package frc.robot.commands.ArmCommands;
 
+import java.util.function.IntSupplier;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
@@ -14,15 +16,15 @@ import frc.robot.subsystems.Grabber;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PlaceOnPosition extends SequentialCommandGroup {
   /** Creates a new PlaceOn3rd. */
-  public PlaceOnPosition(Arm arm, Grabber grabber, int level) {
+  public PlaceOnPosition(Arm arm, Grabber grabber, IntSupplier level) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new Grip(grabber),
       //new WaitCommand(0.5),
-      new MoveExtensionToPosition(arm, 100),
-      new MoveArmToPosition(arm, Constants.ARM_POSITIONS.get(level)),
-      new MoveExtensionToPosition(arm, Constants.EXTENSION_POSITIONS.get(level))
+      new MoveExtensionToPosition(arm, () -> 100),
+      new MoveArmToPosition(arm, () -> Constants.ARM_POSITIONS.get(level.getAsInt())),
+      new MoveExtensionToPosition(arm, () -> Constants.EXTENSION_POSITIONS.get(level.getAsInt()))
     );
   }
 }

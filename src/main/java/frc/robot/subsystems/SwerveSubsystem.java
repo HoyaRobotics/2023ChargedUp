@@ -18,9 +18,12 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.lib.SwerveModuleConstants;
+import frc.robot.GlobalVariables;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
 
@@ -32,6 +35,13 @@ public class SwerveSubsystem extends SubsystemBase {
 
   /** Creates a new SwerveSubsystem. */
   public SwerveSubsystem() {
+    if(DriverStation.getAlliance() == Alliance.Red){
+      System.out.println("Swerve Module: We are Red");
+      GlobalVariables.isBlue = false;
+    }else{
+      System.out.println("Swerve Module: We are Blue");
+      GlobalVariables.isBlue = true;
+    }
     swerveModules = new SwerveModule[] {
       new SwerveModule(0, new SwerveModuleConstants(
       SwerveConstants.FRONT_LEFT_DRIVE_MOTOR, 

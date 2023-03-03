@@ -22,7 +22,7 @@ public class PlaceOnSelectedPosition extends SequentialCommandGroup {
     addCommands(
       new Grip(grabber),
       new WaitCommand(0.5),
-      new MoveExtensionToPosition(arm, 110),
+      new MoveExtensionToPosition(arm, () -> 110),
       new MoveArmToPeg(arm),
       new MoveExtensionToPeg(arm)
     );

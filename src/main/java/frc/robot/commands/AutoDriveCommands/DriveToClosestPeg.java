@@ -21,12 +21,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.subsystems.CANdleSubsystem;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class DriveToClosestPeg extends CommandBase {
   private final SwerveSubsystem swerveSubsystem;
   private final PoseEstimator poseEstimator;
+  private final CANdleSubsystem candleSubsystem;
   private boolean PathCreated = false;
   private Pose2d currentPose;
   private Pose2d endPose;
@@ -41,12 +43,13 @@ public class DriveToClosestPeg extends CommandBase {
 
   private final SlewRateLimiter xLimiter, yLimiter, turnLimiter;
   /** Creates a new DriveToClosestPeg. */
-  public DriveToClosestPeg(SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator, DoubleSupplier translationX, 
+  public DriveToClosestPeg(SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator, CANdleSubsystem candleSubsystem, DoubleSupplier translationX, 
   DoubleSupplier translationY, DoubleSupplier rotation, BooleanSupplier relative, 
   DoubleSupplier maxSpeed) {
     this.distance = 100;
     this.swerveSubsystem = swerveSubsystem;
     this.poseEstimator = poseEstimator;
+    this.candleSubsystem = candleSubsystem;
     this.translationX = translationX;
     this.translationY = translationY;
     this.rotation = rotation;
@@ -90,6 +93,7 @@ public class DriveToClosestPeg extends CommandBase {
         new PathPoint(new Translation2d(endPose.getX()+0.25, endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
         new PathPoint(new Translation2d(endPose.getX(), endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)));
       poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
+      candleSubsystem.setLED(0, 255, 0, 0, 7);
       swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();
       PathCreated = true;
     }else{

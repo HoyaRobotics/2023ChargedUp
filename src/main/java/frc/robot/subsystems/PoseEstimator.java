@@ -32,7 +32,7 @@ public class PoseEstimator extends SubsystemBase {
   private final Pigeon2Subsystem pigeon2Subsystem;
   
   static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  static NetworkTableEntry latency = table.getEntry("tl");
+  static NetworkTableEntry hasTarget = table.getEntry("tv");
   static NetworkTableEntry valueOfPoses = table.getEntry("botpose");
 
   // Kalman Filter Configuration. These can be "tuned-to-taste" based on how much you trust your various sensors. 
@@ -65,12 +65,14 @@ public class PoseEstimator extends SubsystemBase {
     
     // Update pose estimator with visible targets
     // latest pipeline result
-    double[] temp = {0.0,0.0,0.0,0.0,0.0,0.0};//Defult getEntry
+    double[] temp = {0.0,0.0,0.0,0.0,0.0,0.0,0.0};//Defult getEntry
     double[] result = valueOfPoses.getDoubleArray(temp);
-    double timestamp = Timer.getFPGATimestamp() - ((latency.getDouble(0.0) + 11.0) / 1000.0);
-    if(result.length == 6) {
+    double targetInView = hasTarget.getDouble(0.0);
+    if(result.length == 7 && targetInView == 1) {
       SmartDashboard.putBoolean("Camera Has Target", true);
-      Translation3d translation3d = new Translation3d(result[0]+Units.feetToMeters(27.0), result[1]+Units.feetToMeters(13.5), result[2]);
+      double timestamp = Timer.getFPGATimestamp() - (result[6] / 1000.0);
+      Translation3d translation3d = new Translation3d(result[0]+Units.feetToMeters(27), result[1]+Units.feetToMeters(13.5), result[2]);
+      //Translation3d translation3d = new Translation3d(result[0], result[1], result[2]);
       SmartDashboard.putString("translation", translation3d.toString());
       Rotation3d rotation3d = new Rotation3d(Units.degreesToRadians(result[3]), Units.degreesToRadians(result[4]), Units.degreesToRadians(result[5]));
       SmartDashboard.putString("rotation", rotation3d.toString());

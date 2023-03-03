@@ -4,6 +4,8 @@
 
 package frc.robot.commands.ArmCommands;
 
+import java.util.function.IntSupplier;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -15,16 +17,16 @@ import frc.robot.subsystems.Grabber;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ReleaseAndRetract extends SequentialCommandGroup {
   /** Creates a new ReleaseAndRetract. */
-  public ReleaseAndRetract(Grabber grabber, Arm arm, int level) {
+  public ReleaseAndRetract(Grabber grabber, Arm arm, IntSupplier level) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new MoveArmToPosition(arm, Constants.ARM_POSITIONS.get(level)+5), //was +2
+      new MoveArmToPosition(arm, () -> Constants.RELEASE_POSITIONS.get(level.getAsInt())), //was +2
       new Release(grabber),
       new WaitCommand(0.5),
-      new MoveExtensionToPosition(arm, 100),
-      new MoveArmToPosition(arm, Constants.pickupArmPosition),
-      new MoveExtensionToPosition(arm, Constants.pickupExtensionPosition)
+      new MoveExtensionToPosition(arm, () -> 100),
+      new MoveArmToPosition(arm, () -> Constants.pickupArmPosition),
+      new MoveExtensionToPosition(arm, () -> Constants.pickupExtensionPosition)
     );
   }
 }

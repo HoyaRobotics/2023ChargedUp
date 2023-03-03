@@ -14,8 +14,8 @@ public class DriveAndScore extends SequentialCommandGroup {
         AddCommands(
             new DriveToSelectedPeg(swerveSubsystem, poseEstimator),
             swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory),
-            new PlaceOnPosition(arm, grabber, GlobalVariables.upDownPosition%3+1),
-            new ReleaseAndRetract(grabber, arm, GlobalVariables.upDownPosition%3+1)
+            new PlaceOnPosition(arm, grabber, () -> GlobalVariables.upDownPosition),
+            new ReleaseAndRetract(grabber, arm, () -> GlobalVariables.upDownPosition)
         );
     }
 

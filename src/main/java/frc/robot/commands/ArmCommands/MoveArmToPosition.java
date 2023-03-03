@@ -4,14 +4,16 @@
 
 package frc.robot.commands.ArmCommands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
 public class MoveArmToPosition extends CommandBase {
   private final Arm arm;
-  private double angle;
+  private DoubleSupplier angle;
   /** Creates a new MoveArmToPosition. */
-  public MoveArmToPosition(Arm arm, double angle) {
+  public MoveArmToPosition(Arm arm, DoubleSupplier angle) {
     this.arm = arm;
     this.angle = angle;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -21,7 +23,7 @@ public class MoveArmToPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.setArmAnglePID(angle);
+    arm.setArmAnglePID(angle.getAsDouble());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,7 +37,7 @@ public class MoveArmToPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(arm.isArmInPosition(angle)) {
+    if(arm.isArmInPosition(angle.getAsDouble())) {
       return true;
     }else{
       return false;

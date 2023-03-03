@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
 
 public class Arm extends SubsystemBase {
   private CANSparkMax leftArmMotor = new CANSparkMax(Constants.ArmConstants.LEFT_ARM_MOTOR, MotorType.kBrushless);
@@ -186,5 +187,34 @@ public class Arm extends SubsystemBase {
 
   public void setExtensionPIDValue(double pGain) {
     extensionPID.setP(pGain);
+  }
+
+  public void moveGridTarget(boolean goUp){
+    if(goUp){
+      GlobalVariables.upDownPosition = (GlobalVariables.upDownPosition++)%3;
+    }else{
+      GlobalVariables.upDownPosition = (GlobalVariables.upDownPosition--)%3;
+
+    }
+
+    //prevent error from being out of range
+    if(GlobalVariables.upDownPosition < 0){
+      GlobalVariables.upDownPosition = 2;
+    }else if(GlobalVariables.upDownPosition > 2){
+      GlobalVariables.upDownPosition = 0;
+    }
+    SmartDashboard.putNumber("Up Down Peg", (GlobalVariables.upDownPosition));
+  }
+
+  public void moveGridTargetIf(boolean goUp){
+    if(goUp && GlobalVariables.upDownPosition < 2){
+      GlobalVariables.upDownPosition++;
+    }else if(goUp && GlobalVariables.upDownPosition == 2){
+      GlobalVariables.upDownPosition = 0;
+    }else if(!goUp && GlobalVariables.upDownPosition > 0){
+      GlobalVariables.upDownPosition--;
+    }else if(!goUp && GlobalVariables.upDownPosition == 0){
+      GlobalVariables.upDownPosition = 2;
+    }
   }
 }

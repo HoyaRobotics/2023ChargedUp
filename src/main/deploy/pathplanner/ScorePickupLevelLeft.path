@@ -104,7 +104,7 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 0.7,
+      "position": 0.5,
       "names": [
         "RunIntake",
         "RunConveyor"

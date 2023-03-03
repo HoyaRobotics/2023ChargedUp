@@ -22,7 +22,7 @@ public class MoveArmToPeg extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pegPosition = GlobalVariables.upDownPosition%3+1;
+    pegPosition = GlobalVariables.upDownPosition;
     arm.setArmAnglePID(Constants.ARM_POSITIONS.get(pegPosition));
   }
 

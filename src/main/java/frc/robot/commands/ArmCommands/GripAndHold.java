@@ -19,12 +19,12 @@ public class GripAndHold extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new MoveArmToPosition(arm, Constants.pickupArmPosition),
-      new MoveExtensionToPosition(arm, Constants.pickupExtensionPosition),
+      new MoveArmToPosition(arm, () -> Constants.pickupArmPosition),
+      new MoveExtensionToPosition(arm, () -> Constants.pickupExtensionPosition),
       new Grip(grabber),
       new WaitCommand(0.35),
-      new MoveExtensionToPosition(arm, 75),
-      new MoveArmToPosition(arm, -2)
+      new MoveExtensionToPosition(arm, () -> 75),
+      new MoveArmToPosition(arm, () -> -2)
     );
   }
 }

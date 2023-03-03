@@ -22,7 +22,7 @@ public class MoveExtensionToPeg extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pegPosition = GlobalVariables.upDownPosition%3+1;
+    pegPosition = GlobalVariables.upDownPosition;
     arm.setExtensionPID(Constants.EXTENSION_POSITIONS.get(pegPosition));
   }
 

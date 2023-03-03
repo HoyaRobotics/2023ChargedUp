@@ -168,15 +168,21 @@ public static final double PERCISION_SPEED = 0.25;
   }
 
   public static final List<Double> ARM_POSITIONS = Collections.unmodifiableList(List.of(
-    -16.0,
-    -22.0,
+    -7.0,
+    -20.0,
     -25.0 //Original -27.0
   ));
 
   public static final List<Double> EXTENSION_POSITIONS = Collections.unmodifiableList(List.of(
-    40.0,
-    20.0,
+    50.0,
+    75.5,
     3.0
+  ));
+
+  public static final List<Double> RELEASE_POSITIONS = Collections.unmodifiableList(List.of(
+    -7.0,
+    -18.0,
+    -20.0
   ));
 
   public static final List<Pose2d> PEG_POSE = Collections.unmodifiableList(List.of(

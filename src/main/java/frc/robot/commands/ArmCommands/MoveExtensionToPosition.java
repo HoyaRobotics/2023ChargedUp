@@ -4,14 +4,16 @@
 
 package frc.robot.commands.ArmCommands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
 public class MoveExtensionToPosition extends CommandBase {
   private final Arm arm;
-  private double extension;
+  private DoubleSupplier extension;
   /** Creates a new MoveExtensionToPosition. */
-  public MoveExtensionToPosition(Arm arm, double extension) {
+  public MoveExtensionToPosition(Arm arm, DoubleSupplier extension) {
     this.arm = arm;
     this.extension = extension;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -21,7 +23,7 @@ public class MoveExtensionToPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.setExtensionPID(extension);
+    arm.setExtensionPID(extension.getAsDouble());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,7 +37,7 @@ public class MoveExtensionToPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(arm.isExtensionInPosition(extension)) {
+    if(arm.isExtensionInPosition(extension.getAsDouble())) {
       return true;
     }else{
       return false;

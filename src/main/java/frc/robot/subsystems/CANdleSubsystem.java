@@ -11,10 +11,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.GlobalVariables;
 
 public class CANdleSubsystem extends SubsystemBase {
 
-  private final CANdle candle = new CANdle(Constants.CANDLE_ID, "canivore");
+  private final CANdle candle = new CANdle(Constants.CANDLE_ID);
 
   /** Creates a new CANdleSubsystem. */
   public CANdleSubsystem() {
@@ -23,7 +24,7 @@ public class CANdleSubsystem extends SubsystemBase {
     candle.configV5Enabled(true);
     candle.configVBatOutput(VBatOutputMode.Off);
     candle.configBrightnessScalar(1);
-    setDefult();
+    setGamePiece();
   }
   
   @Override
@@ -37,11 +38,21 @@ public class CANdleSubsystem extends SubsystemBase {
     candle.setLEDs(r, g, b, 0, start, count);
   }
 
-  public void setDefult() {
+  public void setAlliance() {
     if(DriverStation.getAlliance() == Alliance.Blue) {
       candle.setLEDs(0, 0, 255, 0, 0, 8);
     }else{
       candle.setLEDs(255, 0, 0, 0, 0, 8);
+    }
+  }
+
+  public void setGamePiece() {
+    if(GlobalVariables.isCone == true) {
+      //yellow
+      candle.setLEDs(255, 255, 0, 0, 0, 8);
+    }else{
+      //purple
+      candle.setLEDs(148, 0, 211, 0, 0, 8);
     }
   }
 }

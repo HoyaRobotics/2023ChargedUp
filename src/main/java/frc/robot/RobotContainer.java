@@ -46,6 +46,7 @@ import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.CANdleSubsystem;
 import frc.robot.subsystems.Grabber;
 import frc.robot.subsystems.Intake;
 
@@ -65,6 +66,7 @@ public class RobotContainer {
   private final Storage storage = new Storage();
   private final Arm arm = new Arm();
   private final Grabber grabber = new Grabber();
+  private final CANdleSubsystem candleSubsystem = new CANdleSubsystem();
 
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
@@ -115,13 +117,14 @@ public class RobotContainer {
     driverController.back().onTrue(new SetPose(poseEstimator, new Pose2d(0, 0, new Rotation2d(0))));
     driverController.x().onTrue(new ToggleFieldRelative());
     driverController.a().whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
+    //driverController.y().whileTrue(new PoseBalanceOnChargeStation(swerveSubsystem, poseEstimator));
     
     driverController.rightBumper().onTrue(new RunIntake(intake).alongWith(new RunConveyor(storage)));
     driverController.rightTrigger(0.5).onTrue(new ReverseIntake(intake).alongWith(new ReverseConveyor(storage)));
     driverController.rightBumper().onFalse(new StopIntake(intake).andThen(new WaitCommand(1).andThen(new StopConveyor(storage))));
     driverController.rightTrigger(0.5).onFalse(new StopIntake(intake).alongWith(new StopConveyor(storage)));
 
-    driverController.b().onTrue(  new DriveToClosestPeg(swerveSubsystem, poseEstimator, () -> -driverController.getLeftX(),
+    driverController.b().onTrue(  new DriveToClosestPeg(swerveSubsystem, poseEstimator, candleSubsystem, () -> -driverController.getLeftX(),
     () -> -driverController.getLeftY(),
     () -> -driverController.getRightX(),
     () -> GlobalVariables.fieldRelative,
@@ -129,19 +132,21 @@ public class RobotContainer {
     .onFalse(new InstantCommand(() -> {
       if(swerveSubsystem.getCurrentCommand() != null) {
         swerveSubsystem.getCurrentCommand().cancel();
+        candleSubsystem.setGamePiece();
       }
     }));
 
     operatorController.x().onTrue(new GripAndHold(grabber, arm));
-    operatorController.a().onTrue(new PlaceOnPosition(arm, grabber, (GlobalVariables.upDownPosition%3+1)-1));
-    operatorController.b().onTrue(new ReleaseAndRetract(grabber, arm, (GlobalVariables.upDownPosition%3+1)-1));
+    operatorController.a().onTrue(new PlaceOnPosition(arm, grabber, () -> (GlobalVariables.upDownPosition)));
+    operatorController.b().onTrue(new ReleaseAndRetract(grabber, arm, () -> (GlobalVariables.upDownPosition)));
     operatorController.y().onTrue(new DropConeAgain(arm, grabber));
-    //operatorController.y().onTrue(new InstantCommand(() -> GlobalVariables.isCone = !GlobalVariables.isCone));
+    operatorController.leftBumper().onTrue(new InstantCommand(() -> GlobalVariables.isCone = !GlobalVariables.isCone).alongWith(new InstantCommand(() -> candleSubsystem.setGamePiece())));
     operatorController.rightTrigger(0.5).onTrue(new RunConveyor(storage)).onFalse(new StopConveyor(storage));
     operatorController.leftTrigger(0.5).onTrue(new ReverseConveyor(storage)).onFalse(new StopConveyor(storage));
     
-    operatorController.povUp().onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition++));
-    operatorController.povDown().onTrue(new InstantCommand(() -> GlobalVariables.upDownPosition--));
+    operatorController.povUp().onTrue(new InstantCommand(() -> arm.moveGridTargetIf(true)));
+//    operatorController.povUp().onTrue(new InstantCommand(() ->  GlobalVariables.upDownPosition = GlobalVariables.upDownPosition++)%3);
+    operatorController.povDown().onTrue(new InstantCommand(() -> arm.moveGridTargetIf(false)));
     operatorController.povRight().onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition++));
     operatorController.povLeft().onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition--));
     
@@ -160,7 +165,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     HashMap<String, Command> eventMap = new HashMap<>();
-    eventMap.put("PlaceOn3", new GripAndHold(grabber, arm).andThen(new PlaceOnPosition(arm, grabber, 2)).andThen(new WaitCommand(1)).andThen(new MoveArmToPosition(arm, Constants.ARM_POSITIONS.get(2)+5)).andThen(new Release(grabber)).andThen(new WaitCommand(0.3)));
+    eventMap.put("PlaceOn3", new GripAndHold(grabber, arm).andThen(new PlaceOnPosition(arm, grabber, ()-> 2)).andThen(new MoveArmToPosition(arm, () -> Constants.ARM_POSITIONS.get(2)+5)).andThen(new Release(grabber)).andThen(new WaitCommand(0.3)));
     eventMap.put("RetractArm", new RetractArm(grabber, arm));
     eventMap.put("RunIntake", new RunIntake(intake));
     eventMap.put("RunConveyor", new RunConveyor(storage));

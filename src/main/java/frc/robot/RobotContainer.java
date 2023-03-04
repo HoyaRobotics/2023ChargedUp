@@ -189,7 +189,7 @@ public class RobotContainer {
     if(m_chooser.getSelected() == "Nothing") {
       return null;
     }else{
-      trajectories = PathPlanner.loadPathGroup(m_chooser.getSelected(), 2, 2);
+      trajectories = PathPlanner.loadPathGroup(m_chooser.getSelected(), 3, 2.5);
       return autoBuilder.fullAuto(trajectories);
     }
     }

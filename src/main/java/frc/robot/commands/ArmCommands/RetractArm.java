@@ -19,7 +19,7 @@ public class RetractArm extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new Release(grabber),
-      new MoveExtensionToPosition(arm, () -> 100),
+      new MoveExtensionToPosition(arm, () -> Constants.placeExtensionPosition),
       new MoveArmToPosition(arm, () -> Constants.pickupArmPosition),
       new MoveExtensionToPosition(arm, () -> Constants.pickupExtensionPosition)
     );

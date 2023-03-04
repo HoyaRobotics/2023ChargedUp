@@ -24,7 +24,7 @@ public class ReleaseAndRetract extends SequentialCommandGroup {
       new MoveArmToPosition(arm, () -> Constants.RELEASE_POSITIONS.get(level.getAsInt())), //was +2
       new Release(grabber),
       new WaitCommand(0.5),
-      new MoveExtensionToPosition(arm, () -> 100),
+      new MoveExtensionToPosition(arm, () -> Constants.placeExtensionPosition),
       new MoveArmToPosition(arm, () -> Constants.pickupArmPosition),
       new MoveExtensionToPosition(arm, () -> Constants.pickupExtensionPosition)
     );

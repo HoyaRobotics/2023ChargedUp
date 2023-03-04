@@ -213,4 +213,7 @@ public static final double PERCISION_SPEED = 0.25;
 
   public static final double pickupExtensionPosition = 25.5;
   public static final double pickupArmPosition = 0.5;
+  public static final double holdExtensionPosition = 80;
+  public static final double holdArmPosition = -2;
+  public static final double placeExtensionPosition  = 100;
 }

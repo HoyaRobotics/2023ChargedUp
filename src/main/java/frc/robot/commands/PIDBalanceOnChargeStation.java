@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
@@ -48,24 +49,21 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   public void execute() {
     if(yaw.atSetpoint() == false) {
       swerveSubsystem.drive(new ChassisSpeeds(0, 0, yaw.calculate(poseEstimator.getPoseTheta())));
+      System.out.println("Not Oriented");
     }else{
+      System.out.println("Oriented");
       if(pidController.atSetpoint() == false) {
+        System.out.println("Not Level");
         swerveSubsystem.drive(new ChassisSpeeds(pidController.calculate(pigeon2Subsystem.getPigeonPitch()), 0, yaw.calculate(poseEstimator.getPoseTheta())));
       } else {
+        System.out.println("Level");
         swerveSubsystem.lock();
       }
     }
-    
-    /*if (yaw.atSetpoint()) {
-      SmartDashboard.putBoolean("ALIGNED?", true);
-    } else {
-      SmartDashboard.putBoolean("ALIGNED?", false);
-    }
-    if (pidController.atSetpoint()) {
-      SmartDashboard.putBoolean("LEVEL?", true);
-    } else {
-      SmartDashboard.putBoolean("LEVEL?", false);
-    }*/
+    SmartDashboard.putBoolean("Yaw Boolean", yaw.atSetpoint());
+    SmartDashboard.putBoolean("Level Boolean", pidController.atSetpoint());
+    SmartDashboard.putNumber("Yaw Error", yaw.getPositionError());
+    SmartDashboard.putNumber("Level Error", pidController.getPositionError());
   }
 
   // Called once the command ends or is interrupted.

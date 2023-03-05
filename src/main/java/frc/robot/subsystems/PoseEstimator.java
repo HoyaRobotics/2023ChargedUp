@@ -31,9 +31,9 @@ public class PoseEstimator extends SubsystemBase {
   private final SwerveSubsystem swerveSubsystem;
   private final Pigeon2Subsystem pigeon2Subsystem;
   
-  static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  static NetworkTableEntry hasTarget = table.getEntry("tv");
-  static NetworkTableEntry valueOfPoses = table.getEntry("botpose");
+  //static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  //static NetworkTableEntry hasTarget = table.getEntry("tv");
+  //static NetworkTableEntry valueOfPoses = table.getEntry("botpose");
 
   // Kalman Filter Configuration. These can be "tuned-to-taste" based on how much you trust your various sensors. 
   // Smaller numbers will cause the filter to "trust" the estimate from that particular component more than the others. 
@@ -65,7 +65,7 @@ public class PoseEstimator extends SubsystemBase {
     
     // Update pose estimator with visible targets
     // latest pipeline result
-    double[] temp = {0.0,0.0,0.0,0.0,0.0,0.0,0.0};//Defult getEntry
+    /*double[] temp = {0.0,0.0,0.0,0.0,0.0,0.0,0.0};//Defult getEntry
     double[] result = valueOfPoses.getDoubleArray(temp);
     double targetInView = hasTarget.getDouble(0.0);
     if(result.length == 7 && targetInView == 1) {
@@ -80,7 +80,7 @@ public class PoseEstimator extends SubsystemBase {
       //poseEstimator.addVisionMeasurement(pose3d.toPose2d(), timestamp);
     }else{
       SmartDashboard.putBoolean("Camera Has Target", false);
-    }
+    }*/
 
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), pigeon2Subsystem.getGyroRotation(), swerveSubsystem.getPositions());
     field2d.setRobotPose(poseEstimator.getEstimatedPosition());

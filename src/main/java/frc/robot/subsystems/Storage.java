@@ -49,15 +49,16 @@ public class Storage extends SubsystemBase {
   }
 
   public void setSpeed(double bottom, double left, double right) {
-    //bottomBelt.set(ControlMode.PercentOutput, bottom);
     bottomBelt.set(VictorSPXControlMode.PercentOutput, bottom);
-    if(GlobalVariables.INTAKE_LOWERED == true) {
+    /*if(GlobalVariables.INTAKE_LOWERED == true) {
       leftBelt.set(left);
       rightBelt.set(right);
     }else{
       leftBelt.stopMotor();
       rightBelt.stopMotor();
-    }
+    }*/
+    leftBelt.set(left);
+    rightBelt.set(right);
   }
 
   public void stopConveyors() {

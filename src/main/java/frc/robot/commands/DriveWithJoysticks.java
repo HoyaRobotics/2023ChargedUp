@@ -65,19 +65,19 @@ public class DriveWithJoysticks extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(relative.getAsBoolean() && GlobalVariables.isBlue){
+    if(relative.getAsBoolean()){
       swerveSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(
       modifyAxis(translationY.getAsDouble(), maxSpeed.getAsDouble(), yLimiter) * SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND,
       modifyAxis(translationX.getAsDouble(), maxSpeed.getAsDouble(), xLimiter) * SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND,
       modifyAxis(rotation.getAsDouble(), maxSpeed.getAsDouble(), turnLimiter) * SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
      poseEstimator.getPoseRotation()));
-    }else if(relative.getAsBoolean() && !GlobalVariables.isBlue){
+    }/*else if(relative.getAsBoolean() && !GlobalVariables.isBlue){
       swerveSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(
       -(modifyAxis(translationY.getAsDouble(), maxSpeed.getAsDouble(), yLimiter) * SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND),
       -(modifyAxis(translationX.getAsDouble(), maxSpeed.getAsDouble(), xLimiter) * SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND),
       (modifyAxis(rotation.getAsDouble(), maxSpeed.getAsDouble(), turnLimiter) * SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND),
       poseEstimator.getPoseRotation()));
-    }else {
+    }*/else {
       swerveSubsystem.drive(new ChassisSpeeds(
       modifyAxis(translationY.getAsDouble(), maxSpeed.getAsDouble(), yLimiter) * SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND,
       modifyAxis(translationX.getAsDouble(), maxSpeed.getAsDouble(), xLimiter) * SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND,

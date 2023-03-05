@@ -182,8 +182,10 @@ public class RobotContainer {
       new PIDConstants(Constants.AutoConstants.kPThetaController, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
       swerveSubsystem::setModuleStates, // Module states consumer used to output to the drive subsystem
       eventMap,
+      true,
       swerveSubsystem // The drive subsystem. Used to properly set the requirements of path following commands
     );
+
     // An example command will be run in autonomous
     List<PathPlannerTrajectory> trajectories;
     if(m_chooser.getSelected() == "Nothing") {

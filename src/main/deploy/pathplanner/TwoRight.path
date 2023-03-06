@@ -26,16 +26,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.812456940646142,
-        "y": 0.9204147352015687
+        "x": 7.060165385247237,
+        "y": 0.9039811397045243
       },
       "prevControl": {
-        "x": 5.812456940646142,
-        "y": 0.9204147352015687
+        "x": 6.060165385247237,
+        "y": 0.9039811397045243
       },
       "nextControl": {
-        "x": 5.812456940646142,
-        "y": 0.9204147352015687
+        "x": 6.060165385247237,
+        "y": 0.9039811397045243
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -66,6 +66,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "Stop",
           "PlaceOn3",
           "RetractArm"
         ],
@@ -88,7 +89,7 @@
     {
       "position": 0.5,
       "names": [
-        "RunIntake",
+        "RunIntakeCube",
         "RunConveyor"
       ]
     },
@@ -99,7 +100,7 @@
       ]
     },
     {
-      "position": 1.643636363636421,
+      "position": 1.8,
       "names": [
         "StopConveyor"
       ]

@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.GlobalVariables;
 import frc.robot.subsystems.Intake;
 
-public class RunIntake extends CommandBase {
+public class RunIntakeCube extends CommandBase {
     public final Intake intake;
 
-    public RunIntake(Intake intake) {
+    public RunIntakeCube(Intake intake) {
         this.intake = intake;
         addRequirements(intake);
     }
@@ -17,7 +17,7 @@ public class RunIntake extends CommandBase {
     public void initialize() {
         SmartDashboard.putBoolean("RunIntake", true);
         intake.setIntakeAnglePID(-31000);
-        intake.intakeSpeed(0.6, 0.6);
+        intake.intakeSpeed(0.4, 0.6);
         //GlobalVariables.fieldRelative = false;
         //0.8 top 0.8 bottom with top roller
         //0.7 top 0.7 bottom without top roller

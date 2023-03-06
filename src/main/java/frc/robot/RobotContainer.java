@@ -28,6 +28,7 @@ import frc.robot.commands.PIDBalanceOnChargeStation;
 import frc.robot.commands.IntakeCommands.ReverseIntake;
 import frc.robot.commands.IntakeCommands.RunConveyor;
 import frc.robot.commands.IntakeCommands.RunIntake;
+import frc.robot.commands.IntakeCommands.RunIntakeCube;
 import frc.robot.commands.IntakeCommands.StopConveyor;
 import frc.robot.commands.IntakeCommands.ReverseConveyor;
 import frc.robot.commands.SetPose;
@@ -123,6 +124,8 @@ public class RobotContainer {
     driverController.rightTrigger(0.5).onTrue(new ReverseIntake(intake).alongWith(new ReverseConveyor(storage)));
     driverController.rightBumper().onFalse(new StopIntake(intake).andThen(new WaitCommand(1).andThen(new StopConveyor(storage))));
     driverController.rightTrigger(0.5).onFalse(new StopIntake(intake).alongWith(new StopConveyor(storage)));
+    driverController.leftBumper().onTrue(new RunIntakeCube(intake).alongWith(new RunConveyor(storage)));
+    driverController.leftBumper().onFalse(new StopIntake(intake).andThen(new WaitCommand(1).andThen(new StopConveyor(storage))));
 
     driverController.b().onTrue(  new DriveToClosestPeg(swerveSubsystem, poseEstimator, candleSubsystem, () -> -driverController.getLeftX(),
     () -> -driverController.getLeftY(),
@@ -168,10 +171,12 @@ public class RobotContainer {
     eventMap.put("PlaceOn3", new GripAndHold(grabber, arm).andThen(new PlaceOnPosition(arm, grabber, ()-> 2)).andThen(new MoveArmToPosition(arm, () -> Constants.ARM_POSITIONS.get(2)+5)).andThen(new Release(grabber)).andThen(new WaitCommand(0.3)));
     eventMap.put("RetractArm", new RetractArm(grabber, arm));
     eventMap.put("RunIntake", new RunIntake(intake));
+    eventMap.put("RunIntakeCube", new RunIntakeCube(intake));
     eventMap.put("RunConveyor", new RunConveyor(storage));
     eventMap.put("StopIntake", new StopIntake(intake));
     eventMap.put("StopConveyor", new StopConveyor(storage));
     eventMap.put("Level/Lock", new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
+    eventMap.put("Stop", new InstantCommand(() -> swerveSubsystem.stop(), swerveSubsystem));
 
 
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(

@@ -29,6 +29,7 @@ import frc.robot.commands.IntakeCommands.ReverseIntake;
 import frc.robot.commands.IntakeCommands.RunConveyor;
 import frc.robot.commands.IntakeCommands.RunIntake;
 import frc.robot.commands.IntakeCommands.RunIntakeCube;
+import frc.robot.commands.IntakeCommands.SideStationIntake;
 import frc.robot.commands.IntakeCommands.StopConveyor;
 import frc.robot.commands.IntakeCommands.ReverseConveyor;
 import frc.robot.commands.SetPose;
@@ -126,6 +127,9 @@ public class RobotContainer {
     driverController.rightTrigger(0.5).onFalse(new StopIntake(intake).alongWith(new StopConveyor(storage)));
     driverController.leftBumper().onTrue(new RunIntakeCube(intake).alongWith(new RunConveyor(storage)));
     driverController.leftBumper().onFalse(new StopIntake(intake).andThen(new WaitCommand(1).andThen(new StopConveyor(storage))));
+    driverController.y().onTrue(new SideStationIntake(intake).alongWith(new RunConveyor(storage)));
+    driverController.y().onFalse(new StopIntake(intake).andThen(new StopConveyor(storage)));
+    
 
     driverController.b().onTrue(  new DriveToClosestPeg(swerveSubsystem, poseEstimator, candleSubsystem, () -> -driverController.getLeftX(),
     () -> -driverController.getLeftY(),

@@ -4,31 +4,33 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.GlobalVariables;
 
 public class Storage extends SubsystemBase {
   /** Creates a new Storage. */
-  VictorSPX bottomBelt = new VictorSPX(Constants.StorageConstants.BOTTOM_STORAGE_CONVEYOR);
+  //VictorSPX bottomBelt = new VictorSPX(Constants.StorageConstants.BOTTOM_STORAGE_CONVEYOR);
+  CANSparkMax bottomBelt = new CANSparkMax(Constants.StorageConstants.BOTTOM_STORAGE_CONVEYOR, MotorType.kBrushless);
   CANSparkMax leftBelt = new CANSparkMax(Constants.StorageConstants.LEFT_STORAGE_CONVEYOR, MotorType.kBrushless);
   CANSparkMax rightBelt = new CANSparkMax(Constants.StorageConstants.RIGHT_STORAGE_CONVEYOR, MotorType.kBrushless);
 
   public Storage() {
-    bottomBelt.configFactoryDefault();
-    bottomBelt.setNeutralMode(NeutralMode.Coast);
+    //bottomBelt.configFactoryDefault();
+    //bottomBelt.setNeutralMode(NeutralMode.Coast);
+    //bottomBelt.setInverted(false);
+    //bottomBelt.configVoltageCompSaturation(10);
+    //bottomBelt.enableVoltageCompensation(true);
+    //bottomBelt.configOpenloopRamp(0.1);
+    bottomBelt.restoreFactoryDefaults();
+    bottomBelt.setIdleMode(IdleMode.kCoast);
+    bottomBelt.setSmartCurrentLimit(20);
     bottomBelt.setInverted(false);
-    bottomBelt.configVoltageCompSaturation(10);
-    bottomBelt.enableVoltageCompensation(true);
-    bottomBelt.configOpenloopRamp(0.1);
+    bottomBelt.enableVoltageCompensation(10);
+    bottomBelt.setOpenLoopRampRate(0.2);
     leftBelt.restoreFactoryDefaults();
     leftBelt.setIdleMode(IdleMode.kCoast);
     leftBelt.setSmartCurrentLimit(20);
@@ -49,20 +51,15 @@ public class Storage extends SubsystemBase {
   }
 
   public void setSpeed(double bottom, double left, double right) {
-    bottomBelt.set(VictorSPXControlMode.PercentOutput, bottom);
-    /*if(GlobalVariables.INTAKE_LOWERED == true) {
-      leftBelt.set(left);
-      rightBelt.set(right);
-    }else{
-      leftBelt.stopMotor();
-      rightBelt.stopMotor();
-    }*/
+    //bottomBelt.set(VictorSPXControlMode.PercentOutput, bottom);
+    bottomBelt.set(bottom);
     leftBelt.set(left);
     rightBelt.set(right);
   }
 
   public void stopConveyors() {
-    bottomBelt.set(ControlMode.PercentOutput, 0.0);
+    //bottomBelt.set(ControlMode.PercentOutput, 0.0);
+    bottomBelt.stopMotor();
     leftBelt.stopMotor();
     rightBelt.stopMotor();
   }

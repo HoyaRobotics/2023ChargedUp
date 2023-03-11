@@ -10,7 +10,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -26,9 +25,6 @@ public class Arm extends SubsystemBase {
   private CANSparkMax extensionMotor = new CANSparkMax(Constants.ArmConstants.EXTENSION_MOTOR, MotorType.kBrushless);
   private SparkMaxPIDController extensionPID;
 
-  private DutyCycleEncoder armEncoder = new DutyCycleEncoder(9);
-
-  private double gearRatio = (10/50) * (14/68) * (22/72);
   /** Creates a new Arm. */
   public Arm() {
     leftArmMotor.restoreFactoryDefaults();
@@ -97,8 +93,6 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("ArmAngleAbsolute", getArmEncoderAngle());
-    SmartDashboard.putNumber("ArmAngleRatio", getArmEncoder());
     SmartDashboard.putNumber("ArmAngle", getArmAngle());
     SmartDashboard.putNumber("ArmExtension", getExtensionPosition());
   }
@@ -109,18 +103,8 @@ public class Arm extends SubsystemBase {
   }
 
   public void setArmEncoder() {
-    double encoderPosition = armEncoder.getAbsolutePosition();
-    double motorPosition = encoderPosition/gearRatio;
-    //leftArmMotor.getEncoder().setPosition(motorPosition);
-    //rightArmMotor.getEncoder().setPosition(motorPosition);
     leftArmMotor.getEncoder().setPosition(0.0);
     rightArmMotor.getEncoder().setPosition(0.0);
-  }
-
-  public double getArmEncoder() {
-    double encoderPosition = armEncoder.getAbsolutePosition();
-    double motorPosition = encoderPosition/gearRatio;
-    return motorPosition;
   }
 
   public double getLeftArmAngle() {
@@ -129,10 +113,6 @@ public class Arm extends SubsystemBase {
 
   public double getRightArmAngle() {
     return rightArmMotor.getEncoder().getPosition();
-  }
-
-  public double getArmEncoderAngle() {
-    return armEncoder.getAbsolutePosition();
   }
 
   public double getArmAngle() {

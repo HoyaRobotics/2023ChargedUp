@@ -36,11 +36,12 @@ import frc.robot.commands.SetPose;
 import frc.robot.commands.ToggleFieldRelative;
 import frc.robot.commands.ArmCommands.DropConeAgain;
 import frc.robot.commands.ArmCommands.GripAndHold;
-import frc.robot.commands.ArmCommands.MoveArmToPosition;
 import frc.robot.commands.ArmCommands.PlaceOnPosition;
-import frc.robot.commands.ArmCommands.Release;
 import frc.robot.commands.ArmCommands.ReleaseAndRetract;
-import frc.robot.commands.ArmCommands.RetractArm;
+import frc.robot.commands.ArmCommands.AutoSpecific.GripObjectAuto;
+import frc.robot.commands.ArmCommands.AutoSpecific.PlaceOnPositionAuto;
+import frc.robot.commands.ArmCommands.AutoSpecific.ReleaseOnPositionAuto;
+import frc.robot.commands.ArmCommands.AutoSpecific.RetractFromPositionAuto;
 import frc.robot.commands.AutoDriveCommands.DriveToClosestPeg;
 import frc.robot.commands.IntakeCommands.StopIntake;
 import frc.robot.subsystems.Pigeon2Subsystem;
@@ -99,6 +100,7 @@ public class RobotContainer {
     m_chooser.addOption("Score Level Left", "ScoreLevelLeft");
     m_chooser.addOption("Score Level Middle", "ScoreLevelMiddle");
     m_chooser.addOption("Score Level Right", "ScoreLevelRight");
+    m_chooser.addOption("Score Cross Level Middle", "ScoreCrossLevelMiddle");
     m_chooser.addOption("Score Pickup Level Left", "ScorePickupLevelLeft");
     m_chooser.addOption("Score Pickup Level Right", "ScorePickupLevelRight");
     m_chooser.addOption("Two Left", "TwoLeft");
@@ -172,15 +174,20 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     HashMap<String, Command> eventMap = new HashMap<>();
-    eventMap.put("PlaceOn3", new GripAndHold(grabber, arm).andThen(new PlaceOnPosition(arm, grabber, ()-> 2)).andThen(new MoveArmToPosition(arm, () -> Constants.ARM_POSITIONS.get(2)+5)).andThen(new Release(grabber)).andThen(new WaitCommand(0.3)));
-    eventMap.put("RetractArm", new RetractArm(grabber, arm));
-    eventMap.put("RunIntake", new RunIntake(intake));
+    //eventMap.put("PlaceOn3", new GripAndHold(grabber, arm).andThen(new PlaceOnPosition(arm, grabber, ()-> 2)).andThen(new MoveArmToPosition(arm, () -> Constants.ARM_POSITIONS.get(2)+5)).andThen(new Release(grabber)).andThen(new WaitCommand(0.3)));
+    //eventMap.put("RetractArm", new RetractArm(grabber, arm));
+    eventMap.put("RunIntakeCone", new RunIntake(intake));
     eventMap.put("RunIntakeCube", new RunIntakeCube(intake));
     eventMap.put("RunConveyor", new RunConveyor(storage));
     eventMap.put("StopIntake", new StopIntake(intake));
     eventMap.put("StopConveyor", new StopConveyor(storage));
-    eventMap.put("Level/Lock", new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
+    eventMap.put("Level", new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
     eventMap.put("Stop", new InstantCommand(() -> swerveSubsystem.stop(), swerveSubsystem));
+
+    eventMap.put("Grip", new GripObjectAuto(grabber, arm));
+    eventMap.put("Place", new PlaceOnPositionAuto(arm, grabber, () -> 2));
+    eventMap.put("Release", new ReleaseOnPositionAuto(arm, grabber, () -> 2));
+    eventMap.put("Retract", new RetractFromPositionAuto(arm));
 
 
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(

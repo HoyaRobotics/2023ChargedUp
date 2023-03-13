@@ -20,10 +20,13 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.GlobalVariables;
 import frc.robot.Constants.SwerveConstants;
 
 public class PoseEstimator extends SubsystemBase {
@@ -31,9 +34,10 @@ public class PoseEstimator extends SubsystemBase {
   private final SwerveSubsystem swerveSubsystem;
   private final Pigeon2Subsystem pigeon2Subsystem;
   
-  //static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   //static NetworkTableEntry hasTarget = table.getEntry("tv");
-  //static NetworkTableEntry valueOfPoses = table.getEntry("botpose");
+  static NetworkTableEntry valueOfPosesBlue = table.getEntry("botpose_wpiblue");
+  static NetworkTableEntry valueOfPosesRed = table.getEntry("botpose_wpired");
 
   // Kalman Filter Configuration. These can be "tuned-to-taste" based on how much you trust your various sensors. 
   // Smaller numbers will cause the filter to "trust" the estimate from that particular component more than the others. 
@@ -57,6 +61,14 @@ public class PoseEstimator extends SubsystemBase {
       visionMeasurementStdDevs);
 
     SmartDashboard.putData("Field", field2d);
+
+    if(DriverStation.getAlliance() == Alliance.Red){
+      System.out.println("Swerve Module: We are Red");
+      GlobalVariables.isBlue = false;
+    }else{
+      System.out.println("Swerve Module: We are Blue");
+      GlobalVariables.isBlue = true;
+    }
   }
 
   @Override
@@ -66,9 +78,14 @@ public class PoseEstimator extends SubsystemBase {
     // Update pose estimator with visible targets
     // latest pipeline result
     /*double[] temp = {0.0,0.0,0.0,0.0,0.0,0.0,0.0};//Defult getEntry
-    double[] result = valueOfPoses.getDoubleArray(temp);
-    double targetInView = hasTarget.getDouble(0.0);
-    if(result.length == 7 && targetInView == 1) {
+    double[] result;
+    if(GlobalVariables.isBlue) {
+      result = valueOfPosesBlue.getDoubleArray(temp);
+    }else{
+      result = valueOfPosesRed.getDoubleArray(temp);
+    }
+    //double targetInView = hasTarget.getDouble(0.0);
+    if(result[6] != 0.0) {
       SmartDashboard.putBoolean("Camera Has Target", true);
       double timestamp = Timer.getFPGATimestamp() - (result[6] / 1000.0);
       Translation3d translation3d = new Translation3d(result[0]+Units.feetToMeters(27), result[1]+Units.feetToMeters(13.5), result[2]);
@@ -77,7 +94,7 @@ public class PoseEstimator extends SubsystemBase {
       Rotation3d rotation3d = new Rotation3d(Units.degreesToRadians(result[3]), Units.degreesToRadians(result[4]), Units.degreesToRadians(result[5]));
       SmartDashboard.putString("rotation", rotation3d.toString());
       Pose3d pose3d = new Pose3d(translation3d, rotation3d);
-      //poseEstimator.addVisionMeasurement(pose3d.toPose2d(), timestamp);
+      poseEstimator.addVisionMeasurement(pose3d.toPose2d(), timestamp);
     }else{
       SmartDashboard.putBoolean("Camera Has Target", false);
     }*/

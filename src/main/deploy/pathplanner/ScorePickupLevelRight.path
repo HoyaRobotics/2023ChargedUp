@@ -17,7 +17,9 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "PlaceOn3"
+          "Grip",
+          "Place",
+          "Release"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -91,7 +93,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Level/Lock"
+          "Level"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -99,20 +101,20 @@
       }
     }
   ],
-  "maxVelocity": 2.0,
-  "maxAcceleration": 2.0,
+  "maxVelocity": 3.0,
+  "maxAcceleration": 2.5,
   "isReversed": null,
   "markers": [
     {
       "position": 0.07636363636361027,
       "names": [
-        "RetractArm"
+        "Retract"
       ]
     },
     {
       "position": 0.5,
       "names": [
-        "RunIntake",
+        "RunIntakeCube",
         "RunConveyor"
       ]
     },

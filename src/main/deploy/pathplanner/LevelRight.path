@@ -89,7 +89,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Level/Lock"
+          "Level"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -97,8 +97,8 @@
       }
     }
   ],
-  "maxVelocity": 2.0,
-  "maxAcceleration": 2.0,
+  "maxVelocity": 3.0,
+  "maxAcceleration": 2.5,
   "isReversed": null,
   "markers": []
 }

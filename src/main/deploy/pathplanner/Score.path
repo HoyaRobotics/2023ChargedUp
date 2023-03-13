@@ -17,8 +17,9 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "PlaceOn3",
-          "RetractArm"
+          "Grip",
+          "Place",
+          "Release"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -41,15 +42,18 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
+        "names": [
+          "Stop",
+          "Retract"
+        ],
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
     }
   ],
-  "maxVelocity": 2.0,
-  "maxAcceleration": 2.0,
+  "maxVelocity": 3.0,
+  "maxAcceleration": 2.5,
   "isReversed": null,
   "markers": []
 }

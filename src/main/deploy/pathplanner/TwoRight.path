@@ -17,7 +17,9 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "PlaceOn3"
+          "Grip",
+          "Place",
+          "Release"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -58,17 +60,45 @@
         "x": 2.9901244586720264,
         "y": 1.0699999999999998
       },
-      "nextControl": null,
+      "nextControl": {
+        "x": 2.9901244586720264,
+        "y": 1.0699999999999998
+      },
       "holonomicAngle": 0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [
+          "Stop",
+          "Place",
+          "Release",
+          "Retract"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.5818684859326755,
+        "y": 1.5831627367312027
+      },
+      "prevControl": {
+        "x": 5.917035795885433,
+        "y": 0.19610172871897122
+      },
+      "nextControl": null,
+      "holonomicAngle": 49.873896422204815,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Stop",
-          "PlaceOn3",
-          "RetractArm"
+          "Stop"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -76,14 +106,14 @@
       }
     }
   ],
-  "maxVelocity": 2.0,
-  "maxAcceleration": 2.0,
+  "maxVelocity": 3.0,
+  "maxAcceleration": 2.5,
   "isReversed": null,
   "markers": [
     {
       "position": 0.08727272727274299,
       "names": [
-        "RetractArm"
+        "Retract"
       ]
     },
     {
@@ -102,7 +132,8 @@
     {
       "position": 1.8,
       "names": [
-        "StopConveyor"
+        "StopConveyor",
+        "Grip"
       ]
     }
   ]

@@ -27,7 +27,7 @@ public class Storage extends SubsystemBase {
     //bottomBelt.configOpenloopRamp(0.1);
     bottomBelt.restoreFactoryDefaults();
     bottomBelt.setIdleMode(IdleMode.kCoast);
-    bottomBelt.setSmartCurrentLimit(20);
+    bottomBelt.setSmartCurrentLimit(30);
     bottomBelt.setInverted(false);
     bottomBelt.enableVoltageCompensation(10);
     bottomBelt.setOpenLoopRampRate(0.2);

@@ -23,7 +23,7 @@ public class RunConveyor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    storage.setSpeed(0.7, 0.5, 0.5);
+    storage.setSpeed(0.5, 0.5, 0.5);
   }
 
   // Called once the command ends or is interrupted.

@@ -7,18 +7,18 @@ package frc.robot.commands.ArmCommands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Grabber;
+import frc.robot.subsystems.Pincher;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class RetractArm extends SequentialCommandGroup {
   /** Creates a new RetractArm. */
-  public RetractArm(Grabber grabber, Arm arm) {
+  public RetractArm(Pincher pincher, Arm arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new Release(grabber),
+      new Release(pincher),
       new MoveExtensionToPosition(arm, () -> Constants.placeExtensionPosition),
       new MoveArmToPosition(arm, () -> Constants.pickupArmPosition),
       new MoveExtensionToPosition(arm, () -> Constants.pickupExtensionPosition)

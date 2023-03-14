@@ -11,14 +11,14 @@ import frc.robot.Constants;
 import frc.robot.commands.ArmCommands.MoveArmToPosition;
 import frc.robot.commands.ArmCommands.MoveExtensionToPosition;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Grabber;
+import frc.robot.subsystems.Pincher;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PlaceOnPositionAuto extends SequentialCommandGroup {
   /** Creates a new PlaceOnPositionAuto. */
-  public PlaceOnPositionAuto(Arm arm, Grabber grabber, IntSupplier level) {
+  public PlaceOnPositionAuto(Arm arm, Pincher pincher, IntSupplier level) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

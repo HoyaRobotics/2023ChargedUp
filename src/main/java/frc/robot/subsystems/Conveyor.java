@@ -11,20 +11,13 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Storage extends SubsystemBase {
-  /** Creates a new Storage. */
-  //VictorSPX bottomBelt = new VictorSPX(Constants.StorageConstants.BOTTOM_STORAGE_CONVEYOR);
-  CANSparkMax bottomBelt = new CANSparkMax(Constants.StorageConstants.BOTTOM_STORAGE_CONVEYOR, MotorType.kBrushless);
-  CANSparkMax leftBelt = new CANSparkMax(Constants.StorageConstants.LEFT_STORAGE_CONVEYOR, MotorType.kBrushless);
-  CANSparkMax rightBelt = new CANSparkMax(Constants.StorageConstants.RIGHT_STORAGE_CONVEYOR, MotorType.kBrushless);
+public class Conveyor extends SubsystemBase {
+  /** Creates a new Conveyor. */
+  CANSparkMax bottomBelt = new CANSparkMax(Constants.ConveyorConstants.BOTTOM_CONVEYOR_CONVEYOR, MotorType.kBrushless);
+  CANSparkMax leftBelt = new CANSparkMax(Constants.ConveyorConstants.LEFT_CONVEYOR_CONVEYOR, MotorType.kBrushless);
+  CANSparkMax rightBelt = new CANSparkMax(Constants.ConveyorConstants.RIGHT_CONVEYOR_CONVEYOR, MotorType.kBrushless);
 
-  public Storage() {
-    //bottomBelt.configFactoryDefault();
-    //bottomBelt.setNeutralMode(NeutralMode.Coast);
-    //bottomBelt.setInverted(false);
-    //bottomBelt.configVoltageCompSaturation(10);
-    //bottomBelt.enableVoltageCompensation(true);
-    //bottomBelt.configOpenloopRamp(0.1);
+  public Conveyor() {
     bottomBelt.restoreFactoryDefaults();
     bottomBelt.setIdleMode(IdleMode.kCoast);
     bottomBelt.setSmartCurrentLimit(30);
@@ -51,14 +44,12 @@ public class Storage extends SubsystemBase {
   }
 
   public void setSpeed(double bottom, double left, double right) {
-    //bottomBelt.set(VictorSPXControlMode.PercentOutput, bottom);
     bottomBelt.set(bottom);
     leftBelt.set(left);
     rightBelt.set(right);
   }
 
   public void stopConveyors() {
-    //bottomBelt.set(ControlMode.PercentOutput, 0.0);
     bottomBelt.stopMotor();
     leftBelt.stopMotor();
     rightBelt.stopMotor();

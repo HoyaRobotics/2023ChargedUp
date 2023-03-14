@@ -8,20 +8,20 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Grabber;
+import frc.robot.subsystems.Pincher;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DropConeAgain extends SequentialCommandGroup {
   /** Creates a new DropConeAgain. */
-  public DropConeAgain(Arm arm, Grabber grabber) {
+  public DropConeAgain(Arm arm, Pincher pincher) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new MoveExtensionToPosition(arm, () -> Constants.holdExtensionPosition),
       new MoveArmToPosition(arm, () -> Constants.pickupArmPosition),
-      new Release(grabber),
+      new Release(pincher),
       new WaitCommand(0.2),
       new MoveExtensionToPosition(arm, () -> Constants.pickupExtensionPosition)
     );

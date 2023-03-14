@@ -9,18 +9,18 @@ import java.util.function.IntSupplier;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Grabber;
+import frc.robot.subsystems.Pincher;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PlaceOnPosition extends SequentialCommandGroup {
   /** Creates a new PlaceOn3rd. */
-  public PlaceOnPosition(Arm arm, Grabber grabber, IntSupplier level) {
+  public PlaceOnPosition(Arm arm, Pincher pincher, IntSupplier level) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new Grip(grabber),
+      new Grip(pincher),
       new MoveExtensionToPosition(arm, () -> Constants.placeExtensionPosition),
       new MoveArmToPosition(arm, () -> Constants.ARM_POSITIONS.get(level.getAsInt())),
       new MoveExtensionToPosition(arm, () -> Constants.EXTENSION_POSITIONS.get(level.getAsInt()))

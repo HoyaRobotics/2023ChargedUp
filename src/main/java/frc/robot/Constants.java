@@ -145,10 +145,10 @@ public static final double PERCISION_SPEED = 0.25;
     public static final double rotationRatio = (32.0/14.0) * (56.0/16.0) * (50/8);
   }
 
-  public static final class StorageConstants {
-    public static final int BOTTOM_STORAGE_CONVEYOR = 25;
-    public static final int LEFT_STORAGE_CONVEYOR = 26;
-    public static final int RIGHT_STORAGE_CONVEYOR = 27;
+  public static final class ConveyorConstants {
+    public static final int BOTTOM_CONVEYOR_CONVEYOR = 25;
+    public static final int LEFT_CONVEYOR_CONVEYOR = 26;
+    public static final int RIGHT_CONVEYOR_CONVEYOR = 27;
   }
 
   public static final class ArmConstants {
@@ -157,7 +157,7 @@ public static final double PERCISION_SPEED = 0.25;
     public static final int EXTENSION_MOTOR = 30;
   }
 
-  public static final class GrabberConstants {
+  public static final class PincherConstants {
     public static final int PNUMATICS_MODULE_ID = 4;
     public static final PneumaticsModuleType PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.CTREPCM;
     public static final int GRIPPER_CLOSE = 0;

@@ -5,14 +5,14 @@
 package frc.robot.commands.ArmCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Grabber;
+import frc.robot.subsystems.Pincher;
 
 public class Release extends CommandBase {
-  private final Grabber grabber;
+  private final Pincher pincher;
   /** Creates a new Release. */
-  public Release(Grabber grabber) {
+  public Release(Pincher pincher) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.grabber = grabber;
+    this.pincher = pincher;
   }
 
   // Called when the command is initially scheduled.
@@ -22,7 +22,7 @@ public class Release extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    grabber.openGrabber();
+    pincher.openPincher();
   }
 
   // Called once the command ends or is interrupted.

@@ -5,14 +5,14 @@
 package frc.robot.commands.IntakeCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Storage;
+import frc.robot.subsystems.Conveyor;
 
 public class RunConveyor extends CommandBase {
-  private final Storage storage;
+  private final Conveyor conveyor;
   /** Creates a new RunConveyor. */
-  public RunConveyor(Storage storage) {
-    this.storage = storage;
-    addRequirements(storage);
+  public RunConveyor(Conveyor conveyor) {
+    this.conveyor = conveyor;
+    addRequirements(conveyor);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -23,7 +23,7 @@ public class RunConveyor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    storage.setSpeed(0.5, 0.5, 0.5);
+    conveyor.setSpeed(0.5, 0.5, 0.5);
   }
 
   // Called once the command ends or is interrupted.

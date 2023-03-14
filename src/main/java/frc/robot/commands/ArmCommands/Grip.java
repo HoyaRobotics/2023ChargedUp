@@ -5,22 +5,22 @@
 package frc.robot.commands.ArmCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Grabber;
+import frc.robot.subsystems.Pincher;
 
 public class Grip extends CommandBase {
-  Grabber grabber;
+  Pincher pincher;
   
   /** Creates a new GripAndRetract. */
-  public Grip(Grabber grabber) {
-    this.grabber = grabber;
+  public Grip(Pincher pincher) {
+    this.pincher = pincher;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(grabber);
+    addRequirements(pincher);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    grabber.closeGrabber();
+    pincher.closePincher();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

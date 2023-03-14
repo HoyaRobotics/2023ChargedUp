@@ -3,10 +3,10 @@ package frc.robot.commands.IntakeCommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class RunIntake extends CommandBase {
+public class RunIntakeCone extends CommandBase {
     public final Intake intake;
 
-    public RunIntake(Intake intake) {
+    public RunIntakeCone(Intake intake) {
         this.intake = intake;
         addRequirements(intake);
     }

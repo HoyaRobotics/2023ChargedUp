@@ -5,17 +5,17 @@ import frc.robot.GlobalVariables;
 import frc.robot.commands.ArmCommands.PlaceOnPosition;
 import frc.robot.commands.ArmCommands.ReleaseAndRetract;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Grabber;
+import frc.robot.subsystems.Pincher;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class DriveAndScore extends SequentialCommandGroup {
-    public DriveAndScore(SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator, Arm arm, Grabber grabber) {
+    public DriveAndScore(SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator, Arm arm, Pincher pincher) {
         AddCommands(
             new DriveToSelectedPeg(swerveSubsystem, poseEstimator),
             swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory),
-            new PlaceOnPosition(arm, grabber, () -> GlobalVariables.upDownPosition),
-            new ReleaseAndRetract(grabber, arm, () -> GlobalVariables.upDownPosition)
+            new PlaceOnPosition(arm, pincher, () -> GlobalVariables.upDownPosition),
+            new ReleaseAndRetract(pincher, arm, () -> GlobalVariables.upDownPosition)
         );
     }
 

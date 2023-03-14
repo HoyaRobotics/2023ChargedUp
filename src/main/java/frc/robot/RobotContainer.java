@@ -43,6 +43,7 @@ import frc.robot.commands.ArmCommands.AutoSpecific.PlaceOnPositionAuto;
 import frc.robot.commands.ArmCommands.AutoSpecific.ReleaseOnPositionAuto;
 import frc.robot.commands.ArmCommands.AutoSpecific.RetractFromPositionAuto;
 import frc.robot.commands.AutoDriveCommands.DriveToClosestPeg;
+import frc.robot.commands.AutoDriveCommands.DriveToLoadingStation;
 import frc.robot.commands.IntakeCommands.StopIntake;
 import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
@@ -130,7 +131,19 @@ public class RobotContainer {
     driverController.y().onTrue(new SideStationIntake(intake).alongWith(new RunConveyor(conveyor)));
     driverController.y().onFalse(new StopIntake(intake).andThen(new StopConveyor(conveyor)));
     
-    driverController.b().onTrue(  new DriveToClosestPeg(swerveSubsystem, poseEstimator, candleSubsystem, () -> -driverController.getLeftX(),
+    driverController.rightStick().onTrue(new DriveToClosestPeg(swerveSubsystem, poseEstimator, candleSubsystem, () -> -driverController.getLeftX(),
+    () -> -driverController.getLeftY(),
+    () -> -driverController.getRightX(),
+    () -> GlobalVariables.fieldRelative,
+    () -> GlobalVariables.maxSpeed))
+    .onFalse(new InstantCommand(() -> {
+      if(swerveSubsystem.getCurrentCommand() != null) {
+        swerveSubsystem.getCurrentCommand().cancel();
+        candleSubsystem.setGamePiece();
+      }
+    }));
+
+    driverController.leftStick().onTrue(new DriveToLoadingStation(swerveSubsystem, poseEstimator, candleSubsystem, () -> -driverController.getLeftX(),
     () -> -driverController.getLeftY(),
     () -> -driverController.getRightX(),
     () -> GlobalVariables.fieldRelative,

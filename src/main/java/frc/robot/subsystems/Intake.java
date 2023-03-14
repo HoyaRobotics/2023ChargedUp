@@ -67,16 +67,11 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("IntakeEncoder", getIntakeEncoder());
-    SmartDashboard.putBoolean("IntakeDown", isIntakeDown());
   }
 
   public void intakeSpeed(double frontSpeed, double backSpeed) {
     frontRoller.set(frontSpeed);
     backRoller.set(backSpeed);
-  }
-
-  public void intakeRotationSpeed(double voltage) {
-    //retractor.set(ControlMode.PercentOutput, voltage);
   }
 
   public void intakeStop() {

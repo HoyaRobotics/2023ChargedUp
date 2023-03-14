@@ -1,6 +1,5 @@
 package frc.robot.commands.IntakeCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
@@ -15,7 +14,6 @@ public class StopIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    SmartDashboard.putBoolean("RunIntake", false);
     intake.setIntakeAnglePID(0);
     intake.intakeSpeed(0, 0);
     //GlobalVariables.fieldRelative = true;

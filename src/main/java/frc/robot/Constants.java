@@ -78,21 +78,18 @@ public static final double PERCISION_SPEED = 0.25;
     public static final boolean angleMotorInvert = false;
 
     // Neutral Modes
-    public static final NeutralMode angleNeutralMode = NeutralMode.Brake; //Coast
+    public static final NeutralMode angleNeutralMode = NeutralMode.Brake;
     public static final NeutralMode driveNeutralMode = NeutralMode.Brake;
     public static final double angleNeutralDeadband = 0.1; // 0.06 in air
 
-    public static final double wheelDiameter = Units.inchesToMeters(3.94); //replace
-    //public static final     double wheelDiameter = Units.inchesToMeters(3.94);
+    public static final double wheelDiameter = Units.inchesToMeters(3.94);
     public static final double wheelCircumference = wheelDiameter * Math.PI;
     public static final double driveGearRatio = (((50.0/14.0)*(17.0/27.0)*(45.0/15.0)) / 1.0); //6.75:1
     public static final double angleGearRatio = (((32.0/15.0)*(60.0/10.0)) / 1.0); //12.8:1
   }
 
   public static final class SwerveConstants {
-    //public static final double TRACKWIDTH_METERS = Units.inchesToMeters(15.5); //replace
     public static final double TRACKWIDTH_METERS = Units.inchesToMeters(17.5);
-    //public static final double WHEELBASE_METERS = Units.inchesToMeters(17.5); //replace
     public static final double WHEELBASE_METERS = Units.inchesToMeters(26.5);
 
     public static final double MAX_VOLTAGE = 12.0;
@@ -212,7 +209,7 @@ public static final double PERCISION_SPEED = 0.25;
   public static enum GAME_OBJECT {Cone, Cube};
 
   public static final double pickupExtensionPosition = 25.5;
-  public static final double pickupArmPosition = 0.5;
+  public static final double pickupArmPosition = 0.0;
   public static final double holdExtensionPosition = 80;
   public static final double holdArmPosition = -2;
   public static final double placeExtensionPosition  = 100;

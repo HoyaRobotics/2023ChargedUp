@@ -42,8 +42,8 @@ public class PoseEstimator extends SubsystemBase {
   // Kalman Filter Configuration. These can be "tuned-to-taste" based on how much you trust your various sensors. 
   // Smaller numbers will cause the filter to "trust" the estimate from that particular component more than the others. 
   // This in turn means the particualr component will have a stronger influence on the final pose estimate.
-  private final Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5));
-  private final Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.02, 0.02, Units.degreesToRadians(5));
+  private final Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.1, 0.1, 0.1); //was 0.05, 0.05, 5
+  private final Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(10, 10, 10); //was 0.02, 0.02, 5
   private static SwerveDrivePoseEstimator poseEstimator;
   
   private final Field2d field2d = new Field2d();
@@ -77,7 +77,7 @@ public class PoseEstimator extends SubsystemBase {
     
     // Update pose estimator with visible targets
     // latest pipeline result
-    /*double[] temp = {0.0,0.0,0.0,0.0,0.0,0.0,0.0};//Defult getEntry
+    double[] temp = {0.0,0.0,0.0,0.0,0.0,0.0,0.0};//Defult getEntry
     double[] result;
     if(GlobalVariables.isBlue) {
       result = valueOfPosesBlue.getDoubleArray(temp);
@@ -85,23 +85,17 @@ public class PoseEstimator extends SubsystemBase {
       result = valueOfPosesRed.getDoubleArray(temp);
     }
     //double targetInView = hasTarget.getDouble(0.0);
-    if(result[6] != 0.0) {
-      SmartDashboard.putBoolean("Camera Has Target", true);
+    if(result[0] != 0.0 && result[1] != 0.0) {
       double timestamp = Timer.getFPGATimestamp() - (result[6] / 1000.0);
-      Translation3d translation3d = new Translation3d(result[0]+Units.feetToMeters(27), result[1]+Units.feetToMeters(13.5), result[2]);
-      //Translation3d translation3d = new Translation3d(result[0], result[1], result[2]);
-      SmartDashboard.putString("translation", translation3d.toString());
+      
+      Translation3d translation3d = new Translation3d(result[0], result[1], result[2]);
       Rotation3d rotation3d = new Rotation3d(Units.degreesToRadians(result[3]), Units.degreesToRadians(result[4]), Units.degreesToRadians(result[5]));
-      SmartDashboard.putString("rotation", rotation3d.toString());
       Pose3d pose3d = new Pose3d(translation3d, rotation3d);
       poseEstimator.addVisionMeasurement(pose3d.toPose2d(), timestamp);
-    }else{
-      SmartDashboard.putBoolean("Camera Has Target", false);
-    }*/
+    }
 
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), pigeon2Subsystem.getGyroRotation(), swerveSubsystem.getPositions());
     field2d.setRobotPose(poseEstimator.getEstimatedPosition());
-    SmartDashboard.putString("Pose", poseEstimator.getEstimatedPosition().toString());
     // This method will be called once per scheduler run
   }
 

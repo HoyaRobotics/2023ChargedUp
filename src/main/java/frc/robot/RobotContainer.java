@@ -121,8 +121,6 @@ public class RobotContainer {
     driverController.back().onTrue(new SetPose(poseEstimator, new Pose2d(0, 0, new Rotation2d(0))));
     driverController.x().onTrue(new ToggleFieldRelative());
     driverController.a().whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
-    //driverController.y().whileTrue(new PoseBalanceOnChargeStation(swerveSubsystem, poseEstimator));
-    
     driverController.rightBumper().onTrue(new RunIntake(intake).alongWith(new RunConveyor(storage)));
     driverController.rightTrigger(0.5).onTrue(new ReverseIntake(intake).alongWith(new ReverseConveyor(storage)));
     driverController.rightBumper().onFalse(new StopIntake(intake).andThen(new WaitCommand(1).andThen(new StopConveyor(storage))));
@@ -132,7 +130,6 @@ public class RobotContainer {
     driverController.y().onTrue(new SideStationIntake(intake).alongWith(new RunConveyor(storage)));
     driverController.y().onFalse(new StopIntake(intake).andThen(new StopConveyor(storage)));
     
-
     driverController.b().onTrue(  new DriveToClosestPeg(swerveSubsystem, poseEstimator, candleSubsystem, () -> -driverController.getLeftX(),
     () -> -driverController.getLeftY(),
     () -> -driverController.getRightX(),
@@ -154,7 +151,6 @@ public class RobotContainer {
     operatorController.leftTrigger(0.5).onTrue(new ReverseConveyor(storage)).onFalse(new StopConveyor(storage));
     
     operatorController.povUp().onTrue(new InstantCommand(() -> arm.moveGridTargetIf(true)));
-//    operatorController.povUp().onTrue(new InstantCommand(() ->  GlobalVariables.upDownPosition = GlobalVariables.upDownPosition++)%3);
     operatorController.povDown().onTrue(new InstantCommand(() -> arm.moveGridTargetIf(false)));
     operatorController.povRight().onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition++));
     operatorController.povLeft().onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition--));
@@ -207,7 +203,7 @@ public class RobotContainer {
     if(m_chooser.getSelected() == "Nothing") {
       return null;
     }else{
-      trajectories = PathPlanner.loadPathGroup(m_chooser.getSelected(), 3, 2.5);
+      trajectories = PathPlanner.loadPathGroup(m_chooser.getSelected(), 3, 2.5);//vel 3, accel 2.5
       return autoBuilder.fullAuto(trajectories);
     }
     }

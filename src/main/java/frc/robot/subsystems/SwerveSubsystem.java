@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.lib.SwerveModuleConstants;
+import frc.robot.GlobalVariables;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.SwerveConstants;
 
@@ -62,12 +63,13 @@ public class SwerveSubsystem extends SubsystemBase {
   //periodic() runs once per command scheduler loop
   @Override
   public void periodic() {
-    SmartDashboard.putString("FLPosition", getPosition(0).toString());
-    SmartDashboard.putString("FRPosition", getPosition(1).toString());
-    SmartDashboard.putString("BLPosition", getPosition(2).toString());
-    SmartDashboard.putString("BRPosition", getPosition(3).toString());
+    //SmartDashboard.putString("FLPosition", getPosition(0).toString());
+    //SmartDashboard.putString("FRPosition", getPosition(1).toString());
+    //SmartDashboard.putString("BLPosition", getPosition(2).toString());
+    //SmartDashboard.putString("BRPosition", getPosition(3).toString());
     SmartDashboard.putNumber("Chassis Heading", getCurrentChassisHeading().getDegrees());
     SmartDashboard.putNumber("Chassis Speed", getCurrentChassisSpeeds());
+    SmartDashboard.putNumber("Max Drive Speed", GlobalVariables.maxSpeed);
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {

@@ -84,8 +84,8 @@ public class Pigeon2Subsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("PITCH VALUE", getPigeonPitch());
-    SmartDashboard.putNumber("ROLL VALUE", getPigeonRoll());
+    SmartDashboard.putNumber("Pitch", getPigeonPitch());
+    SmartDashboard.putNumber("Roll", getPigeonRoll());
     SmartDashboard.putNumber("Yaw", getPigeonYaw());
   }
 }

@@ -121,7 +121,7 @@ public void setDesiredStateAbs(SwerveModuleState desiredState, boolean isOpenLoo
 
     angleMotor.setInverted(Constants.ModuleConstants.angleMotorInvert);
     angleMotor.setNeutralMode(Constants.ModuleConstants.angleNeutralMode);
-    Timer.delay(0.5);
+    Timer.delay(1.0);
     resetToAbsolute();
   }
 

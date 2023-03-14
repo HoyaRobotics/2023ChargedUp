@@ -44,7 +44,7 @@ public class Arm extends SubsystemBase {
     leftArmPID.setD(0.0);
     leftArmPID.setIZone(0.0);
     leftArmPID.setFF(0.0);
-    leftArmPID.setOutputRange(-0.7, 0.7);
+    leftArmPID.setOutputRange(-1.0, 1.0); //0.7
 
     rightArmMotor.restoreFactoryDefaults();
     rightArmMotor.setIdleMode(IdleMode.kCoast);
@@ -63,7 +63,7 @@ public class Arm extends SubsystemBase {
     rightArmPID.setD(0.0);
     rightArmPID.setIZone(0.0);
     rightArmPID.setFF(0.0);
-    rightArmPID.setOutputRange(-0.7, 0.7);
+    rightArmPID.setOutputRange(-1.0, 1.0);
     
     extensionMotor.restoreFactoryDefaults();
     extensionMotor.setIdleMode(IdleMode.kCoast);
@@ -95,6 +95,12 @@ public class Arm extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("ArmAngle", getArmAngle());
     SmartDashboard.putNumber("ArmExtension", getExtensionPosition());
+
+    if(getLeftArmAngle() < -4.5 && GlobalVariables.maxSpeed != 0.25) {
+      GlobalVariables.maxSpeed = 0.25;
+    }else if( getLeftArmAngle() >= -4.5 && GlobalVariables.maxSpeed != 0.5){
+      GlobalVariables.maxSpeed = 0.5;
+    }
   }
 
   public void setArmAnglePID(double angle) {
@@ -167,23 +173,6 @@ public class Arm extends SubsystemBase {
 
   public void setExtensionPIDValue(double pGain) {
     extensionPID.setP(pGain);
-  }
-
-  public void moveGridTarget(boolean goUp){
-    if(goUp){
-      GlobalVariables.upDownPosition = (GlobalVariables.upDownPosition++)%3;
-    }else{
-      GlobalVariables.upDownPosition = (GlobalVariables.upDownPosition--)%3;
-
-    }
-
-    //prevent error from being out of range
-    if(GlobalVariables.upDownPosition < 0){
-      GlobalVariables.upDownPosition = 2;
-    }else if(GlobalVariables.upDownPosition > 2){
-      GlobalVariables.upDownPosition = 0;
-    }
-    SmartDashboard.putNumber("Up Down Peg", (GlobalVariables.upDownPosition));
   }
 
   public void moveGridTargetIf(boolean goUp){

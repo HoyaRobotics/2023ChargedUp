@@ -43,7 +43,7 @@ public class PoseEstimator extends SubsystemBase {
   // Smaller numbers will cause the filter to "trust" the estimate from that particular component more than the others. 
   // This in turn means the particualr component will have a stronger influence on the final pose estimate.
   private final Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.1, 0.1, 0.1); //was 0.05, 0.05, 5
-  private final Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(10, 10, 10); //was 0.02, 0.02, 5
+  private final Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.9, 0.9, 0.9); //was 0.02, 0.02, 5
   private static SwerveDrivePoseEstimator poseEstimator;
   
   private final Field2d field2d = new Field2d();
@@ -91,7 +91,7 @@ public class PoseEstimator extends SubsystemBase {
       Translation3d translation3d = new Translation3d(result[0], result[1], result[2]);
       Rotation3d rotation3d = new Rotation3d(Units.degreesToRadians(result[3]), Units.degreesToRadians(result[4]), Units.degreesToRadians(result[5]));
       Pose3d pose3d = new Pose3d(translation3d, rotation3d);
-      poseEstimator.addVisionMeasurement(pose3d.toPose2d(), timestamp);
+      //poseEstimator.addVisionMeasurement(pose3d.toPose2d(), timestamp);
     }
 
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), pigeon2Subsystem.getGyroRotation(), swerveSubsystem.getPositions());

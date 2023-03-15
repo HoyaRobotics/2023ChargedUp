@@ -183,7 +183,7 @@ public static final double PERCISION_SPEED = 0.25;
   ));
 
   public static final List<Pose2d> PEG_POSE = Collections.unmodifiableList(List.of(
-    new Pose2d(new Translation2d(1.89, 0.5), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 0.5), Rotation2d.fromDegrees(0)),//1.89
     new Pose2d(new Translation2d(1.89, 1.07), Rotation2d.fromDegrees(0)),
     new Pose2d(new Translation2d(1.89, 1.62), Rotation2d.fromDegrees(0)),
     new Pose2d(new Translation2d(1.89, 2.19), Rotation2d.fromDegrees(0)),
@@ -209,7 +209,7 @@ public static final double PERCISION_SPEED = 0.25;
   public static enum GAME_OBJECT {Cone, Cube};
 
   public static final double pickupExtensionPosition = 25.5;
-  public static final double pickupArmPosition = 0.0;
+  public static final double pickupArmPosition = 0.5;
   public static final double holdExtensionPosition = 80;
   public static final double holdArmPosition = -2;
   public static final double placeExtensionPosition  = 100;

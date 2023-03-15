@@ -44,7 +44,7 @@ public class Arm extends SubsystemBase {
     leftArmPID.setD(0.0);
     leftArmPID.setIZone(0.0);
     leftArmPID.setFF(0.0);
-    leftArmPID.setOutputRange(-1.0, 1.0); //0.7
+    leftArmPID.setOutputRange(-0.75, 0.75); //0.7
 
     rightArmMotor.restoreFactoryDefaults();
     rightArmMotor.setIdleMode(IdleMode.kCoast);
@@ -63,7 +63,7 @@ public class Arm extends SubsystemBase {
     rightArmPID.setD(0.0);
     rightArmPID.setIZone(0.0);
     rightArmPID.setFF(0.0);
-    rightArmPID.setOutputRange(-1.0, 1.0);
+    rightArmPID.setOutputRange(-0.75, 0.75);
     
     extensionMotor.restoreFactoryDefaults();
     extensionMotor.setIdleMode(IdleMode.kCoast);

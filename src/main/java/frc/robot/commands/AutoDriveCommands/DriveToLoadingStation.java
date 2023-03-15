@@ -74,7 +74,7 @@ public class DriveToLoadingStation extends CommandBase {
         new PathConstraints(2, 1),
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
         new PathPoint(new Translation2d(12.3, 6.31), Rotation2d.fromDegrees(14.14), Rotation2d.fromDegrees(180)),
-        new PathPoint(new Translation2d(13.8, 7.45), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(90.0)));
+        new PathPoint(new Translation2d(14.2, 7.45), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(90.0)));
       poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
       candleSubsystem.setLED(0, 255, 0, 0, 7);
       swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();
@@ -83,8 +83,8 @@ public class DriveToLoadingStation extends CommandBase {
       GlobalVariables.trajectory = PathPlanner.generatePath(
         new PathConstraints(2, 1),
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
-        new PathPoint(new Translation2d(13.8, 6.6), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(180)),
-        new PathPoint(new Translation2d(13.8, 7.45), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(90.0)));
+        new PathPoint(new Translation2d(14.2, 6.6), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(180)),
+        new PathPoint(new Translation2d(14.2, 7.45), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(90.0)));
       poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
       candleSubsystem.setLED(0, 255, 0, 0, 7);
       swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();

@@ -70,7 +70,7 @@ public class DriveToClosestPeg extends CommandBase {
   @Override
   public void execute() {
     this.currentPose = this.poseEstimator.getPose();
-    if(this.currentPose.getX() <= 2.5 && this.currentPose.getY() <= 5) {
+    if(this.currentPose.getX() <= 3.0 && this.currentPose.getY() <= 5.0) { //x 2.5 fully inside the charging station
       // find closest position
       String loopStatus = "\n\ninLoop: ";
       for(int i = 0; i < 9; i++) {
@@ -90,7 +90,7 @@ public class DriveToClosestPeg extends CommandBase {
       GlobalVariables.trajectory = PathPlanner.generatePath(
         new PathConstraints(2, 1),
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
-        new PathPoint(new Translation2d(endPose.getX()+0.25, endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+        new PathPoint(new Translation2d(endPose.getX()+0.15, endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
         new PathPoint(new Translation2d(endPose.getX(), endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)));
       poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
       candleSubsystem.setLED(0, 255, 0, 0, 7);

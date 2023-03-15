@@ -20,9 +20,9 @@ public class GripAndHold extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new Grip(pincher),
-      new WaitCommand(0.35),
-      new MoveExtensionToPosition(arm, () -> Constants.holdExtensionPosition),
-      new MoveArmToPosition(arm, () -> Constants.holdArmPosition)
+      new WaitCommand(0.35)
+      //new MoveExtensionToPosition(arm, () -> Constants.holdExtensionPosition),
+      //new MoveArmToPosition(arm, () -> Constants.holdArmPosition)
     );
   }
 }

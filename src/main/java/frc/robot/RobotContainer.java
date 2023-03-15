@@ -214,7 +214,7 @@ public class RobotContainer {
     if(m_chooser.getSelected() == "Nothing") {
       return null;
     }else{
-      trajectories = PathPlanner.loadPathGroup(m_chooser.getSelected(), 3, 2.5);//vel 3, accel 2.5
+      trajectories = PathPlanner.loadPathGroup(m_chooser.getSelected(), 3, 2);//vel 3, accel 2.5
       return autoBuilder.fullAuto(trajectories);
     }
     }

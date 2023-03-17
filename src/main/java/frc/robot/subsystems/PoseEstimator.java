@@ -4,13 +4,25 @@
 
 package frc.robot.subsystems;
 
+import java.io.IOException;
+import java.util.Optional;
+import java.util.function.Predicate;
+
+import org.photonvision.EstimatedRobotPose;
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
@@ -26,7 +38,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.GlobalVariables;
 import frc.robot.Constants.SwerveConstants;
 
 public class PoseEstimator extends SubsystemBase {
@@ -35,14 +46,18 @@ public class PoseEstimator extends SubsystemBase {
   private final Pigeon2Subsystem pigeon2Subsystem;
   
   static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  //static NetworkTableEntry hasTarget = table.getEntry("tv");
   static NetworkTableEntry valueOfPosesBlue = table.getEntry("botpose_wpiblue");
   static NetworkTableEntry valueOfPosesRed = table.getEntry("botpose_wpired");
+
+  PhotonCamera camera = new PhotonCamera("OV5647");
+  Transform3d robotToCam = new Transform3d(new Translation3d(-0.408069, 0.194006, 1.257285), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(180.0)));
+  //AprilTagFieldLayout fieldLayout = new AprilTagFieldLayout(Constants.TAG_POSES, Units.inchesToMeters(651.25), Units.inchesToMeters(315.5));
+  PhotonPoseEstimator photonPoseEstimator;
 
   // Kalman Filter Configuration. These can be "tuned-to-taste" based on how much you trust your various sensors. 
   // Smaller numbers will cause the filter to "trust" the estimate from that particular component more than the others. 
   // This in turn means the particualr component will have a stronger influence on the final pose estimate.
-  private final Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.1, 0.1, 0.1); //was 0.05, 0.05, 5
+  private final Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.1, 0.1, 0.1); //was 0.05, 0.05, deg to rad 5
   private final Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.9, 0.9, 0.9); //was 0.02, 0.02, 5
   private static SwerveDrivePoseEstimator poseEstimator;
   
@@ -62,12 +77,20 @@ public class PoseEstimator extends SubsystemBase {
 
     SmartDashboard.putData("Field", field2d);
 
-    if(DriverStation.getAlliance() == Alliance.Red){
-      System.out.println("Swerve Module: We are Red");
-      GlobalVariables.isBlue = false;
-    }else{
-      System.out.println("Swerve Module: We are Blue");
-      GlobalVariables.isBlue = true;
+    try {
+      // Attempt to load the AprilTagFieldLayout that will tell us where the tags are on the field.
+      AprilTagFieldLayout fieldLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
+      // Create pose estimator
+      if(DriverStation.getAlliance() == Alliance.Red){
+        fieldLayout.setOrigin(OriginPosition.kRedAllianceWallRightSide);
+      }
+      photonPoseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP, camera,  robotToCam);
+      photonPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+    } catch (IOException e) {
+      // The AprilTagFieldLayout failed to load. We won't be able to estimate poses if we don't know
+      // where the tags are.
+      DriverStation.reportError("Failed to load AprilTagFieldLayout", e.getStackTrace());
+      photonPoseEstimator = null;
     }
   }
 
@@ -77,14 +100,14 @@ public class PoseEstimator extends SubsystemBase {
     
     // Update pose estimator with visible targets
     // latest pipeline result
-    double[] temp = {0.0,0.0,0.0,0.0,0.0,0.0,0.0};//Defult getEntry
+    /*double[] temp = {0.0,0.0,0.0,0.0,0.0,0.0,0.0};//Defult getEntry
     double[] result;
-    if(GlobalVariables.isBlue) {
+    if(DriverStation.getAlliance() == Alliance.Red) {
       result = valueOfPosesBlue.getDoubleArray(temp);
     }else{
       result = valueOfPosesRed.getDoubleArray(temp);
     }
-    //double targetInView = hasTarget.getDouble(0.0);
+
     if(result[0] != 0.0 && result[1] != 0.0) {
       double timestamp = Timer.getFPGATimestamp() - (result[6] / 1000.0);
       
@@ -92,6 +115,11 @@ public class PoseEstimator extends SubsystemBase {
       Rotation3d rotation3d = new Rotation3d(Units.degreesToRadians(result[3]), Units.degreesToRadians(result[4]), Units.degreesToRadians(result[5]));
       Pose3d pose3d = new Pose3d(translation3d, rotation3d);
       //poseEstimator.addVisionMeasurement(pose3d.toPose2d(), timestamp);
+    }*/
+    Optional<EstimatedRobotPose> pose = getEstimatedGlobalPose(getCurrentPose());
+    if(pose.isPresent()){
+      SmartDashboard.putString("Estimated Pose", pose.get().estimatedPose.toString());
+      poseEstimator.addVisionMeasurement(pose.get().estimatedPose.toPose2d(), pose.get().timestampSeconds);
     }
 
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), pigeon2Subsystem.getGyroRotation(), swerveSubsystem.getPositions());
@@ -130,4 +158,13 @@ public class PoseEstimator extends SubsystemBase {
   public void setTrajectoryField2d(Trajectory trajectory) {
     field2d.getObject("traj").setTrajectory(trajectory);
   }
+
+  public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
+    if (photonPoseEstimator == null) {
+        // The field layout failed to load, so we cannot estimate poses.
+        return Optional.empty();
+    }
+    photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
+    return photonPoseEstimator.update();
+}
 }

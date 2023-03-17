@@ -10,11 +10,8 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.GlobalVariables;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -52,15 +49,7 @@ public class DriveWithJoysticks extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    if(DriverStation.getAlliance() == Alliance.Red){
-      System.out.println("We are Red");
-      GlobalVariables.isBlue = false;
-    }else{
-      System.out.println("We are Blue");
-      GlobalVariables.isBlue = true;
-    }
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -71,13 +60,7 @@ public class DriveWithJoysticks extends CommandBase {
       modifyAxis(translationX.getAsDouble(), maxSpeed.getAsDouble(), xLimiter) * SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND,
       modifyAxis(rotation.getAsDouble(), maxSpeed.getAsDouble(), turnLimiter) * SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
      poseEstimator.getPoseRotation()));
-    }/*else if(relative.getAsBoolean() && !GlobalVariables.isBlue){
-      swerveSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(
-      -(modifyAxis(translationY.getAsDouble(), maxSpeed.getAsDouble(), yLimiter) * SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND),
-      -(modifyAxis(translationX.getAsDouble(), maxSpeed.getAsDouble(), xLimiter) * SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND),
-      (modifyAxis(rotation.getAsDouble(), maxSpeed.getAsDouble(), turnLimiter) * SwerveConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND),
-      poseEstimator.getPoseRotation()));
-    }*/else {
+    } else {
       swerveSubsystem.drive(new ChassisSpeeds(
       modifyAxis(translationY.getAsDouble(), maxSpeed.getAsDouble(), yLimiter) * SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND,
       modifyAxis(translationX.getAsDouble(), maxSpeed.getAsDouble(), xLimiter) * SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND,

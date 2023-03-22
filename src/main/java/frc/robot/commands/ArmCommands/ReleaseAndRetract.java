@@ -21,12 +21,13 @@ public class ReleaseAndRetract extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new MoveArmToPosition(arm, () -> Constants.RELEASE_POSITIONS.get(level.getAsInt())), //was +2
+      new MoveArmToPosition(arm, () -> Constants.RELEASE_ARM_POSITIONS.get(level.getAsInt())), //was +2
+      new MoveExtensionToPosition(arm, () -> Constants.RELEASE_EXTENSION_POSITIONS.get(level.getAsInt())),
       new Release(pincher),
       new WaitCommand(0.5),
       new MoveExtensionToPosition(arm, () -> Constants.placeExtensionPosition),
-      new MoveArmToPosition(arm, () -> Constants.pickupArmPosition),
-      new MoveExtensionToPosition(arm, () -> Constants.pickupExtensionPosition)
+      new MoveArmToPosition(arm, () -> Constants.pickupConeArmPosition),
+      new MoveExtensionToPosition(arm, () -> Constants.pickupConeExtensionPosition)
     );
   }
 }

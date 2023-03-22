@@ -42,7 +42,7 @@ public class DriveToSelectedPeg extends CommandBase {
   public void execute() {
     currentPose = poseEstimator.getPose();
     if(currentPose.getX() <= 2.5 && currentPose.getY() <= 5) {
-      endPose = Constants.PEG_POSE.get(GlobalVariables.leftRightPosition);
+      endPose = Constants.NODE_POSE_BLUE.get(GlobalVariables.leftRightPosition);
       gameObject = Constants.GAME_OBJECT_STRING.get(GlobalVariables.leftRightPosition);
       if ((gameObject == GAME_OBJECT.Cone && GlobalVariables.isCone == false) || (gameObject == GAME_OBJECT.Cube && GlobalVariables.isCone == true)) {
         return;

@@ -20,8 +20,8 @@ public class RetractArm extends SequentialCommandGroup {
     addCommands(
       new Release(pincher),
       new MoveExtensionToPosition(arm, () -> Constants.placeExtensionPosition),
-      new MoveArmToPosition(arm, () -> Constants.pickupArmPosition),
-      new MoveExtensionToPosition(arm, () -> Constants.pickupExtensionPosition)
+      new MoveArmToPosition(arm, () -> Constants.pickupConeArmPosition),
+      new MoveExtensionToPosition(arm, () -> Constants.pickupConeExtensionPosition)
     );
   }
 }

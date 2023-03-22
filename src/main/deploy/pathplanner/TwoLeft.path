@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Grip",
+          "GripCone",
           "Place",
           "Release"
         ],
@@ -127,7 +127,7 @@
       "position": 1.9127272727272815,
       "names": [
         "StopConveyor",
-        "Grip"
+        "GripCube"
       ]
     },
     {

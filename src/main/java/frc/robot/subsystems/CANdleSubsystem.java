@@ -4,7 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
+import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -21,9 +23,12 @@ public class CANdleSubsystem extends SubsystemBase {
   public CANdleSubsystem() {
     candle.configFactoryDefault();
     candle.configStatusLedState(false);
+    candle.configLOSBehavior(false);
     candle.configV5Enabled(true);
     candle.configVBatOutput(VBatOutputMode.Off);
     candle.configBrightnessScalar(1);
+    candle.configLEDType(LEDStripType.GRB);
+    candle.configVBatOutput(VBatOutputMode.On);
     setGamePiece();
   }
   
@@ -40,19 +45,19 @@ public class CANdleSubsystem extends SubsystemBase {
 
   public void setAlliance() {
     if(DriverStation.getAlliance() == Alliance.Blue) {
-      candle.setLEDs(0, 0, 255, 0, 0, 8);
+      candle.setLEDs(0, 0, 255, 0, 0, 67);
     }else{
-      candle.setLEDs(255, 0, 0, 0, 0, 8);
+      candle.setLEDs(255, 0, 0, 0, 0, 67);
     }
   }
 
   public void setGamePiece() {
     if(GlobalVariables.isCone == true) {
       //yellow
-      candle.setLEDs(255, 255, 0, 0, 0, 8);
+      candle.setLEDs(255, 255, 0, 0, 0, 67);
     }else{
       //purple
-      candle.setLEDs(148, 0, 211, 0, 0, 8);
+      candle.setLEDs(148, 0, 211, 0, 0, 67);
     }
   }
 }

@@ -20,8 +20,8 @@ public class RetractFromPositionAuto extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new MoveExtensionToPosition(arm, () -> Constants.placeExtensionPosition),
-      new MoveArmToPosition(arm, () -> Constants.pickupArmPosition),
-      new MoveExtensionToPosition(arm, () -> Constants.pickupExtensionPosition)
+      new MoveArmToPosition(arm, () -> Constants.pickupConeArmPosition),
+      new MoveExtensionToPosition(arm, () -> Constants.pickupConeExtensionPosition)
     );
   }
 }

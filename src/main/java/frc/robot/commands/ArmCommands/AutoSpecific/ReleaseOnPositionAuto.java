@@ -23,7 +23,7 @@ public class ReleaseOnPositionAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new MoveArmToPosition(arm, () -> Constants.RELEASE_POSITIONS.get(level.getAsInt())),
+      new MoveArmToPosition(arm, () -> Constants.RELEASE_ARM_POSITIONS.get(level.getAsInt())),
       new Release(pincher),
       new WaitCommand(0.5)
     );

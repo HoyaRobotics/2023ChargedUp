@@ -15,4 +15,5 @@ public class GlobalVariables {
     public static int leftRightPosition = 1;
     public static boolean isCone = false;
     public static PathPlannerTrajectory trajectory;
+    public static boolean isBlue = true;
 }

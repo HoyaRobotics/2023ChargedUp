@@ -31,5 +31,9 @@ public class Pincher extends SubsystemBase {
   public void closePincher() {
     pincherDoubleSolenoid.set(Value.kForward);
   }
+
+  public void togglePincher() {
+    pincherDoubleSolenoid.toggle();
+  }
 }
 ;

@@ -16,14 +16,14 @@ import frc.robot.subsystems.Pincher;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class GripObjectAuto extends SequentialCommandGroup {
+public class GripConeAuto extends SequentialCommandGroup {
   /** Creates a new GripObjectAuto. */
-  public GripObjectAuto(Pincher pincher, Arm arm) {
+  public GripConeAuto(Pincher pincher, Arm arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new MoveExtensionToPosition(arm, () -> Constants.pickupExtensionPosition),
-      new MoveArmToPosition(arm, () -> Constants.pickupArmPosition),
+      new MoveExtensionToPosition(arm, () -> Constants.pickupConeExtensionPosition),
+      new MoveArmToPosition(arm, () -> Constants.pickupConeArmPosition),
       new Grip(pincher),
       new WaitCommand(0.35)
     );

@@ -86,8 +86,8 @@ public class Arm extends SubsystemBase {
 
     setArmEncoder();
     setExtensionEncoder(0.0);
-    setArmAnglePID(Constants.pickupArmPosition);
-    setExtensionPID(Constants.pickupExtensionPosition); //was 26
+    setArmAnglePID(Constants.pickupConeArmPosition);
+    setExtensionPID(Constants.pickupConeExtensionPosition); //was 26
   }
 
   @Override

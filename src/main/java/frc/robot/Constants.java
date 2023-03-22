@@ -175,17 +175,23 @@ public static final double PERCISION_SPEED = 0.25;
 
   public static final List<Double> EXTENSION_POSITIONS = Collections.unmodifiableList(List.of(
     50.0,
-    75.5,
+    66.0,
     3.0
   ));
 
-  public static final List<Double> RELEASE_POSITIONS = Collections.unmodifiableList(List.of(
+  public static final List<Double> RELEASE_ARM_POSITIONS = Collections.unmodifiableList(List.of(
     -7.0,
-    -18.0,
+    -16.0,
     -20.0
   ));
 
-  public static final List<Pose2d> PEG_POSE = Collections.unmodifiableList(List.of(
+  public static final List<Double> RELEASE_EXTENSION_POSITIONS = Collections.unmodifiableList(List.of(
+    50.0,
+    50.0,
+    3.0
+  ));
+
+  public static final List<Pose2d> NODE_POSE_BLUE = Collections.unmodifiableList(List.of(
     new Pose2d(new Translation2d(1.89, 0.5), Rotation2d.fromDegrees(0)),//1.89
     new Pose2d(new Translation2d(1.89, 1.07), Rotation2d.fromDegrees(0)),
     new Pose2d(new Translation2d(1.89, 1.62), Rotation2d.fromDegrees(0)),
@@ -195,6 +201,18 @@ public static final double PERCISION_SPEED = 0.25;
     new Pose2d(new Translation2d(1.89, 3.86), Rotation2d.fromDegrees(0)),
     new Pose2d(new Translation2d(1.89, 4.43), Rotation2d.fromDegrees(0)),
     new Pose2d(new Translation2d(1.89, 4.98), Rotation2d.fromDegrees(0))
+  ));
+
+  public static final List<Pose2d> NODE_POSE_RED = Collections.unmodifiableList(List.of(
+    new Pose2d(new Translation2d(1.89, 7.52), Rotation2d.fromDegrees(0)),//1.89
+    new Pose2d(new Translation2d(1.89, 6.95), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 6.39), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 5.83), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 5.27), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 4.72), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 4.16), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 3.59), Rotation2d.fromDegrees(0)),
+    new Pose2d(new Translation2d(1.89, 3.04), Rotation2d.fromDegrees(0))
   ));
 
   public static final List<GAME_OBJECT> GAME_OBJECT_STRING = Collections.unmodifiableList(List.of(
@@ -211,8 +229,10 @@ public static final double PERCISION_SPEED = 0.25;
 
   public static enum GAME_OBJECT {Cone, Cube};
 
-  public static final double pickupExtensionPosition = 25.5;
-  public static final double pickupArmPosition = 0.5;
+  public static final double pickupConeExtensionPosition = 25.5;
+  public static final double pickupCubeExtensionPosition = 40;
+  public static final double pickupConeArmPosition = 0.5;
+  public static final double pickupCubeArmPosition = -1.0;
   public static final double holdExtensionPosition = 80;
   public static final double holdArmPosition = -2;
   public static final double placeExtensionPosition  = 100;

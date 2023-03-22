@@ -17,6 +17,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
@@ -64,18 +66,26 @@ public class DriveToClosestPeg extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    if(DriverStation.getAlliance() == Alliance.Blue) {
+      GlobalVariables.isBlue = true;
+    }else{
+      GlobalVariables.isBlue = false;
+    }
+    distance = 100;
+    PathCreated = false;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     this.currentPose = this.poseEstimator.getPose();
-    if(this.currentPose.getX() <= 3.0 && this.currentPose.getY() <= 5.0) { //x 2.5 fully inside the charging station
+    if(this.currentPose.getX() <= 4.0 && this.currentPose.getY() <= 5.1 && GlobalVariables.isBlue) { //x 2.5 fully inside the charging station
       // find closest position
       String loopStatus = "\n\ninLoop: ";
       for(int i = 0; i < 9; i++) {
         loopStatus+= Integer.toString(i);
-        double yPosition = Constants.PEG_POSE.get(i).getY();
+        double yPosition = Constants.NODE_POSE_BLUE.get(i).getY();
         double tempDistance = Math.abs(this.currentPose.getY() - yPosition);
         System.out.println("\n" + Integer.toString(i) + " i is tempdistance: " + tempDistance);
         if(tempDistance < this.distance) {
@@ -86,17 +96,49 @@ public class DriveToClosestPeg extends CommandBase {
       System.out.println(distance);
       System.out.println(position);
       System.out.println(loopStatus);
-      this.endPose = Constants.PEG_POSE.get(position);
+      this.endPose = Constants.NODE_POSE_BLUE.get(position);
       GlobalVariables.trajectory = PathPlanner.generatePath(
         new PathConstraints(2, 1),
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
-        new PathPoint(new Translation2d(endPose.getX()+0.15, endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+        new PathPoint(new Translation2d(endPose.getX()+0.1, endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
         new PathPoint(new Translation2d(endPose.getX(), endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)));
       poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
-      candleSubsystem.setLED(0, 255, 0, 0, 7);
+      candleSubsystem.setLED(0, 255, 0, 0, 67);
       swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();
       PathCreated = true;
-    }else{
+    }
+
+
+    else if(this.currentPose.getX() <= 4.0 && this.currentPose.getY() >= 2.9 && !GlobalVariables.isBlue) { //x 2.5 fully inside the charging station
+      // find closest position
+      String loopStatus = "\n\ninLoop: ";
+      for(int i = 0; i < 9; i++) {
+        loopStatus+= Integer.toString(i);
+        double yPosition = Constants.NODE_POSE_RED.get(i).getY();
+        double tempDistance = Math.abs(this.currentPose.getY() - yPosition);
+        System.out.println("\n" + Integer.toString(i) + " i is tempdistance: " + tempDistance);
+        if(tempDistance < this.distance) {
+          this.distance = tempDistance;
+          this.position = i;
+        }
+      }
+      System.out.println(distance);
+      System.out.println(position);
+      System.out.println(loopStatus);
+      this.endPose = Constants.NODE_POSE_RED.get(position);
+      GlobalVariables.trajectory = PathPlanner.generatePath(
+        new PathConstraints(2, 1),
+        new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
+        new PathPoint(new Translation2d(endPose.getX()+0.1, endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+        new PathPoint(new Translation2d(endPose.getX(), endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)));
+      poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
+      candleSubsystem.setLED(0, 255, 0, 0, 67);
+      swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();
+      PathCreated = true;
+    }
+    
+    
+    else{
       // manual drive
       if(relative.getAsBoolean()){
         swerveSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -115,9 +157,7 @@ public class DriveToClosestPeg extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    this.distance = 100;
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

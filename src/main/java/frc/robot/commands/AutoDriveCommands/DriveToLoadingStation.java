@@ -17,6 +17,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.GlobalVariables;
@@ -61,6 +63,11 @@ public class DriveToLoadingStation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if(DriverStation.getAlliance() == Alliance.Blue) {
+      GlobalVariables.isBlue = true;
+    }else{
+      GlobalVariables.isBlue = false;
+    }
     PathCreated = false;
   }
 
@@ -68,8 +75,7 @@ public class DriveToLoadingStation extends CommandBase {
   @Override
   public void execute() {
     this.currentPose = this.poseEstimator.getPose();
-    if(this.currentPose.getX() >= 5.5 && this.currentPose.getY() >= 4.5 && this.currentPose.getX() <= 11.0) {
-
+    if(this.currentPose.getX() >= 5.5 && this.currentPose.getY() >= 4.5 && this.currentPose.getX() <= 11.0 && GlobalVariables.isBlue) {
       GlobalVariables.trajectory = PathPlanner.generatePath(
         new PathConstraints(2, 1),
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
@@ -79,7 +85,7 @@ public class DriveToLoadingStation extends CommandBase {
       candleSubsystem.setLED(0, 255, 0, 0, 7);
       swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();
       PathCreated = true;
-    }else if(this.currentPose.getX() > 11.0 && this.currentPose.getY() >= 6.0) {
+    }else if(this.currentPose.getX() > 11.0 && this.currentPose.getY() >= 6.0 && GlobalVariables.isBlue) {
       GlobalVariables.trajectory = PathPlanner.generatePath(
         new PathConstraints(2, 1),
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
@@ -89,7 +95,33 @@ public class DriveToLoadingStation extends CommandBase {
       candleSubsystem.setLED(0, 255, 0, 0, 7);
       swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();
       PathCreated = true;
-    }else{
+    }
+
+
+    else if(this.currentPose.getX() >= 5.5 && this.currentPose.getY() <= 3.5 && this.currentPose.getX() <= 11.0 && !GlobalVariables.isBlue) {
+      GlobalVariables.trajectory = PathPlanner.generatePath(
+        new PathConstraints(2, 1),
+        new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
+        new PathPoint(new Translation2d(12.3, 1.69), Rotation2d.fromDegrees(-14.14), Rotation2d.fromDegrees(180)),
+        new PathPoint(new Translation2d(14.2, 0.57), Rotation2d.fromDegrees(-90.0), Rotation2d.fromDegrees(-90.0)));
+      poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
+      candleSubsystem.setLED(0, 255, 0, 0, 7);
+      swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();
+      PathCreated = true;
+    }else if(this.currentPose.getX() > 11.0 && this.currentPose.getY() <= 2.0 && !GlobalVariables.isBlue) {
+      GlobalVariables.trajectory = PathPlanner.generatePath(
+        new PathConstraints(2, 1),
+        new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
+        new PathPoint(new Translation2d(14.2, 1.42), Rotation2d.fromDegrees(-90.0), Rotation2d.fromDegrees(180)),
+        new PathPoint(new Translation2d(14.2, 0.57), Rotation2d.fromDegrees(-90.0), Rotation2d.fromDegrees(-90.0)));
+      poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
+      candleSubsystem.setLED(0, 255, 0, 0, 7);
+      swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();
+      PathCreated = true;
+    }
+    
+    
+    else{
       // manual drive
       if(relative.getAsBoolean()){
         swerveSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -108,9 +140,7 @@ public class DriveToLoadingStation extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    PathCreated = false;
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

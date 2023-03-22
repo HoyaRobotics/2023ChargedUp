@@ -35,13 +35,14 @@ import frc.robot.commands.IntakeCommands.ReverseConveyor;
 import frc.robot.commands.SetPose;
 import frc.robot.commands.ToggleFieldRelative;
 import frc.robot.commands.ArmCommands.DropConeAgain;
-import frc.robot.commands.ArmCommands.GripAndHold;
 import frc.robot.commands.ArmCommands.PlaceOnPosition;
 import frc.robot.commands.ArmCommands.ReleaseAndRetract;
-import frc.robot.commands.ArmCommands.AutoSpecific.GripObjectAuto;
+import frc.robot.commands.ArmCommands.AutoSpecific.GripConeAuto;
+import frc.robot.commands.ArmCommands.AutoSpecific.GripCubeAuto;
 import frc.robot.commands.ArmCommands.AutoSpecific.PlaceOnPositionAuto;
 import frc.robot.commands.ArmCommands.AutoSpecific.ReleaseOnPositionAuto;
 import frc.robot.commands.ArmCommands.AutoSpecific.RetractFromPositionAuto;
+import frc.robot.commands.ArmCommands.ComplexMethod.MoveArmExtensionToCubePickup;
 import frc.robot.commands.AutoDriveCommands.DriveToClosestPeg;
 import frc.robot.commands.AutoDriveCommands.DriveToLoadingStation;
 import frc.robot.commands.IntakeCommands.StopIntake;
@@ -51,6 +52,7 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CANdleSubsystem;
+import frc.robot.subsystems.Classifier;
 import frc.robot.subsystems.Pincher;
 import frc.robot.subsystems.Intake;
 
@@ -71,6 +73,7 @@ public class RobotContainer {
   private final Arm arm = new Arm();
   private final Pincher pincher = new Pincher();
   private final CANdleSubsystem candleSubsystem = new CANdleSubsystem();
+  private final Classifier classifier = new Classifier();
 
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
@@ -155,7 +158,9 @@ public class RobotContainer {
       }
     }));
 
-    operatorController.x().onTrue(new GripAndHold(pincher, arm));
+    //operatorController.x().onTrue(new GripAndHold(pincher, arm));
+    //operatorController.x().onTrue(new Toggle(pincher));
+    operatorController.x().onTrue(new MoveArmExtensionToCubePickup(arm, pincher, classifier));
     operatorController.a().onTrue(new PlaceOnPosition(arm, pincher, () -> (GlobalVariables.upDownPosition)));
     operatorController.b().onTrue(new ReleaseAndRetract(pincher, arm, () -> (GlobalVariables.upDownPosition)));
     operatorController.y().onTrue(new DropConeAgain(arm, pincher));
@@ -191,7 +196,8 @@ public class RobotContainer {
     eventMap.put("Level", new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
     eventMap.put("Stop", new InstantCommand(() -> swerveSubsystem.stop(), swerveSubsystem));
 
-    eventMap.put("Grip", new GripObjectAuto(pincher, arm));
+    eventMap.put("GripCone", new GripConeAuto(pincher, arm));
+    eventMap.put("GripCube", new GripCubeAuto(pincher, arm));
     eventMap.put("Place", new PlaceOnPositionAuto(arm, pincher, () -> 2));
     eventMap.put("Release", new ReleaseOnPositionAuto(arm, pincher, () -> 2));
     eventMap.put("Retract", new RetractFromPositionAuto(arm));

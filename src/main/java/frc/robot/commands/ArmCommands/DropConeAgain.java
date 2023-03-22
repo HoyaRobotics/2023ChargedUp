@@ -20,10 +20,10 @@ public class DropConeAgain extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new MoveExtensionToPosition(arm, () -> Constants.holdExtensionPosition),
-      new MoveArmToPosition(arm, () -> Constants.pickupArmPosition),
+      new MoveArmToPosition(arm, () -> Constants.pickupConeArmPosition),
       new Release(pincher),
       new WaitCommand(0.2),
-      new MoveExtensionToPosition(arm, () -> Constants.pickupExtensionPosition)
+      new MoveExtensionToPosition(arm, () -> Constants.pickupConeExtensionPosition)
     );
   }
 }

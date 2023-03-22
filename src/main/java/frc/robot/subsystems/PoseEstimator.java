@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import java.io.IOException;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -50,7 +49,8 @@ public class PoseEstimator extends SubsystemBase {
   static NetworkTableEntry valueOfPosesRed = table.getEntry("botpose_wpired");
 
   PhotonCamera camera = new PhotonCamera("OV5647");
-  Transform3d robotToCam = new Transform3d(new Translation3d(-0.408069, 0.194006, 1.257285), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(180.0)));
+  //Transform3d robotToCam = new Transform3d(new Translation3d(-0.408069, 0.194006, 1.257285), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(180.0)));
+  Transform3d robotToCam = new Transform3d(new Translation3d(-0.354094, 0.227661, 1.073770), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(180.0)));
   //AprilTagFieldLayout fieldLayout = new AprilTagFieldLayout(Constants.TAG_POSES, Units.inchesToMeters(651.25), Units.inchesToMeters(315.5));
   PhotonPoseEstimator photonPoseEstimator;
 
@@ -116,7 +116,9 @@ public class PoseEstimator extends SubsystemBase {
       Pose3d pose3d = new Pose3d(translation3d, rotation3d);
       //poseEstimator.addVisionMeasurement(pose3d.toPose2d(), timestamp);
     }*/
+
     Optional<EstimatedRobotPose> pose = getEstimatedGlobalPose(getCurrentPose());
+    //checkPoseAmbiguity(pose);
     if(pose.isPresent()){
       SmartDashboard.putString("Estimated Pose", pose.get().estimatedPose.toString());
       poseEstimator.addVisionMeasurement(pose.get().estimatedPose.toPose2d(), pose.get().timestampSeconds);
@@ -166,5 +168,22 @@ public class PoseEstimator extends SubsystemBase {
     }
     photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
     return photonPoseEstimator.update();
-}
+  }
+  
+  public void checkPoseAmbiguity(Optional<EstimatedRobotPose> pose) {
+    SmartDashboard.putNumber("poseAmbiguity", pose.get().targetsUsed.get(0).getPoseAmbiguity());
+    SmartDashboard.putNumber("poseAmbiguity", pose.get().targetsUsed.get(1).getPoseAmbiguity());
+  }
+
+  public boolean filterBadPoses(Optional<EstimatedRobotPose> pose, double allowableAmbiguity) {
+    if(pose.get().targetsUsed.get(0).getPoseAmbiguity() != -1 && pose.get().targetsUsed.get(1).getPoseAmbiguity() == -1) {
+      if(pose.get().targetsUsed.get(0).getPoseAmbiguity() >= allowableAmbiguity) {
+        return false;
+      }else{
+        return true;
+      }
+    }else{
+      return true;
+    }
+  }
 }

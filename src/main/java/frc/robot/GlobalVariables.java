@@ -16,4 +16,5 @@ public class GlobalVariables {
     public static boolean isCone = false;
     public static PathPlannerTrajectory trajectory;
     public static boolean isBlue = true;
+    public static boolean hasConnectedToDS = false;
 }

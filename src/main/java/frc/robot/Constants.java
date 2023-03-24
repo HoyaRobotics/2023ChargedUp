@@ -10,12 +10,16 @@ import java.util.List;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
@@ -247,4 +251,28 @@ public static final double PERCISION_SPEED = 0.25;
     new AprilTag(7, new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(108.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, Units.degreesToRadians(0.0)))),
     new AprilTag(8, new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(42.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, Units.degreesToRadians(0.0))))
   ));
+
+  public static final class VisionConstants{
+
+    public static final double APRILTAG_AMBIGUITY_THRESHOLD = 0.2;
+    public static final double POSE_AMBIGUITY_SHIFTER = 0.2;
+    public static final double POSE_AMBIGUITY_MULTIPLIER = 4;
+    public static final double NOISY_DISTANCE_METERS = 2.5;
+    public static final double DISTANCE_WEIGHT = 7;
+    public static final int TAG_PRESENCE_WEIGHT = 10;
+
+    /**
+     * Standard deviations of the vision measurements. Increase these numbers to
+     * trust global measurements from vision
+     * less. This matrix is in the form [x, y, theta]ᵀ, with units in meters and
+     * radians.
+     */
+    public static final Matrix<N3, N1> VISION_MEASUREMENT_STANDARD_DEVIATIONS = Matrix.mat(Nat.N3(), Nat.N1())
+      .fill(
+        // if these numbers are less than one, multiplying will do bad things
+        0.1, // x
+        0.1, // y
+        0.1);
+    
+  }
 }

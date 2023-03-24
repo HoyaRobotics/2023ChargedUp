@@ -28,16 +28,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.816233966596812,
-        "y": 0.9326789536633978
+        "x": 7.084080230212966,
+        "y": 0.9278959846702517
       },
       "prevControl": {
-        "x": 5.515266400461201,
-        "y": 0.9135470776908143
+        "x": 5.783112664077355,
+        "y": 0.9087641086976682
       },
       "nextControl": {
-        "x": 5.515266400461201,
-        "y": 0.9135470776908143
+        "x": 5.783112664077355,
+        "y": 0.9087641086976682
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -68,7 +68,7 @@
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": true,
+      "isStopPoint": false,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
@@ -112,16 +112,21 @@
       ]
     },
     {
-      "position": 0.5,
+      "position": 0.45,
       "names": [
         "RunIntakeCube",
         "RunConveyor"
       ]
     },
     {
-      "position": 1.3963636363635834,
+      "position": 0.95,
       "names": [
-        "StopIntake",
+        "StopIntake"
+      ]
+    },
+    {
+      "position": 1.7018181818181781,
+      "names": [
         "StopConveyor"
       ]
     }

@@ -28,15 +28,14 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.GlobalVariables;
 import frc.robot.Constants.SwerveConstants;
 
 public class PoseEstimator extends SubsystemBase {
@@ -44,14 +43,10 @@ public class PoseEstimator extends SubsystemBase {
   private final SwerveSubsystem swerveSubsystem;
   private final Pigeon2Subsystem pigeon2Subsystem;
   
-  static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  static NetworkTableEntry valueOfPosesBlue = table.getEntry("botpose_wpiblue");
-  static NetworkTableEntry valueOfPosesRed = table.getEntry("botpose_wpired");
 
   PhotonCamera camera = new PhotonCamera("OV5647");
   //Transform3d robotToCam = new Transform3d(new Translation3d(-0.408069, 0.194006, 1.257285), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(180.0)));
   Transform3d robotToCam = new Transform3d(new Translation3d(-0.354094, 0.227661, 1.073770), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(180.0)));
-  //AprilTagFieldLayout fieldLayout = new AprilTagFieldLayout(Constants.TAG_POSES, Units.inchesToMeters(651.25), Units.inchesToMeters(315.5));
   PhotonPoseEstimator photonPoseEstimator;
 
   // Kalman Filter Configuration. These can be "tuned-to-taste" based on how much you trust your various sensors. 
@@ -97,29 +92,43 @@ public class PoseEstimator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
-    // Update pose estimator with visible targets
-    // latest pipeline result
-    /*double[] temp = {0.0,0.0,0.0,0.0,0.0,0.0,0.0};//Defult getEntry
-    double[] result;
-    if(DriverStation.getAlliance() == Alliance.Red) {
-      result = valueOfPosesBlue.getDoubleArray(temp);
-    }else{
-      result = valueOfPosesRed.getDoubleArray(temp);
+    if(!GlobalVariables.hasConnectedToDS) {
+      if(DriverStation.isDSAttached() && DriverStation.getAlliance().equals(Alliance.Blue)) {
+        GlobalVariables.isBlue = true;
+        System.out.println("Blue Side");
+        try {
+          AprilTagFieldLayout field = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
+          field.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
+          photonPoseEstimator.setFieldTags(field);
+          System.out.println("Blue Side Set");
+        } catch (IOException e) {
+          DriverStation.reportError("Failed to load AprilTagFieldLayout", e.getStackTrace());
+          photonPoseEstimator = null;
+          System.out.println("Error");
+        }
+        GlobalVariables.hasConnectedToDS = true;
+      }else if(DriverStation.isDSAttached() && DriverStation.getAlliance().equals(Alliance.Red)) {
+        GlobalVariables.isBlue = false;
+        System.out.println("Red Side");
+        try {
+          AprilTagFieldLayout field = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
+          field.setOrigin(OriginPosition.kRedAllianceWallRightSide);
+          photonPoseEstimator.setFieldTags(field);
+          System.out.println("Red Side Set");
+        } catch (IOException e) {
+          DriverStation.reportError("Failed to load AprilTagFieldLayout", e.getStackTrace());
+          photonPoseEstimator = null;
+          System.out.println("Error");
+        }
+        GlobalVariables.hasConnectedToDS = true;
+      }
     }
+    
 
-    if(result[0] != 0.0 && result[1] != 0.0) {
-      double timestamp = Timer.getFPGATimestamp() - (result[6] / 1000.0);
-      
-      Translation3d translation3d = new Translation3d(result[0], result[1], result[2]);
-      Rotation3d rotation3d = new Rotation3d(Units.degreesToRadians(result[3]), Units.degreesToRadians(result[4]), Units.degreesToRadians(result[5]));
-      Pose3d pose3d = new Pose3d(translation3d, rotation3d);
-      //poseEstimator.addVisionMeasurement(pose3d.toPose2d(), timestamp);
-    }*/
-
-    Optional<EstimatedRobotPose> pose = getEstimatedGlobalPose(getCurrentPose());
-    //checkPoseAmbiguity(pose);
+    //Optional<EstimatedRobotPose> pose = getEstimatedGlobalPose(getCurrentPose());
+    Optional<EstimatedRobotPose> pose = getCameraLatestResults(camera, getCurrentPose());
     if(pose.isPresent()){
+      poseEstimator.setVisionMeasurementStdDevs(confidenceCalculator(pose.get()));
       SmartDashboard.putString("Estimated Pose", pose.get().estimatedPose.toString());
       poseEstimator.addVisionMeasurement(pose.get().estimatedPose.toPose2d(), pose.get().timestampSeconds);
     }
@@ -169,21 +178,46 @@ public class PoseEstimator extends SubsystemBase {
     photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
     return photonPoseEstimator.update();
   }
-  
-  public void checkPoseAmbiguity(Optional<EstimatedRobotPose> pose) {
-    SmartDashboard.putNumber("poseAmbiguity", pose.get().targetsUsed.get(0).getPoseAmbiguity());
-    SmartDashboard.putNumber("poseAmbiguity", pose.get().targetsUsed.get(1).getPoseAmbiguity());
+
+  private Matrix<N3, N1> confidenceCalculator(EstimatedRobotPose estimation) {
+    double smallestDistance = Double.POSITIVE_INFINITY;
+    for (var target : estimation.targetsUsed) {
+      var t3d = target.getBestCameraToTarget();
+      var distance = Math.sqrt(Math.pow(t3d.getX(), 2) + Math.pow(t3d.getY(), 2) + Math.pow(t3d.getZ(), 2));
+      if (distance < smallestDistance) {
+        smallestDistance = distance;
+      }
+    }
+    double poseAmbiguityFactor = estimation.targetsUsed.size() != 1
+        ? 1
+        : Math.max(
+          1,
+          (estimation.targetsUsed.get(0).getPoseAmbiguity()
+              + Constants.VisionConstants.POSE_AMBIGUITY_SHIFTER)
+              * Constants.VisionConstants.POSE_AMBIGUITY_MULTIPLIER);
+    double confidenceMultiplier = Math.max(
+        1,
+        (Math.max(
+            1,
+            Math.max(0, smallestDistance - Constants.VisionConstants.NOISY_DISTANCE_METERS)
+                * Constants.VisionConstants.DISTANCE_WEIGHT)
+            * poseAmbiguityFactor)
+            / (1
+                + ((estimation.targetsUsed.size() - 1) * Constants.VisionConstants.TAG_PRESENCE_WEIGHT)));
+    
+    return Constants.VisionConstants.VISION_MEASUREMENT_STANDARD_DEVIATIONS.times(confidenceMultiplier);
   }
 
-  public boolean filterBadPoses(Optional<EstimatedRobotPose> pose, double allowableAmbiguity) {
-    if(pose.get().targetsUsed.get(0).getPoseAmbiguity() != -1 && pose.get().targetsUsed.get(1).getPoseAmbiguity() == -1) {
-      if(pose.get().targetsUsed.get(0).getPoseAmbiguity() >= allowableAmbiguity) {
-        return false;
+  private Optional<EstimatedRobotPose> getCameraLatestResults(PhotonCamera suppliedCamera, Pose2d prevEstimatedRobotPose) {
+    if(photonPoseEstimator != null && suppliedCamera != null) {
+      var photonResults = suppliedCamera.getLatestResult();
+      if(photonResults.hasTargets() && (photonResults.targets.size() > 1 || photonResults.targets.get(0).getPoseAmbiguity() < Constants.VisionConstants.APRILTAG_AMBIGUITY_THRESHOLD)) {
+        return photonPoseEstimator.update(photonResults);
       }else{
-        return true;
+        return Optional.empty();
       }
     }else{
-      return true;
+      return Optional.empty();
     }
   }
 }

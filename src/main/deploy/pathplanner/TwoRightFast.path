@@ -3,12 +3,12 @@
     {
       "anchorPoint": {
         "x": 1.89,
-        "y": 4.98
+        "y": 0.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8900000000000006,
-        "y": 4.98
+        "x": 2.8899999999999997,
+        "y": 0.5
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -28,16 +28,16 @@
     },
     {
       "anchorPoint": {
-        "x": 7.088863199206111,
-        "y": 4.5916502334197995
+        "x": 7.060165385247237,
+        "y": 0.9039811397045243
       },
       "prevControl": {
-        "x": 6.400192325115022,
-        "y": 4.588816196900906
+        "x": 6.060165385247237,
+        "y": 0.9039811397045243
       },
       "nextControl": {
-        "x": 6.400192325115022,
-        "y": 4.588816196900906
+        "x": 6.060165385247237,
+        "y": 0.9039811397045243
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -53,25 +53,28 @@
     },
     {
       "anchorPoint": {
-        "x": 5.6,
-        "y": 2.7
+        "x": 1.89,
+        "y": 1.07
       },
       "prevControl": {
-        "x": 6.233359060167202,
-        "y": 2.7
+        "x": 2.9901244586720264,
+        "y": 1.0699999999999998
       },
       "nextControl": {
-        "x": 4.966640939832797,
-        "y": 2.7
+        "x": 2.9901244586720264,
+        "y": 1.0699999999999998
       },
-      "holonomicAngle": 0.0,
-      "isReversal": false,
+      "holonomicAngle": 0,
+      "isReversal": true,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "StopConveyor"
+          "Stop",
+          "Place",
+          "Release",
+          "Retract"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -80,22 +83,22 @@
     },
     {
       "anchorPoint": {
-        "x": 3.8951821099053046,
-        "y": 2.7
+        "x": 6.5818684859326755,
+        "y": 1.5831627367312027
       },
       "prevControl": {
-        "x": 4.2750977776037,
-        "y": 2.7
+        "x": 5.917035795885433,
+        "y": 0.19610172871897122
       },
       "nextControl": null,
-      "holonomicAngle": 0,
+      "holonomicAngle": 49.873896422204815,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Level"
+          "Stop"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -103,34 +106,5 @@
       }
     }
   ],
-  "maxVelocity": 3.0,
-  "maxAcceleration": 2.5,
-  "isReversed": null,
-  "markers": [
-    {
-      "position": 0.45,
-      "names": [
-        "RunIntakeCube",
-        "RunConveyor"
-      ]
-    },
-    {
-      "position": 0.9,
-      "names": [
-        "StopIntake"
-      ]
-    },
-    {
-      "position": 0.08727272727270982,
-      "names": [
-        "Retract"
-      ]
-    },
-    {
-      "position": 1.832727272727256,
-      "names": [
-        "StopConveyor"
-      ]
-    }
-  ]
+  "markers": []
 }

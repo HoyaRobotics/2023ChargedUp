@@ -105,10 +105,14 @@ public class RobotContainer {
     m_chooser.addOption("Score Level Middle", "ScoreLevelMiddle");
     m_chooser.addOption("Score Level Right", "ScoreLevelRight");
     m_chooser.addOption("Score Cross Level Middle", "ScoreCrossLevelMiddle");
+    m_chooser.addOption("Score Cross Pickup Level Left Middle", "ScoreCrossPickupLevelLeftMiddle");
+    m_chooser.addOption("Score Cross Pickup Level Right Middle", "ScoreCrossPickupLevelRightMiddle");
     m_chooser.addOption("Score Pickup Level Left", "ScorePickupLevelLeft");
     m_chooser.addOption("Score Pickup Level Right", "ScorePickupLevelRight");
     m_chooser.addOption("Two Left", "TwoLeft");
     m_chooser.addOption("Two Right", "TwoRight");
+    //m_chooser.addOption("Two Left Level", "TwoLeftFast");
+    //m_chooser.addOption("Two Right Level", "TwoRightFast");
     SmartDashboard.putData(m_chooser);
   }
 

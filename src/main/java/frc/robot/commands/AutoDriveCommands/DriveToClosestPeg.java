@@ -98,9 +98,9 @@ public class DriveToClosestPeg extends CommandBase {
       System.out.println(loopStatus);
       this.endPose = Constants.NODE_POSE_BLUE.get(position);
       GlobalVariables.trajectory = PathPlanner.generatePath(
-        new PathConstraints(2, 1),
+        new PathConstraints(2, 2),
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
-        new PathPoint(new Translation2d(endPose.getX()+0.1, endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+        //new PathPoint(new Translation2d(endPose.getX()+0.1, endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
         new PathPoint(new Translation2d(endPose.getX(), endPose.getY()), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)));
       poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
       candleSubsystem.setLED(0, 255, 0, 0, 67);

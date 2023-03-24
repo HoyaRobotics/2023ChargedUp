@@ -87,10 +87,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public void setModuleStates(SwerveModuleState[] states){
     SwerveDriveKinematics.desaturateWheelSpeeds(states, SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND);
-    swerveModules[0].setDesiredState(states[0], false);
-    swerveModules[1].setDesiredState(states[1], false);
-    swerveModules[2].setDesiredState(states[2], false); 
-    swerveModules[3].setDesiredState(states[3], false); 
+    swerveModules[0].setDesiredState(states[0], true);
+    swerveModules[1].setDesiredState(states[1], true);
+    swerveModules[2].setDesiredState(states[2], true); 
+    swerveModules[3].setDesiredState(states[3], true); 
   }
   
   //Calls methods in SwerveModule.java to stop motor movement for each module

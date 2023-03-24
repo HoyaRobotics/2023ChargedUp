@@ -16,7 +16,7 @@ public class SideStationIntake extends CommandBase {
     public void initialize() {
         SmartDashboard.putBoolean("RunIntake", true);
         intake.setIntakeAnglePID(-7800);
-        intake.intakeSpeed(0.3, 0.2);
+        intake.intakeSpeed(0.15, 0.15);// was 3 and 2
         //GlobalVariables.fieldRelative = false;
         //0.8 top 0.8 bottom with top roller
         //0.7 top 0.7 bottom without top roller

@@ -12,8 +12,10 @@ import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class PIDBalanceOnChargeStation extends CommandBase {
-  private final PIDController pidController;
-  private final PIDController yaw;
+  private final PIDController pidController = new PIDController(0.05, 0, 0);
+  //0.045 works
+  //0.06 works but had to relevel once or twice
+  private final PIDController yaw = new PIDController(0.08, 0, 0);
 
   private final Pigeon2Subsystem pigeon2Subsystem;
   private final SwerveSubsystem swerveSubsystem;
@@ -23,9 +25,6 @@ public class PIDBalanceOnChargeStation extends CommandBase {
     this.pigeon2Subsystem = pigeon2Subsystem;
     this.swerveSubsystem = swerveSubsystem;
     this.poseEstimator = poseEstimator;
-
-    pidController = new PIDController(0.01, 0, 0);
-    yaw = new PIDController(0.08, 0, 0);
 
     pidController.reset();
     yaw.reset();
@@ -38,7 +37,7 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   @Override
   public void initialize() {
     pidController.setSetpoint(0);
-    pidController.setTolerance(10.0);
+    pidController.setTolerance(10.0); //was 10
     yaw.setSetpoint(0);
     yaw.setTolerance(3);
   }
@@ -46,24 +45,37 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(yaw.atSetpoint() == false) {
+    if(!yaw.atSetpoint()) {
       swerveSubsystem.drive(new ChassisSpeeds(0, 0, yaw.calculate(poseEstimator.getPoseTheta())));
-      //System.out.println("Not Oriented");
+      System.out.println("Not Oriented");
     }else{
-      //System.out.println("Oriented");
-      if(pidController.atSetpoint() == false) {
-        //System.out.println("Not Level");
+      System.out.println("Oriented");
+      if(!pidController.atSetpoint()) {
+        System.out.println("Not Level");
         swerveSubsystem.drive(new ChassisSpeeds(pidController.calculate(pigeon2Subsystem.getPigeonPitch()), 0, yaw.calculate(poseEstimator.getPoseTheta())));
       } else {
-        //System.out.println("Level");
+        System.out.println("Level");
+        pidController.calculate(pigeon2Subsystem.getPigeonPitch());
         swerveSubsystem.lock();
       }
-    }
+
+    /*if(!pidController.atSetpoint()) {
+      System.out.println("Not Level");
+      swerveSubsystem.drive(new ChassisSpeeds(pidController.calculate(pigeon2Subsystem.getPigeonPitch() - GlobalVariables.pigeonPitch), 0, 0.0));
+    }else{
+      System.out.println("Level");
+      pidController.calculate(pigeon2Subsystem.getPigeonPitch() - GlobalVariables.pigeonPitch);
+      swerveSubsystem.lock();
+    }*/
   }
+}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    pidController.reset();
+    yaw.reset();
+  }
 
   // Returns true when the command should end.
   @Override

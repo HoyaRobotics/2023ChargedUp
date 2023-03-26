@@ -17,4 +17,5 @@ public class GlobalVariables {
     public static PathPlannerTrajectory trajectory;
     public static boolean isBlue = true;
     public static boolean hasConnectedToDS = false;
+    public static double pigeonPitch = 0.0;
 }

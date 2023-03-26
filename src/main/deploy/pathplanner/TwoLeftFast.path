@@ -152,15 +152,15 @@
       ]
     },
     {
-      "position": 1.5,
+      "position": 1.3963636363636314,
       "names": [
-        "StopConveyor",
         "GripCube"
       ]
     },
     {
-      "position": 1.6,
+      "position": 1.5,
       "names": [
+        "StopConveyor",
         "Place"
       ]
     },

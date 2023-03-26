@@ -172,8 +172,8 @@ public class RobotContainer {
     operatorController.rightTrigger(0.5).onTrue(new RunConveyor(conveyor)).onFalse(new StopConveyor(conveyor));
     operatorController.leftTrigger(0.5).onTrue(new ReverseConveyor(conveyor)).onFalse(new StopConveyor(conveyor));
     
-    operatorController.povUp().onTrue(new InstantCommand(() -> arm.moveGridTargetIf(true)));
-    operatorController.povDown().onTrue(new InstantCommand(() -> arm.moveGridTargetIf(false)));
+    operatorController.povUp().onTrue(new InstantCommand(() -> arm.moveGridTargetIf(true), arm));
+    operatorController.povDown().onTrue(new InstantCommand(() -> arm.moveGridTargetIf(false), arm));
     operatorController.povRight().onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition++));
     operatorController.povLeft().onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition--));
     
@@ -227,5 +227,15 @@ public class RobotContainer {
       trajectories = PathPlanner.loadPathGroup(m_chooser.getSelected(), 3, 2);//vel 3, accel 2.5
       return autoBuilder.fullAuto(trajectories);
     }
+    }
+
+    public void autoModeSettings() {
+      arm.setBrakeMode();
+      //pigeon2Subsystem.zeroPitch();
+      GlobalVariables.pigeonPitch = pigeon2Subsystem.getPigeonPitch();
+    }
+
+    public void teleopModeSettings() {
+      arm.setCoastMode();
     }
   }

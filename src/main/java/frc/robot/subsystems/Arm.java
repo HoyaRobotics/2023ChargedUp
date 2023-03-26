@@ -96,11 +96,17 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("ArmAngle", getArmAngle());
     SmartDashboard.putNumber("ArmExtension", getExtensionPosition());
 
-    if(getLeftArmAngle() < -4.5 && GlobalVariables.maxSpeed != 0.25) {
-      GlobalVariables.maxSpeed = 0.25;
-    }else if( getLeftArmAngle() >= -4.5 && GlobalVariables.maxSpeed != 0.5){
-      GlobalVariables.maxSpeed = 0.5;
+    if(getLeftArmAngle() < -4.5 && GlobalVariables.maxSpeed != 0.45) {
+      GlobalVariables.maxSpeed = 0.45;
+    }else if( getLeftArmAngle() >= -4.5 && GlobalVariables.maxSpeed != Constants.DRIVE_SPEED){
+      GlobalVariables.maxSpeed = Constants.DRIVE_SPEED;
     }
+
+    /*if(getLeftArmAngle() < -4.5) {
+      GlobalVariables.maxSpeed = 0.25;
+    }else{
+      GlobalVariables.maxSpeed = Constants.DRIVE_SPEED;
+    }*/
   }
 
   public void setArmAnglePID(double angle) {
@@ -185,5 +191,17 @@ public class Arm extends SubsystemBase {
     }else if(!goUp && GlobalVariables.upDownPosition == 0){
       GlobalVariables.upDownPosition = 2;
     }
+  }
+
+  public void setBrakeMode() {
+    leftArmMotor.setIdleMode(IdleMode.kBrake);
+    rightArmMotor.setIdleMode(IdleMode.kBrake);
+    extensionMotor.setIdleMode(IdleMode.kBrake);
+  }
+
+  public void setCoastMode() {
+    leftArmMotor.setIdleMode(IdleMode.kCoast);
+    rightArmMotor.setIdleMode(IdleMode.kCoast);
+    extensionMotor.setIdleMode(IdleMode.kCoast);
   }
 }

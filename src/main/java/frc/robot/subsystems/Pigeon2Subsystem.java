@@ -31,6 +31,8 @@ public class Pigeon2Subsystem extends SubsystemBase {
     pigeon2.setYaw(0);
   }
 
+  public void zeroPitch() {}
+
   /**
    * getGyroRotation - this is the Yaw value (rotate around...)
    * @return Rotation2d

@@ -111,6 +111,7 @@ public class RobotContainer {
     m_chooser.addOption("Score Pickup Level Right", "ScorePickupLevelRight");
     m_chooser.addOption("Two Left", "TwoLeft");
     m_chooser.addOption("Two Right", "TwoRight");
+    m_chooser.addOption("Two Right Bump", "TwoRightBump");
     //m_chooser.addOption("Two Left Level", "TwoLeftFast");
     //m_chooser.addOption("Two Right Level", "TwoRightFast");
     SmartDashboard.putData(m_chooser);
@@ -224,7 +225,7 @@ public class RobotContainer {
     if(m_chooser.getSelected() == "Nothing") {
       return null;
     }else{
-      trajectories = PathPlanner.loadPathGroup(m_chooser.getSelected(), 3, 2);//vel 3, accel 2.5
+      trajectories = PathPlanner.loadPathGroup(m_chooser.getSelected(), 2.5, 2);//vel 3, accel 2.5
       return autoBuilder.fullAuto(trajectories);
     }
     }
@@ -236,6 +237,6 @@ public class RobotContainer {
     }
 
     public void teleopModeSettings() {
-      arm.setCoastMode();
+      //arm.setCoastMode();
     }
   }

@@ -4,12 +4,18 @@
 
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -24,6 +30,11 @@ public class Arm extends SubsystemBase {
 
   private CANSparkMax extensionMotor = new CANSparkMax(Constants.ArmConstants.EXTENSION_MOTOR, MotorType.kBrushless);
   private SparkMaxPIDController extensionPID;
+
+  Mechanism2d mechanism1 = new Mechanism2d(Units.inchesToMeters(2), Units.inchesToMeters(49.625000));
+  MechanismRoot2d root;
+  MechanismLigament2d wrist1;
+  MechanismLigament2d wrist2;
 
   /** Creates a new Arm. */
   public Arm() {
@@ -88,6 +99,17 @@ public class Arm extends SubsystemBase {
     setExtensionEncoder(0.0);
     setArmAnglePID(Constants.pickupConeArmPosition);
     setExtensionPID(Constants.pickupConeExtensionPosition); //was 26
+
+    root = mechanism1.getRoot("rotation", 0, Units.inchesToMeters(-49.625000));
+
+    double armGearRatio = (10.0/50.0) * (14.0/68.0) * (22.0/72.0) * (360);
+    double armAngle = getLeftArmAngle() * armGearRatio;
+
+    double extensionGearRatio = (1.0/25.0) * 1.273;
+    double extensionLength = (getExtensionPosition() * extensionGearRatio * -1.0) + 120.0;
+
+    wrist1 = root.append(new MechanismLigament2d("Stinger Rotate 1", extensionLength, armAngle));
+    wrist2 = root.append(new MechanismLigament2d("Stinger Rotate 2", 120.0 - extensionLength, 180.0 + armAngle));
   }
 
   @Override
@@ -96,17 +118,28 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("ArmAngle", getArmAngle());
     SmartDashboard.putNumber("ArmExtension", getExtensionPosition());
 
+    Logger.getInstance().recordOutput("Arm Angle", getLeftArmAngle());
+    Logger.getInstance().recordOutput("Arm Extension", getExtensionPosition());
+
     if(getLeftArmAngle() < -4.5 && GlobalVariables.maxSpeed != 0.45) {
       GlobalVariables.maxSpeed = 0.45;
     }else if( getLeftArmAngle() >= -4.5 && GlobalVariables.maxSpeed != Constants.DRIVE_SPEED){
       GlobalVariables.maxSpeed = Constants.DRIVE_SPEED;
     }
 
-    /*if(getLeftArmAngle() < -4.5) {
-      GlobalVariables.maxSpeed = 0.25;
-    }else{
-      GlobalVariables.maxSpeed = Constants.DRIVE_SPEED;
-    }*/
+    double armGearRatio = (10.0/50.0) * (14.0/68.0) * (22.0/72.0) * (360);
+    double armAngle = getLeftArmAngle() * armGearRatio;
+
+    double extensionGearRatio = (1.0/25.0) * 1.273;
+    double extensionLength = (getExtensionPosition() * extensionGearRatio * -1.0) + 120.0;
+
+    wrist1.setAngle(armAngle);
+    wrist2.setAngle(armAngle + 180.0);
+    wrist1.setLength(extensionLength);
+    wrist2.setLength(120.0 - extensionLength);
+
+    SmartDashboard.putData("Stinger", mechanism1);
+    Logger.getInstance().recordOutput("Stinger", mechanism1);
   }
 
   public void setArmAnglePID(double angle) {

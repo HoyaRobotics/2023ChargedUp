@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -128,12 +129,16 @@ public class PoseEstimator extends SubsystemBase {
     //Optional<EstimatedRobotPose> pose = getEstimatedGlobalPose(getCurrentPose());
     Optional<EstimatedRobotPose> pose = getCameraLatestResults(camera, getCurrentPose());
     if(pose.isPresent()){
-      poseEstimator.setVisionMeasurementStdDevs(confidenceCalculator(pose.get()));
+      Logger.getInstance().recordOutput("Vision Estimation", pose.get().estimatedPose.toPose2d());
+      var confidence = confidenceCalculator(pose.get());
+      Logger.getInstance().recordOutput("Vision Confidence", confidence.getData());
+      poseEstimator.setVisionMeasurementStdDevs(confidence);
       SmartDashboard.putString("Estimated Pose", pose.get().estimatedPose.toString());
       poseEstimator.addVisionMeasurement(pose.get().estimatedPose.toPose2d(), pose.get().timestampSeconds);
     }
 
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), pigeon2Subsystem.getGyroRotation(), swerveSubsystem.getPositions());
+    Logger.getInstance().recordOutput("Estimated Pose", poseEstimator.getEstimatedPosition());
     field2d.setRobotPose(poseEstimator.getEstimatedPosition());
     // This method will be called once per scheduler run
   }

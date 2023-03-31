@@ -8,8 +8,9 @@ import java.util.function.IntSupplier;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
-import frc.robot.commands.ArmCommands.MoveArmToPosition;
 import frc.robot.commands.ArmCommands.MoveExtensionToPosition;
+import frc.robot.commands.ArmCommands.ThresholdArmToPosition;
+import frc.robot.commands.ArmCommands.ThresholdExtensionToPosition;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Pincher;
 
@@ -22,8 +23,8 @@ public class PlaceOnPositionAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new MoveExtensionToPosition(arm, () -> Constants.placeExtensionPosition),
-      new MoveArmToPosition(arm, () -> Constants.ARM_POSITIONS.get(level.getAsInt())),
+      new ThresholdExtensionToPosition(arm, () -> Constants.placeExtensionPosition, () -> 80, () -> true),
+      new ThresholdArmToPosition(arm, () -> Constants.ARM_POSITIONS.get(level.getAsInt()), () -> Constants.ARM_POSITIONS.get(level.getAsInt()) + 5.0, () -> false),
       new MoveExtensionToPosition(arm, () -> Constants.EXTENSION_POSITIONS.get(level.getAsInt()))
     );
   }

@@ -28,8 +28,7 @@ public class ThresholdArmToPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //arm.setArmAnglePID(angle.getAsDouble());
-    arm.stopArm();
+    arm.setArmAnglePID(angle.getAsDouble());
     System.out.println("Arm position is set");
   }
 

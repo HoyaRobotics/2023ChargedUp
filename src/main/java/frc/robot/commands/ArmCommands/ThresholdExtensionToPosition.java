@@ -28,8 +28,7 @@ public class ThresholdExtensionToPosition extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //arm.setExtensionPID(extension.getAsDouble());
-    arm.stopExtension();
+    arm.setExtensionPID(extension.getAsDouble());
     System.out.println("Extension position is set");
   }
 

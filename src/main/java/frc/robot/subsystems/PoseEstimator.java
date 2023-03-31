@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -151,6 +152,7 @@ public class PoseEstimator extends SubsystemBase {
     }
 
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), pigeon2Subsystem.getGyroRotation(), swerveSubsystem.getPositions());
+    Logger.getInstance().recordOutput("Estimated Pose", poseEstimator.getEstimatedPosition());
     field2d.setRobotPose(poseEstimator.getEstimatedPosition());
     // This method will be called once per scheduler run
   }

@@ -21,10 +21,8 @@ public class PlaceOnPosition extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new Grip(pincher),
-      //new MoveExtensionToPosition(arm, () -> Constants.placeExtensionPosition),
-      new ThresholdExtensionToPosition(arm, () -> Constants.placeExtensionPosition, () -> 80, () -> true),
-      //new MoveArmToPosition(arm, () -> Constants.ARM_POSITIONS.get(level.getAsInt())),
-      new ThresholdArmToPosition(arm, () -> Constants.ARM_POSITIONS.get(level.getAsInt()), () -> Constants.ARM_POSITIONS.get(level.getAsInt()) + 5.0, () -> false),
+      new MoveExtensionToPosition(arm, () -> Constants.placeExtensionPosition),
+      new MoveArmToPosition(arm, () -> Constants.ARM_POSITIONS.get(level.getAsInt())),
       new MoveExtensionToPosition(arm, () -> Constants.EXTENSION_POSITIONS.get(level.getAsInt()))
     );
   }

@@ -176,8 +176,28 @@ public class Arm extends SubsystemBase {
     }
   }
 
+  public boolean isExtensionPastPositon(double position, boolean greaterThen) {
+    if(greaterThen && position <= extensionMotor.getEncoder().getPosition()) {
+      return true;
+    }else if(!greaterThen && position >= extensionMotor.getEncoder().getPosition()) {
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   public boolean isArmInPosition(double position) {
     if(position <= leftArmMotor.getEncoder().getPosition()+1 && position >= leftArmMotor.getEncoder().getPosition()-1) {
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public boolean isArmPastPosition(double position, boolean greaterThen) {
+    if(greaterThen && position <= leftArmMotor.getEncoder().getPosition()){
+      return true;
+    }else if(!greaterThen && position >= leftArmMotor.getEncoder().getPosition()) {
       return true;
     }else{
       return false;

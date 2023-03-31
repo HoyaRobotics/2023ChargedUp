@@ -35,7 +35,6 @@ import frc.robot.commands.IntakeCommands.ReverseConveyor;
 import frc.robot.commands.SetPose;
 import frc.robot.commands.ToggleFieldRelative;
 import frc.robot.commands.ArmCommands.DropConeAgain;
-import frc.robot.commands.ArmCommands.FlipCone;
 import frc.robot.commands.ArmCommands.PlaceOnPosition;
 import frc.robot.commands.ArmCommands.ReleaseAndRetract;
 import frc.robot.commands.ArmCommands.AutoSpecific.GripConeAuto;
@@ -130,7 +129,6 @@ public class RobotContainer {
     driverController.back().onTrue(new SetPose(poseEstimator, new Pose2d(0, 0, new Rotation2d(0))));
     driverController.x().onTrue(new ToggleFieldRelative());
     driverController.a().whileTrue(new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
-    driverController.b().onTrue(new InstantCommand(() -> swerveSubsystem.lock(), swerveSubsystem));
     driverController.rightBumper().onTrue(new RunIntakeCone(intake).alongWith(new RunConveyor(conveyor)));
     driverController.rightTrigger(0.5).onTrue(new ReverseIntake(intake).alongWith(new ReverseConveyor(conveyor)));
     driverController.rightBumper().onFalse(new StopIntake(intake).andThen(new WaitCommand(1).andThen(new StopConveyor(conveyor))));
@@ -171,13 +169,14 @@ public class RobotContainer {
     operatorController.b().onTrue(new ReleaseAndRetract(pincher, arm, () -> (GlobalVariables.upDownPosition)));
     operatorController.y().onTrue(new DropConeAgain(arm, pincher));
     operatorController.leftBumper().onTrue(new InstantCommand(() -> GlobalVariables.isCone = !GlobalVariables.isCone).alongWith(new InstantCommand(() -> candleSubsystem.setGamePiece())));
-    //operatorController.rightTrigger(0.5).onTrue(new RunConveyor(conveyor)).onFalse(new StopConveyor(conveyor));
-    operatorController.rightTrigger(0.5).onTrue(new SideStationIntake(intake).alongWith(new RunConveyor(conveyor))).onFalse(new StopConveyor(conveyor).alongWith(new StopIntake(intake)));
+    operatorController.rightTrigger(0.5).onTrue(new RunConveyor(conveyor)).onFalse(new StopConveyor(conveyor));
     operatorController.leftTrigger(0.5).onTrue(new ReverseConveyor(conveyor)).onFalse(new StopConveyor(conveyor));
-    operatorController.rightBumper().onTrue(new FlipCone(arm, pincher));
     
     operatorController.povUp().onTrue(new InstantCommand(() -> arm.moveGridTargetIf(true), arm));
     operatorController.povDown().onTrue(new InstantCommand(() -> arm.moveGridTargetIf(false), arm));
+    operatorController.povRight().onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition++));
+    operatorController.povLeft().onTrue(new InstantCommand(() -> GlobalVariables.leftRightPosition--));
+    
   }
 
   /**
@@ -198,7 +197,6 @@ public class RobotContainer {
     eventMap.put("RunConveyor", new RunConveyor(conveyor));
     eventMap.put("StopIntake", new StopIntake(intake));
     eventMap.put("StopConveyor", new StopConveyor(conveyor));
-    eventMap.put("SideIntake", new SideStationIntake(intake));
     eventMap.put("Level", new PIDBalanceOnChargeStation(pigeon2Subsystem, swerveSubsystem, poseEstimator));
     eventMap.put("Stop", new InstantCommand(() -> swerveSubsystem.stop(), swerveSubsystem));
 

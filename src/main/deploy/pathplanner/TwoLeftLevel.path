@@ -72,6 +72,7 @@
       "stopEvent": {
         "names": [
           "Stop",
+          "Place",
           "Release"
         ],
         "executionBehavior": "sequential",
@@ -148,17 +149,18 @@
     {
       "position": 0.95,
       "names": [
-        "StopIntake"
-      ]
-    },
-    {
-      "position": 1.3963636363636314,
-      "names": [
-        "GripCube"
+        "SideIntake"
       ]
     },
     {
       "position": 1.5,
+      "names": [
+        "StopIntake",
+        "GripCube"
+      ]
+    },
+    {
+      "position": 1.6,
       "names": [
         "StopConveyor",
         "Place"

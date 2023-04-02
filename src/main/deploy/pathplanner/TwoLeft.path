@@ -73,8 +73,7 @@
         "names": [
           "Stop",
           "Place",
-          "Release",
-          "Retract"
+          "Release"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -111,7 +110,7 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 0.45,
+      "position": 0.4,
       "names": [
         "RunIntakeCube",
         "RunConveyor"
@@ -120,18 +119,25 @@
     {
       "position": 0.95,
       "names": [
+        "SideIntake"
+      ]
+    },
+    {
+      "position": 1.9,
+      "names": [
+        "GripCube",
+        "StopConveyor",
         "StopIntake"
       ]
     },
     {
-      "position": 1.9127272727272815,
+      "position": 0.05818181818182316,
       "names": [
-        "StopConveyor",
-        "GripCube"
+        "Retract"
       ]
     },
     {
-      "position": 0.05818181818182316,
+      "position": 2.02,
       "names": [
         "Retract"
       ]

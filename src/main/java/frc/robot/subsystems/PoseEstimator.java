@@ -49,7 +49,7 @@ public class PoseEstimator extends SubsystemBase {
   PhotonCamera loadingCamera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
   //Transform3d robotToCam = new Transform3d(new Translation3d(-0.408069, 0.194006, 1.257285), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(180.0)));
   Transform3d robotToGridCam = new Transform3d(new Translation3d(-0.354094, 0.227661, 1.073770), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(180.0)));
-  Transform3d robotToLoadingCam = new Transform3d(new Translation3d(-0.287274, -0.193675, 1.255828), new Rotation3d(0.0, Units.degreesToRadians(-15.0), Units.degreesToRadians(0.0)));
+  Transform3d robotToLoadingCam = new Transform3d(new Translation3d(-0.287274, -0.193675, 1.255828), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(0.0)));
   PhotonPoseEstimator photonPoseEstimatorGrid;
   PhotonPoseEstimator photonPoseEstimatorLoading;
 
@@ -137,18 +137,24 @@ public class PoseEstimator extends SubsystemBase {
     
 
     //Optional<EstimatedRobotPose> pose = getEstimatedGlobalPose(getCurrentPose());
-    Optional<EstimatedRobotPose> gridPose = getCameraLatestResults(gridCamera, getCurrentPose());
+    Optional<EstimatedRobotPose> gridPose = getCameraLatestResults(gridCamera, photonPoseEstimatorGrid, getCurrentPose());
     if(gridPose.isPresent()){
-      poseEstimator.setVisionMeasurementStdDevs(confidenceCalculator(gridPose.get()));
+      var confidence = confidenceCalculator(gridPose.get());
+      poseEstimator.setVisionMeasurementStdDevs(confidence);
       SmartDashboard.putString("Estimated Grid Pose", gridPose.get().estimatedPose.toString());
       poseEstimator.addVisionMeasurement(gridPose.get().estimatedPose.toPose2d(), gridPose.get().timestampSeconds);
+      Logger.getInstance().recordOutput("GridPose", gridPose.get().estimatedPose.toPose2d());
+      Logger.getInstance().recordOutput("GridConfidence", confidence.toString());
     }
 
-    Optional<EstimatedRobotPose> loadingPose = getCameraLatestResults(loadingCamera, getCurrentPose());
+    Optional<EstimatedRobotPose> loadingPose = getCameraLatestResults(loadingCamera, photonPoseEstimatorLoading, getCurrentPose());
     if(loadingPose.isPresent()){
-      poseEstimator.setVisionMeasurementStdDevs(confidenceCalculator(loadingPose.get()));
+      var confidence = confidenceCalculator(loadingPose.get());
+      poseEstimator.setVisionMeasurementStdDevs(confidence);
       SmartDashboard.putString("Estimated Loading Pose", loadingPose.get().estimatedPose.toString());
       poseEstimator.addVisionMeasurement(loadingPose.get().estimatedPose.toPose2d(), loadingPose.get().timestampSeconds);
+      Logger.getInstance().recordOutput("LoadingPose", loadingPose.get().estimatedPose.toPose2d());
+      Logger.getInstance().recordOutput("loadingConfidence", confidence.toString());
     }
 
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), pigeon2Subsystem.getGyroRotation(), swerveSubsystem.getPositions());
@@ -227,11 +233,11 @@ public class PoseEstimator extends SubsystemBase {
     return Constants.VisionConstants.VISION_MEASUREMENT_STANDARD_DEVIATIONS.times(confidenceMultiplier);
   }
 
-  private Optional<EstimatedRobotPose> getCameraLatestResults(PhotonCamera suppliedCamera, Pose2d prevEstimatedRobotPose) {
-    if(photonPoseEstimatorGrid != null && suppliedCamera != null) {
+  private Optional<EstimatedRobotPose> getCameraLatestResults(PhotonCamera suppliedCamera, PhotonPoseEstimator photonPoseEstimator, Pose2d prevEstimatedRobotPose) {
+    if(photonPoseEstimator != null && suppliedCamera != null) {
       var photonResults = suppliedCamera.getLatestResult();
       if(photonResults.hasTargets() && (photonResults.targets.size() > 1 || photonResults.targets.get(0).getPoseAmbiguity() < Constants.VisionConstants.APRILTAG_AMBIGUITY_THRESHOLD)) {
-        return photonPoseEstimatorGrid.update(photonResults);
+        return photonPoseEstimator.update(photonResults);
       }else{
         return Optional.empty();
       }

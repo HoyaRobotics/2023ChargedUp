@@ -43,7 +43,7 @@
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": true,
+      "isStopPoint": false,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
@@ -145,12 +145,13 @@
     {
       "position": 1.9,
       "names": [
-        "StopIntake"
+        "SideIntake"
       ]
     },
     {
       "position": 3.0109090909092013,
       "names": [
+        "StopIntake",
         "StopConveyor"
       ]
     }

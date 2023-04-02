@@ -43,14 +43,14 @@ public class Arm extends SubsystemBase {
     leftArmMotor.setSmartCurrentLimit(30);
     leftArmMotor.setInverted(false);
     leftArmMotor.enableVoltageCompensation(10);
-    leftArmMotor.setOpenLoopRampRate(0.3);
-    leftArmMotor.setClosedLoopRampRate(0.3);
+    leftArmMotor.setOpenLoopRampRate(0.4);
+    leftArmMotor.setClosedLoopRampRate(0.4);
     leftArmMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     leftArmMotor.setSoftLimit(SoftLimitDirection.kForward, 2);
     leftArmMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     leftArmMotor.setSoftLimit(SoftLimitDirection.kReverse, -30);
     leftArmPID = leftArmMotor.getPIDController();
-    leftArmPID.setP(0.05);
+    leftArmPID.setP(0.05);//0.05
     leftArmPID.setI(0.0);
     leftArmPID.setD(0.0);
     leftArmPID.setIZone(0.0);
@@ -62,14 +62,14 @@ public class Arm extends SubsystemBase {
     rightArmMotor.setSmartCurrentLimit(30);
     rightArmMotor.setInverted(true);
     rightArmMotor.enableVoltageCompensation(10);
-    rightArmMotor.setOpenLoopRampRate(0.3);
-    rightArmMotor.setClosedLoopRampRate(0.3);
+    rightArmMotor.setOpenLoopRampRate(0.4);
+    rightArmMotor.setClosedLoopRampRate(0.4);
     rightArmMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     rightArmMotor.setSoftLimit(SoftLimitDirection.kForward, 2);
     rightArmMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     rightArmMotor.setSoftLimit(SoftLimitDirection.kReverse, -30);
     rightArmPID = rightArmMotor.getPIDController();
-    rightArmPID.setP(0.05);
+    rightArmPID.setP(0.05);//0.05
     rightArmPID.setI(0.0);
     rightArmPID.setD(0.0);
     rightArmPID.setIZone(0.0);

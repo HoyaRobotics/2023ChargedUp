@@ -36,7 +36,7 @@ public final class Constants {
 public static final int DRIVETRAIN_PIGEON_ID = 2; // Pigeon ID
 public static final int CANDLE_ID = 3;
 
-public static final double DRIVE_SPEED = 0.7;
+public static final double DRIVE_SPEED = 0.8; //0.7 in north bay
 public static final double BOOST_SPEED = 1.0;
 public static final double PERCISION_SPEED = 0.25;
 
@@ -235,7 +235,7 @@ public static final double PERCISION_SPEED = 0.25;
 
   public static final double pickupConeExtensionPosition = 25.5;
   public static final double pickupCubeExtensionPosition = 40;
-  public static final double pickupConeArmPosition = 0.5;
+  public static final double pickupConeArmPosition = 0.75; //was 0.5
   public static final double pickupCubeArmPosition = -1.0;
   public static final double holdExtensionPosition = 80;
   public static final double holdArmPosition = -2;
@@ -254,7 +254,7 @@ public static final double PERCISION_SPEED = 0.25;
 
   public static final class VisionConstants{
 
-    public static final double APRILTAG_AMBIGUITY_THRESHOLD = 0.2;
+    public static final double APRILTAG_AMBIGUITY_THRESHOLD = 0.15; //was 0.2
     public static final double POSE_AMBIGUITY_SHIFTER = 0.2;
     public static final double POSE_AMBIGUITY_MULTIPLIER = 4;
     public static final double NOISY_DISTANCE_METERS = 2.5;

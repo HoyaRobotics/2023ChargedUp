@@ -113,8 +113,7 @@ public class RobotContainer {
     m_chooser.addOption("Two Left", "TwoLeft");
     m_chooser.addOption("Two Right", "TwoRight");
     m_chooser.addOption("Two Right Bump", "TwoRightBump");
-    //m_chooser.addOption("Two Left Level", "TwoLeftFast");
-    //m_chooser.addOption("Two Right Level", "TwoRightFast");
+    m_chooser.addOption("Two Left Level", "TwoLeftLevel");
   }
 
   /**
@@ -225,8 +224,11 @@ public class RobotContainer {
     List<PathPlannerTrajectory> trajectories;
     if(m_chooser.get() == "Nothing") {
       return null;
+    }else if(m_chooser.get() == "TwoRightBump") {
+      trajectories = PathPlanner.loadPathGroup(m_chooser.get(), 2, 2);
+      return autoBuilder.fullAuto(trajectories);
     }else{
-      trajectories = PathPlanner.loadPathGroup(m_chooser.get(), 2.5, 2);//vel 3, accel 2.5
+      trajectories = PathPlanner.loadPathGroup(m_chooser.get(), 3, 2.5);//vel 3, accel 2.5
       return autoBuilder.fullAuto(trajectories);
     }
     }

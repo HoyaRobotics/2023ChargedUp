@@ -4,18 +4,12 @@
 
 package frc.robot.subsystems;
 
-import org.littletonrobotics.junction.Logger;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -31,10 +25,10 @@ public class Arm extends SubsystemBase {
   private CANSparkMax extensionMotor = new CANSparkMax(Constants.ArmConstants.EXTENSION_MOTOR, MotorType.kBrushless);
   private SparkMaxPIDController extensionPID;
 
-  Mechanism2d mechanism1 = new Mechanism2d(Units.inchesToMeters(2), Units.inchesToMeters(49.625000));
+  /*Mechanism2d mechanism1 = new Mechanism2d(Units.inchesToMeters(2), Units.inchesToMeters(49.625000));
   MechanismRoot2d root;
   MechanismLigament2d wrist1;
-  MechanismLigament2d wrist2;
+  MechanismLigament2d wrist2;*/
 
   /** Creates a new Arm. */
   public Arm() {
@@ -50,7 +44,7 @@ public class Arm extends SubsystemBase {
     leftArmMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     leftArmMotor.setSoftLimit(SoftLimitDirection.kReverse, -30);
     leftArmPID = leftArmMotor.getPIDController();
-    leftArmPID.setP(0.05);//0.05
+    leftArmPID.setP(Constants.returnArmPGain);//0.05
     leftArmPID.setI(0.0);
     leftArmPID.setD(0.0);
     leftArmPID.setIZone(0.0);
@@ -69,7 +63,7 @@ public class Arm extends SubsystemBase {
     rightArmMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     rightArmMotor.setSoftLimit(SoftLimitDirection.kReverse, -30);
     rightArmPID = rightArmMotor.getPIDController();
-    rightArmPID.setP(0.05);//0.05
+    rightArmPID.setP(Constants.returnArmPGain);//0.05
     rightArmPID.setI(0.0);
     rightArmPID.setD(0.0);
     rightArmPID.setIZone(0.0);
@@ -100,7 +94,7 @@ public class Arm extends SubsystemBase {
     setArmAnglePID(Constants.pickupConeArmPosition);
     setExtensionPID(Constants.pickupConeExtensionPosition); //was 26
 
-    root = mechanism1.getRoot("rotation", 0, Units.inchesToMeters(-49.625000));
+    /*root = mechanism1.getRoot("rotation", 0, Units.inchesToMeters(-49.625000));
 
     double armGearRatio = (10.0/50.0) * (14.0/68.0) * (22.0/72.0) * (360);
     double armAngle = getLeftArmAngle() * armGearRatio;
@@ -109,7 +103,7 @@ public class Arm extends SubsystemBase {
     double extensionLength = (getExtensionPosition() * extensionGearRatio * -1.0) + 120.0;
 
     wrist1 = root.append(new MechanismLigament2d("Stinger Rotate 1", extensionLength, armAngle));
-    wrist2 = root.append(new MechanismLigament2d("Stinger Rotate 2", 120.0 - extensionLength, 180.0 + armAngle));
+    wrist2 = root.append(new MechanismLigament2d("Stinger Rotate 2", 120.0 - extensionLength, 180.0 + armAngle));*/
   }
 
   @Override
@@ -118,8 +112,8 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("ArmAngle", getArmAngle());
     SmartDashboard.putNumber("ArmExtension", getExtensionPosition());
 
-    Logger.getInstance().recordOutput("Arm Angle", getLeftArmAngle());
-    Logger.getInstance().recordOutput("Arm Extension", getExtensionPosition());
+    //Logger.getInstance().recordOutput("Arm Angle", getLeftArmAngle());
+    //Logger.getInstance().recordOutput("Arm Extension", getExtensionPosition());
 
     if(getLeftArmAngle() < -4.5 && GlobalVariables.maxSpeed != 0.45) {
       GlobalVariables.maxSpeed = 0.45;
@@ -127,7 +121,7 @@ public class Arm extends SubsystemBase {
       GlobalVariables.maxSpeed = Constants.DRIVE_SPEED;
     }
 
-    double armGearRatio = (10.0/50.0) * (14.0/68.0) * (22.0/72.0) * (360);
+    /*double armGearRatio = (10.0/50.0) * (14.0/68.0) * (22.0/72.0) * (360);
     double armAngle = getLeftArmAngle() * armGearRatio;
 
     double extensionGearRatio = (1.0/25.0) * 1.273;
@@ -139,7 +133,7 @@ public class Arm extends SubsystemBase {
     wrist2.setLength(120.0 - extensionLength);
 
     SmartDashboard.putData("Stinger", mechanism1);
-    Logger.getInstance().recordOutput("Stinger", mechanism1);
+    Logger.getInstance().recordOutput("Stinger", mechanism1);*/
   }
 
   public void setArmAnglePID(double angle) {
@@ -232,6 +226,11 @@ public class Arm extends SubsystemBase {
 
   public void setExtensionPIDValue(double pGain) {
     extensionPID.setP(pGain);
+  }
+
+  public void setArmPIDValue(double pGain) {
+    leftArmPID.setP(pGain);
+    rightArmPID.setP(pGain);
   }
 
   public void moveGridTargetIf(boolean goUp){

@@ -29,7 +29,7 @@ public class ThresholdArmToPosition extends CommandBase {
   @Override
   public void initialize() {
     arm.setArmAnglePID(angle.getAsDouble());
-    System.out.println("Arm position is set");
+    //System.out.println("Arm position is set");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,7 +39,7 @@ public class ThresholdArmToPosition extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Arm is past threshold");
+    //System.out.println("Arm is past threshold");
   }
 
   // Returns true when the command should end.

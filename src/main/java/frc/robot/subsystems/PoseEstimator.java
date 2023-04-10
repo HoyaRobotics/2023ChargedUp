@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import java.io.IOException;
 import java.util.Optional;
 
-import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -46,12 +45,12 @@ public class PoseEstimator extends SubsystemBase {
   
 
   PhotonCamera gridCamera = new PhotonCamera("OV5647");
-  PhotonCamera loadingCamera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+  //PhotonCamera loadingCamera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
   //Transform3d robotToCam = new Transform3d(new Translation3d(-0.408069, 0.194006, 1.257285), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(180.0)));
   Transform3d robotToGridCam = new Transform3d(new Translation3d(-0.354094, 0.227661, 1.073770), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(180.0)));
-  Transform3d robotToLoadingCam = new Transform3d(new Translation3d(-0.287274, -0.193675, 1.255828), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(0.0)));
+  //Transform3d robotToLoadingCam = new Transform3d(new Translation3d(-0.287274, -0.193675, 1.255828), new Rotation3d(0.0, Units.degreesToRadians(15.0), Units.degreesToRadians(0.0)));
   PhotonPoseEstimator photonPoseEstimatorGrid;
-  PhotonPoseEstimator photonPoseEstimatorLoading;
+  //PhotonPoseEstimator photonPoseEstimatorLoading;
 
   // Kalman Filter Configuration. These can be "tuned-to-taste" based on how much you trust your various sensors. 
   // Smaller numbers will cause the filter to "trust" the estimate from that particular component more than the others. 
@@ -84,15 +83,15 @@ public class PoseEstimator extends SubsystemBase {
         fieldLayout.setOrigin(OriginPosition.kRedAllianceWallRightSide);
       }
       photonPoseEstimatorGrid = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP, gridCamera,  robotToGridCam);
-      photonPoseEstimatorLoading = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP, loadingCamera, robotToLoadingCam);
+      //photonPoseEstimatorLoading = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP, loadingCamera, robotToLoadingCam);
       photonPoseEstimatorGrid.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
-      photonPoseEstimatorLoading.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+      //photonPoseEstimatorLoading.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
     } catch (IOException e) {
       // The AprilTagFieldLayout failed to load. We won't be able to estimate poses if we don't know
       // where the tags are.
       DriverStation.reportError("Failed to load AprilTagFieldLayout", e.getStackTrace());
       photonPoseEstimatorGrid = null;
-      photonPoseEstimatorLoading = null;
+      //photonPoseEstimatorLoading = null;
     }
   }
 
@@ -107,12 +106,12 @@ public class PoseEstimator extends SubsystemBase {
           AprilTagFieldLayout field = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
           field.setOrigin(OriginPosition.kBlueAllianceWallRightSide);
           photonPoseEstimatorGrid.setFieldTags(field);
-          photonPoseEstimatorLoading.setFieldTags(field);
+          //photonPoseEstimatorLoading.setFieldTags(field);
           System.out.println("Blue Side Set");
         } catch (IOException e) {
           DriverStation.reportError("Failed to load AprilTagFieldLayout", e.getStackTrace());
           photonPoseEstimatorGrid = null;
-          photonPoseEstimatorLoading = null;
+          //photonPoseEstimatorLoading = null;
           System.out.println("Error");
         }
         GlobalVariables.hasConnectedToDS = true;
@@ -123,12 +122,12 @@ public class PoseEstimator extends SubsystemBase {
           AprilTagFieldLayout field = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
           field.setOrigin(OriginPosition.kRedAllianceWallRightSide);
           photonPoseEstimatorGrid.setFieldTags(field);
-          photonPoseEstimatorLoading.setFieldTags(field);
+          //photonPoseEstimatorLoading.setFieldTags(field);
           System.out.println("Red Side Set");
         } catch (IOException e) {
           DriverStation.reportError("Failed to load AprilTagFieldLayout", e.getStackTrace());
           photonPoseEstimatorGrid = null;
-          photonPoseEstimatorLoading = null;
+          //photonPoseEstimatorLoading = null;
           System.out.println("Error");
         }
         GlobalVariables.hasConnectedToDS = true;
@@ -136,29 +135,34 @@ public class PoseEstimator extends SubsystemBase {
     }
     
 
-    //Optional<EstimatedRobotPose> pose = getEstimatedGlobalPose(getCurrentPose());
     Optional<EstimatedRobotPose> gridPose = getCameraLatestResults(gridCamera, photonPoseEstimatorGrid, getCurrentPose());
     if(gridPose.isPresent()){
-      var confidence = confidenceCalculator(gridPose.get());
-      poseEstimator.setVisionMeasurementStdDevs(confidence);
-      SmartDashboard.putString("Estimated Grid Pose", gridPose.get().estimatedPose.toString());
-      poseEstimator.addVisionMeasurement(gridPose.get().estimatedPose.toPose2d(), gridPose.get().timestampSeconds);
-      Logger.getInstance().recordOutput("GridPose", gridPose.get().estimatedPose.toPose2d());
-      Logger.getInstance().recordOutput("GridConfidence", confidence.toString());
+      Boolean isGridPoseCorrect = isPoseWithinView(gridPose.get().estimatedPose.toPose2d(), 1.69, 0.32, 16.13, 7.7);
+      if(isGridPoseCorrect){
+        var confidence = confidenceCalculator(gridPose.get());
+        poseEstimator.setVisionMeasurementStdDevs(confidence);
+        SmartDashboard.putString("Estimated Grid Pose", gridPose.get().estimatedPose.toString());
+        poseEstimator.addVisionMeasurement(gridPose.get().estimatedPose.toPose2d(), gridPose.get().timestampSeconds);
+        //Logger.getInstance().recordOutput("GridPose", gridPose.get().estimatedPose.toPose2d());
+        //Logger.getInstance().recordOutput("GridConfidence", confidence.toString());
+        //Logger.getInstance().recordOutput("GridConfidence", confidence.getData());
+      }
     }
 
-    Optional<EstimatedRobotPose> loadingPose = getCameraLatestResults(loadingCamera, photonPoseEstimatorLoading, getCurrentPose());
+    /*Optional<EstimatedRobotPose> loadingPose = getCameraLatestResults(loadingCamera, photonPoseEstimatorLoading, getCurrentPose());
     if(loadingPose.isPresent()){
-      var confidence = confidenceCalculator(loadingPose.get());
-      poseEstimator.setVisionMeasurementStdDevs(confidence);
-      SmartDashboard.putString("Estimated Loading Pose", loadingPose.get().estimatedPose.toString());
-      poseEstimator.addVisionMeasurement(loadingPose.get().estimatedPose.toPose2d(), loadingPose.get().timestampSeconds);
-      Logger.getInstance().recordOutput("LoadingPose", loadingPose.get().estimatedPose.toPose2d());
-      Logger.getInstance().recordOutput("loadingConfidence", confidence.toString());
-    }
+      Boolean isLoadingPoseCorrect = isPoseWithinView(loadingPose.get().estimatedPose.toPose2d(), 1.69, 0.32, 16.13, 7.7);
+      if(isLoadingPoseCorrect){
+        var confidence = confidenceCalculator(loadingPose.get());
+        poseEstimator.setVisionMeasurementStdDevs(confidence);
+        SmartDashboard.putString("Estimated Loading Pose", loadingPose.get().estimatedPose.toString());
+        poseEstimator.addVisionMeasurement(loadingPose.get().estimatedPose.toPose2d(), loadingPose.get().timestampSeconds);
+        Logger.getInstance().recordOutput("LoadingPose", loadingPose.get().estimatedPose.toPose2d());
+        Logger.getInstance().recordOutput("loadingConfidence", confidence.toString());
+      }
+    }*/
 
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), pigeon2Subsystem.getGyroRotation(), swerveSubsystem.getPositions());
-    Logger.getInstance().recordOutput("Estimated Pose", poseEstimator.getEstimatedPosition());
     field2d.setRobotPose(poseEstimator.getEstimatedPosition());
     // This method will be called once per scheduler run
   }
@@ -243,6 +247,14 @@ public class PoseEstimator extends SubsystemBase {
       }
     }else{
       return Optional.empty();
+    }
+  }
+
+  private boolean isPoseWithinView(Pose2d pose, double minX, double minY, double maxX, double maxY) {
+    if(pose.getX() > minX && pose.getY() > minY && pose.getX() < maxX && pose.getY() < maxY){
+      return true;
+    }else{
+      return false;
     }
   }
 }

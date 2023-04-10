@@ -47,9 +47,9 @@ public static final double PERCISION_SPEED = 0.25;
   public static final class ModuleConstants {
 
     // Swerve Current Limiting
-    public static final int angleContinuousCurrentLimit = 25;
-    public static final int anglePeakCurrentLimit = 40;
-    public static final double anglePeakCurrentDuration = 0.1;
+    public static final int angleContinuousCurrentLimit = 25;//25
+    public static final int anglePeakCurrentLimit = 40;//40
+    public static final double anglePeakCurrentDuration = 0.1;//0.1
     public static final boolean angleEnableCurrentLimit = true;
 
     public static final int driveContinuousCurrentLimit = 35;
@@ -235,11 +235,13 @@ public static final double PERCISION_SPEED = 0.25;
 
   public static final double pickupConeExtensionPosition = 25.5;
   public static final double pickupCubeExtensionPosition = 40;
-  public static final double pickupConeArmPosition = 0.75; //was 0.5
-  public static final double pickupCubeArmPosition = -1.0;
+  public static final double pickupConeArmPosition = 0.5; //was 0.5 at north bay, 0.75 works ok but sometimes get stuck on conveyor
+  public static final double pickupCubeArmPosition = 0.1;
   public static final double holdExtensionPosition = 80;
   public static final double holdArmPosition = -2;
   public static final double placeExtensionPosition  = 100;
+  public static final double placeArmPGain = 0.05;
+  public static final double returnArmPGain = 0.07;
 
   public static final List<AprilTag> TAG_POSES = Collections.unmodifiableList(List.of(
     new AprilTag(1, new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(42.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, Units.degreesToRadians(180.0)))),

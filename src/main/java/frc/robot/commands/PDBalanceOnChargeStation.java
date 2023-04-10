@@ -11,8 +11,8 @@ import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class PIDBalanceOnChargeStation extends CommandBase {
-  private final PIDController pidController = new PIDController(0.05, 0, 0.005);
+public class PDBalanceOnChargeStation extends CommandBase {
+  private final PIDController pidController = new PIDController(0.06, 0, 0.04); //0.05, 0, 0.01
   //0.045 works
   //0.06 works but had to relevel once or twice
   private final PIDController yaw = new PIDController(0.3, 0, 0);
@@ -21,7 +21,7 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   private final SwerveSubsystem swerveSubsystem;
   private final PoseEstimator poseEstimator;
   /** Creates a new PIDBalanceOnChargeStation. */
-  public  PIDBalanceOnChargeStation(Pigeon2Subsystem pigeon2Subsystem, SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator) {
+  public  PDBalanceOnChargeStation(Pigeon2Subsystem pigeon2Subsystem, SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator) {
     this.pigeon2Subsystem = pigeon2Subsystem;
     this.swerveSubsystem = swerveSubsystem;
     this.poseEstimator = poseEstimator;

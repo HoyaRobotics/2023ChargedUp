@@ -6,8 +6,6 @@ package frc.robot.subsystems;
 
 import java.io.IOException;
 
-import org.littletonrobotics.junction.Logger;
-
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
@@ -81,7 +79,7 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Chassis Speed", getCurrentChassisSpeeds());
     SmartDashboard.putNumber("Max Drive Speed", GlobalVariables.maxSpeed);
 
-    Logger.getInstance().recordOutput("Swerve Modules", getStates());
+    //Logger.getInstance().recordOutput("Swerve Modules", getStates());
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {

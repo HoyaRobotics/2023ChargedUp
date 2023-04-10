@@ -6,6 +6,7 @@ package frc.robot.commands.ArmCommands;
 
 import java.util.function.IntSupplier;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -21,12 +22,16 @@ public class ReleaseAndRetract extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new InstantCommand(() -> arm.setArmPIDValue(Constants.placeArmPGain), arm),
       new MoveArmToPosition(arm, () -> Constants.RELEASE_ARM_POSITIONS.get(level.getAsInt())), //was +2
       new MoveExtensionToPosition(arm, () -> Constants.RELEASE_EXTENSION_POSITIONS.get(level.getAsInt())),
       new Release(pincher),
       new WaitCommand(0.5),
-      new MoveExtensionToPosition(arm, () -> Constants.placeExtensionPosition),
-      new MoveArmToPosition(arm, () -> Constants.pickupConeArmPosition),
+      new InstantCommand(() -> arm.setArmPIDValue(Constants.returnArmPGain), arm),
+      //new MoveExtensionToPosition(arm, () -> Constants.placeExtensionPosition),
+      new ThresholdExtensionToPosition(arm, () -> Constants.placeExtensionPosition, () -> 80.0, () -> true),
+      //new MoveArmToPosition(arm, () -> Constants.pickupConeArmPosition),
+      new ThresholdArmToPosition(arm, () -> Constants.pickupConeArmPosition, () -> -2.0, () -> true),
       new MoveExtensionToPosition(arm, () -> Constants.pickupConeExtensionPosition)
     );
   }

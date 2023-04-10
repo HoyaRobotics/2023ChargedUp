@@ -29,7 +29,7 @@ public class ThresholdExtensionToPosition extends CommandBase {
   @Override
   public void initialize() {
     arm.setExtensionPID(extension.getAsDouble());
-    System.out.println("Extension position is set");
+    //System.out.println("Extension position is set");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,7 +39,7 @@ public class ThresholdExtensionToPosition extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Extension is past threshold");
+    //System.out.println("Extension is past threshold");
   }
 
   // Returns true when the command should end.

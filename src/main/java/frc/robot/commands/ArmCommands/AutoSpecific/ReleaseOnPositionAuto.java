@@ -6,6 +6,7 @@ package frc.robot.commands.ArmCommands.AutoSpecific;
 
 import java.util.function.IntSupplier;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -23,6 +24,7 @@ public class ReleaseOnPositionAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new InstantCommand(() -> arm.setArmPIDValue(Constants.placeArmPGain), arm),
       new MoveArmToPosition(arm, () -> Constants.RELEASE_ARM_POSITIONS.get(level.getAsInt())),
       new Release(pincher),
       new WaitCommand(0.5)

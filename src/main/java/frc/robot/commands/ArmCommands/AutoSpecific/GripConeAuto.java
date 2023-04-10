@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ArmCommands.AutoSpecific;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -22,6 +23,7 @@ public class GripConeAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new InstantCommand(() -> arm.setArmPIDValue(Constants.returnArmPGain), arm),
       new MoveExtensionToPosition(arm, () -> Constants.pickupConeExtensionPosition),
       new MoveArmToPosition(arm, () -> Constants.pickupConeArmPosition),
       new Grip(pincher),

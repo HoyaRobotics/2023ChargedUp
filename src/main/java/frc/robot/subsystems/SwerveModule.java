@@ -118,6 +118,8 @@ public void setDesiredStateAbs(SwerveModuleState desiredState, boolean isOpenLoo
     angleMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(Constants.ModuleConstants.angleEnableCurrentLimit, Constants.ModuleConstants.angleContinuousCurrentLimit, Constants.ModuleConstants.anglePeakCurrentLimit, Constants.ModuleConstants.anglePeakCurrentDuration));
     angleMotor.configIntegratedSensorInitializationStrategy(SensorInitializationStrategy.BootToZero);
     angleMotor.configNeutralDeadband(Constants.ModuleConstants.angleNeutralDeadband);
+    //angleMotor.configOpenloopRamp(0.01);
+    //angleMotor.configClosedloopRamp(0.01);
 
     angleMotor.setInverted(Constants.ModuleConstants.angleMotorInvert);
     angleMotor.setNeutralMode(Constants.ModuleConstants.angleNeutralMode);

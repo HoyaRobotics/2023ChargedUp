@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -22,7 +20,7 @@ public class Classifier extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putString("Object", getObject());
-    Logger.getInstance().recordOutput("Object", getObject());
+    //Logger.getInstance().recordOutput("Object", getObject());
   }
 
   public String getObject() {

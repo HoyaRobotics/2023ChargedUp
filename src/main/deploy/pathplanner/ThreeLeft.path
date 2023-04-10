@@ -57,12 +57,12 @@
         "y": 4.43
       },
       "prevControl": {
-        "x": 2.4304170159852267,
-        "y": 4.43
+        "x": 4.644137731434483,
+        "y": 4.605470602444619
       },
       "nextControl": {
-        "x": 2.4304170159852267,
-        "y": 4.43
+        "x": 4.644137731434483,
+        "y": 4.605470602444619
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -82,19 +82,19 @@
     },
     {
       "anchorPoint": {
-        "x": 2.3393749890125073,
-        "y": 3.28
+        "x": 7.055382416254092,
+        "y": 3.4006909541265387
       },
       "prevControl": {
-        "x": 1.809327927579158,
-        "y": 3.28
+        "x": 5.983997361789473,
+        "y": 5.079513070720652
       },
       "nextControl": {
-        "x": 2.8694220504458565,
-        "y": 3.28
+        "x": 5.983997361789473,
+        "y": 5.079513070720652
       },
-      "holonomicAngle": 0.0,
-      "isReversal": false,
+      "holonomicAngle": -55.05433559999434,
+      "isReversal": true,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
@@ -109,12 +109,12 @@
     },
     {
       "anchorPoint": {
-        "x": 3.869925066819107,
-        "y": 3.28
+        "x": 1.9089077796294014,
+        "y": 3.8694219154548097
       },
       "prevControl": {
-        "x": 3.367282074135909,
-        "y": 3.28
+        "x": 2.415902492902838,
+        "y": 5.347359334336807
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -124,7 +124,10 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "Level"
+          "Stop",
+          "Place2",
+          "Release2",
+          "Retract"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -132,28 +135,31 @@
       }
     }
   ],
+  "maxVelocity": 3.0,
+  "maxAcceleration": 2.5,
+  "isReversed": null,
   "markers": [
     {
-      "position": 0.06,
+      "position": 0.043636363636398424,
       "names": [
         "Retract"
       ]
     },
     {
-      "position": 0.4,
+      "position": 0.4800000000000182,
       "names": [
         "RunIntakeCube",
         "RunConveyor"
       ]
     },
     {
-      "position": 0.95,
+      "position": 0.9454545454544889,
       "names": [
         "SideIntake"
       ]
     },
     {
-      "position": 1.77,
+      "position": 1.9,
       "names": [
         "GripCube",
         "StopIntake",
@@ -161,7 +167,28 @@
       ]
     },
     {
-      "position": 2.152727272727355,
+      "position": 2.3563636363637555,
+      "names": [
+        "RunIntakeCone",
+        "RunConveyor"
+      ]
+    },
+    {
+      "position": 3.05,
+      "names": [
+        "SideIntake"
+      ]
+    },
+    {
+      "position": 3.781818181818503,
+      "names": [
+        "GripCone",
+        "StopIntake",
+        "StopConveyor"
+      ]
+    },
+    {
+      "position": 2.02,
       "names": [
         "Retract"
       ]

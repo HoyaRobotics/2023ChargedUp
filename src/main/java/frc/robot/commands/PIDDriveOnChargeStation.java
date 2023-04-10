@@ -11,8 +11,8 @@ import frc.robot.subsystems.Pigeon2Subsystem;
 import frc.robot.subsystems.PoseEstimator;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class PIDBalanceOnChargeStation extends CommandBase {
-  private final PIDController pidController = new PIDController(0.05, 0, 0.005);
+public class PIDDriveOnChargeStation extends CommandBase {
+  private final PIDController pidController = new PIDController(0.09, 0, 0);
   //0.045 works
   //0.06 works but had to relevel once or twice
   private final PIDController yaw = new PIDController(0.3, 0, 0);
@@ -21,7 +21,7 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   private final SwerveSubsystem swerveSubsystem;
   private final PoseEstimator poseEstimator;
   /** Creates a new PIDBalanceOnChargeStation. */
-  public  PIDBalanceOnChargeStation(Pigeon2Subsystem pigeon2Subsystem, SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator) {
+  public  PIDDriveOnChargeStation(Pigeon2Subsystem pigeon2Subsystem, SwerveSubsystem swerveSubsystem, PoseEstimator poseEstimator) {
     this.pigeon2Subsystem = pigeon2Subsystem;
     this.swerveSubsystem = swerveSubsystem;
     this.poseEstimator = poseEstimator;
@@ -56,17 +56,8 @@ public class PIDBalanceOnChargeStation extends CommandBase {
       } else {
         //System.out.println("Level");
         pidController.calculate(pigeon2Subsystem.getPigeonPitch());
-        swerveSubsystem.lock();
+        swerveSubsystem.stop();
       }
-
-    /*if(!pidController.atSetpoint()) {
-      System.out.println("Not Level");
-      swerveSubsystem.drive(new ChassisSpeeds(pidController.calculate(pigeon2Subsystem.getPigeonPitch() - GlobalVariables.pigeonPitch), 0, 0.0));
-    }else{
-      System.out.println("Level");
-      pidController.calculate(pigeon2Subsystem.getPigeonPitch() - GlobalVariables.pigeonPitch);
-      swerveSubsystem.lock();
-    }*/
   }
 }
 
@@ -75,11 +66,16 @@ public class PIDBalanceOnChargeStation extends CommandBase {
   public void end(boolean interrupted) {
     pidController.reset();
     yaw.reset();
+    swerveSubsystem.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(yaw.atSetpoint() && pidController.atSetpoint()) {
+      return true;
+    }else{
+      return false;
+    }
   }
 }

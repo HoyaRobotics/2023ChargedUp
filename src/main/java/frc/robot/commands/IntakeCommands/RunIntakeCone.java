@@ -14,7 +14,7 @@ public class RunIntakeCone extends CommandBase {
     @Override
     public void initialize() {
         intake.setIntakeAnglePID(-32000);
-        intake.intakeSpeed(0.4, 0.6);
+        intake.intakeSpeed(0.5, 0.6);
         //GlobalVariables.fieldRelative = false;
         //0.8 top 0.8 bottom with top roller
         //0.7 top 0.7 bottom without top roller

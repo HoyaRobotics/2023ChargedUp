@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ArmCommands;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
@@ -18,6 +19,7 @@ public class FlipCone extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new InstantCommand(() -> arm.setArmPIDValue(Constants.returnArmPGain), arm),
       new Grip(pincher),
       new MoveExtensionToPosition(arm, () -> Constants.holdExtensionPosition),
       new MoveArmToPosition(arm, () -> Constants.holdArmPosition)

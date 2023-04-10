@@ -18,8 +18,8 @@
       "stopEvent": {
         "names": [
           "Grip",
-          "Place",
-          "Release"
+          "Place3",
+          "Release3"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",

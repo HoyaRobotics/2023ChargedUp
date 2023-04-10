@@ -18,8 +18,8 @@
       "stopEvent": {
         "names": [
           "GripCone",
-          "Place",
-          "Release"
+          "Place3",
+          "Release3"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -169,8 +169,8 @@
       "stopEvent": {
         "names": [
           "Stop",
-          "Place",
-          "Release",
+          "Place3",
+          "Release3",
           "Retract"
         ],
         "executionBehavior": "sequential",
@@ -190,7 +190,7 @@
       ]
     },
     {
-      "position": 1.65,
+      "position": 1.45,
       "names": [
         "RunIntakeCube",
         "RunConveyor"

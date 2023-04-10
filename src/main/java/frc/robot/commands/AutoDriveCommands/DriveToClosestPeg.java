@@ -93,8 +93,8 @@ public class DriveToClosestPeg extends CommandBase {
           this.position = i;
         }
       }
-      System.out.println(distance);
-      System.out.println(position);
+      //System.out.println(distance);
+      //System.out.println(position);
       System.out.println(loopStatus);
       this.endPose = Constants.NODE_POSE_BLUE.get(position);
       GlobalVariables.trajectory = PathPlanner.generatePath(
@@ -122,8 +122,8 @@ public class DriveToClosestPeg extends CommandBase {
           this.position = i;
         }
       }
-      System.out.println(distance);
-      System.out.println(position);
+      //System.out.println(distance);
+      //System.out.println(position);
       System.out.println(loopStatus);
       this.endPose = Constants.NODE_POSE_RED.get(position);
       GlobalVariables.trajectory = PathPlanner.generatePath(

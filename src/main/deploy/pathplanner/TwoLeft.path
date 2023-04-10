@@ -18,8 +18,8 @@
       "stopEvent": {
         "names": [
           "GripCone",
-          "Place",
-          "Release"
+          "Place3",
+          "Release3"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -72,8 +72,8 @@
       "stopEvent": {
         "names": [
           "Stop",
-          "Place",
-          "Release"
+          "Place3",
+          "Release3"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",

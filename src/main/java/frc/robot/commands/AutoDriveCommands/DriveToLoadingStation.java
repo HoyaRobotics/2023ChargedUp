@@ -81,7 +81,8 @@ public class DriveToLoadingStation extends CommandBase {
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
         new PathPoint(new Translation2d(12.3, 6.31), Rotation2d.fromDegrees(14.14), Rotation2d.fromDegrees(180)),
         new PathPoint(new Translation2d(14.2, 6.6), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(180)),
-        new PathPoint(new Translation2d(14.2, 7.48), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(90.0)));
+        //new PathPoint(new Translation2d(14.2, 7.48), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(90.0)));
+        new PathPoint(new Translation2d(14.2, 7.5), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(90.0)));
       poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
       //candleSubsystem.setLED(0, 255, 0, 0, 7);
       swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();
@@ -91,7 +92,8 @@ public class DriveToLoadingStation extends CommandBase {
         new PathConstraints(2, 2),
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
         new PathPoint(new Translation2d(14.2, 6.6), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(180)),
-        new PathPoint(new Translation2d(14.2, 7.48), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(90.0)));
+        //new PathPoint(new Translation2d(14.2, 7.48), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(90.0)));
+        new PathPoint(new Translation2d(14.2, 7.5), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(90.0)));
       poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
       //candleSubsystem.setLED(0, 255, 0, 0, 7);
       swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();
@@ -105,7 +107,8 @@ public class DriveToLoadingStation extends CommandBase {
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
         new PathPoint(new Translation2d(12.3, 1.69), Rotation2d.fromDegrees(-14.14), Rotation2d.fromDegrees(180)),
         new PathPoint(new Translation2d(14.2, 1.42), Rotation2d.fromDegrees(90.0), Rotation2d.fromDegrees(180)),
-        new PathPoint(new Translation2d(14.2, 0.54), Rotation2d.fromDegrees(-90.0), Rotation2d.fromDegrees(-90.0)));
+        //new PathPoint(new Translation2d(14.2, 0.54), Rotation2d.fromDegrees(-90.0), Rotation2d.fromDegrees(-90.0)));
+        new PathPoint(new Translation2d(14.2, 0.52), Rotation2d.fromDegrees(-90.0), Rotation2d.fromDegrees(-90.0)));
       poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
       //candleSubsystem.setLED(0, 255, 0, 0, 7);
       swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();
@@ -115,7 +118,8 @@ public class DriveToLoadingStation extends CommandBase {
         new PathConstraints(2, 2),
         new PathPoint(new Translation2d(poseEstimator.getPoseX(), poseEstimator.getPoseY()), swerveSubsystem.getCurrentChassisHeading(), poseEstimator.getPoseRotation(), swerveSubsystem.getCurrentChassisSpeeds()),
         new PathPoint(new Translation2d(14.2, 1.42), Rotation2d.fromDegrees(-90.0), Rotation2d.fromDegrees(180)),
-        new PathPoint(new Translation2d(14.2, 0.54), Rotation2d.fromDegrees(-90.0), Rotation2d.fromDegrees(-90.0)));
+        //new PathPoint(new Translation2d(14.2, 0.54), Rotation2d.fromDegrees(-90.0), Rotation2d.fromDegrees(-90.0)));
+        new PathPoint(new Translation2d(14.2, 0.52), Rotation2d.fromDegrees(-90.0), Rotation2d.fromDegrees(-90.0)));
       poseEstimator.setTrajectoryField2d(GlobalVariables.trajectory);
       //candleSubsystem.setLED(0, 255, 0, 0, 7);
       swerveSubsystem.createCommandForTrajectory(GlobalVariables.trajectory).schedule();
